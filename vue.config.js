@@ -4,7 +4,7 @@ const PreloadPlugin = require("@vue/preload-webpack-plugin");
 module.exports = {
   configureWebpack: {
     plugins: [
-      new BundleAnalyzerPlugin(),
+      //new BundleAnalyzerPlugin(),
       new PreloadPlugin({
         rel: "preload",
         include: "allAssets",
@@ -46,7 +46,6 @@ module.exports = {
     });
     config.plugins.delete("prefetch");
   },
-  publicPath: process.env.NODE_ENV === 'production' ?
-    '/dist/' : '/',
+
   transpileDependencies: ["vuetify"]
 };
