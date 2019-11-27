@@ -1,5 +1,8 @@
 import Vue from "vue";
-import App from "./App.vue";
+const App = () => import("./App.vue");
+import PrismicVue from "prismic-vue";
+import linkResolver from "./prismic/link-resolver";
+import htmlSerializer from "./prismic/html-serializer";
 import router from "./router";
 import vuetify from "./plugins/vuetify";
 
