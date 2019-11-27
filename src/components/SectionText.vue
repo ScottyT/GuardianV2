@@ -35,7 +35,7 @@
         class="justify-center row__column align-center d-flex"
       >
         <div class="row__content row__content--right">
-          <p v-for="(content, i) in secondaryText" v-bind:key="i">
+          <p v-for="(content, i) in secondaryText" :key="i">
             {{ content }}
           </p>
         </div>
@@ -44,7 +44,6 @@
   </div>
 </template>
 <script>
-var EnableScroll = true;
 export default {
   name: "SectionText",
   props: {

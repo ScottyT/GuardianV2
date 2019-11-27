@@ -18,9 +18,7 @@
         </v-toolbar-items>
       </template>
     </app-navigation>
-
     <router-view></router-view>
-
     <footer-nav>
       <template v-slot:site-title>Guardian Restoration</template>
       <template v-slot:nav-items>
@@ -54,7 +52,6 @@
 const AppNavigation = () =>
   import(/*webpackPreload: true*/ "@/components/AppNavigation");
 const FooterNav = () => import(/*webpackPreload: true */ "@/components/Footer");
-
 export default {
   name: "App",
   components: {

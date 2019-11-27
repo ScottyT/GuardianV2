@@ -1,0 +1,106 @@
+// Colors
+$primary: #bf493c;
+$primary-dark: #a13d2e;
+$primary-light: #dd655a;
+$secondary: #3cb2bf;
+$secondary-dark: #2a6564;
+$tertiary: #bf8b3c;
+$tertiary-light:#e4b265;
+$color-white: #ffffff;
+$color-black: #2a2a2a;
+$grey: #424242;
+$backgroundColor:#fafafa;
+
+//media queries
+$xs: 320px;
+$sm: 768px;
+$tab-port: 800px;
+$md: 960px;
+$lg: 1200px;
+$xl: 1680px;
+
+// Fonts
+$heading-font:'Oswald',
+sans-serif;
+
+//mixns
+@mixin absCentered($top, $left) {
+    position: absolute;
+    top: $top;
+    left: $left;
+    transform: translate(-50%, -50%);
+}
+
+// Breakpoints for devices
+@mixin respond($breakpoint) {
+    @if $breakpoint==mobileSmall {
+        @media only screen and (min-width:320px) {
+            @content;
+        }
+    }
+
+    ;
+
+    @if $breakpoint==mobileSmallLand {
+        @media only screen and (min-width:320px) and (max-width:760px) and (orientation: landscape) {
+            @content;
+        }
+    }
+
+    ;
+
+    @if $breakpoint==mobileLarge {
+        @media only screen and (min-width: $sm) {
+            @content;
+        }
+    }
+
+    ;
+
+    //iPhone X
+    @if $breakpoint==iPhoneX {
+        @media only screen and (min-device-width: 375px) and (max-device-height: 896px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 3) {
+            @content;
+        }
+    }
+
+    // Galaxy S10Plus
+    @if $breakpoint==GalaxyS10Plus {
+        @media only screen and (min-device-width: 375px) and (max-device-height: 780px) and (orientation : landscape) {
+            @content;
+        }
+    }
+
+
+    @if $breakpoint==tabletSmall {
+        @media only screen and (min-width:768px) and (max-width:1024px) {
+            @content;
+        }
+    }
+
+    ;
+
+    @if $breakpoint==tabletLand {
+        @media only screen and (min-width: 960px) and (max-width:1200px) and (orientation: landscape) {
+            @content;
+        }
+    }
+
+    ;
+
+    @if $breakpoint==tabletLarge {
+        @media only screen and (min-width: 1024px) {
+            @content;
+        }
+    }
+
+    ;
+
+    @if $breakpoint==desktopSmall {
+        @media only screen and (min-width:1200px) {
+            @content;
+        }
+    }
+
+    ;
+}

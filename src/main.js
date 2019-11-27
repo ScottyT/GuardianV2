@@ -8,6 +8,18 @@ import vuetify from "./plugins/vuetify";
 
 Vue.config.productionTip = false;
 
+Vue.use(PrismicVue, {
+  endpoint: window.prismic.endpoint,
+  linkResolver,
+  htmlSerializer
+});
+
+Vue.filter("allCaps", function (value) {
+  if (!value) return "";
+  value = value.toString();
+  return value.toUpperCase();
+});
+
 new Vue({
   router,
   vuetify,

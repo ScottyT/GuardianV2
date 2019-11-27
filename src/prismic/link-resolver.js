@@ -12,8 +12,14 @@ export default function (doc) {
     return '/'
   }
 
-  if (doc.type === 'page') {
-    return '/page/' + doc.uid
+  if (doc.type === "service") {
+    return "/service";
+  }
+  if (doc.type === "services") {
+    return "/service/" + doc.uid;
+  }
+  if (doc.type === "page") {
+    return "/" + doc.uid;
   }
 
   return '/not-found'

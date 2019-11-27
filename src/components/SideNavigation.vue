@@ -25,8 +25,7 @@ export default {
     scroll: Boolean
   },
   mounted() {
-    var pageSections = document.getElementById("dots-wrapper");
-    var mainNavLinks = pageSections.querySelectorAll("a");
+    // var pageSections = document.getElementById("dots-wrapper");
 
     const sections = document.querySelectorAll("section");
     var intersectionOptions = {
@@ -34,17 +33,16 @@ export default {
       rootMargin: "0px",
       threshold: 0.55
     };
-    function handleIntersect(entries, observer) {
+    function handleIntersect(entries) {
       entries.forEach(entry => {
         var pageSection = entry.target.attributes[0].nodeValue;
-        var button = $("#dots-wrapper").find(`[data-link='#${pageSection}']`);
         if (entry.intersectionRatio > 0.55) {
           var id = entry.target.attributes[0].nodeValue;
-          var newLink = document
+          document
             .querySelector(`[data-link='#${id}']`)
             .classList.add("current");
         } else {
-          var newLink = document
+          document
             .querySelector(`[data-link='#${pageSection}']`)
             .classList.remove("current");
         }
@@ -56,7 +54,6 @@ export default {
         intersectionOptions
       );
       sections.forEach(section => {
-        var link = section;
         observer.observe(section);
       });
     }
@@ -66,7 +63,9 @@ export default {
   },
   methods: {
     buttonSelect: function(event) {
-      var sectionElm = $(event.target.attributes[0].nodeValue)[0];
+      var sectionElm = document.querySelectorAll(
+        event.target.attributes[0].nodeValue
+      )[0];
       var topSection = sectionElm.offsetTop + window.innerHeight / 2;
       window.scrollTo({
         top: topSection,
@@ -75,24 +74,18 @@ export default {
       });
     },
     scrollingMarker: $debounce(function() {
-      var pageSections = document.getElementById("dots-wrapper");
-      var mainNavLinks = pageSections.querySelectorAll("a");
-      var hasSideNav = this.scroll;
-
       const sections = document.querySelectorAll("section");
-      sections.forEach(section => {
-        var link = section;
-        var $sidebar = document.getElementsByClassName(
-          ".page-sections__marker"
-        );
-        var section = $("#" + link.attributes[0].nodeValue)[0];
+      sections.forEach(item => {
+        var $sidebar = $(".page-sections__marker"),
+          $window = $(window);
+        var section = $("#" + item.attributes[0].nodeValue)[0];
         var sectionOffset = section.getBoundingClientRect();
         if (
-          window.scrollTop() <= section.offsetHeight / 2 + section.offsetTop &&
-          window.scrollTop() > 496
+          $window.scrollTop() <= section.offsetHeight / 2 + section.offsetTop &&
+          $window.scrollTop() > 496
         ) {
           $sidebar.stop().animate({
-            top: window.scrollTop() / 15 - 15
+            top: $window.scrollTop() / 15 - 15
           });
         } else if (
           window.scrollY >=

@@ -7,7 +7,10 @@
       gradient="120deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.6) 45%, rgba(0,0,0,0.4) 60%,  rgba(0,0,0,0) 100%"
     />
     <div class="home-content">
-      <side-navigation :links="this.sectionContent" :scroll="this.enableScroll"></side-navigation>
+      <side-navigation
+        :links="this.sectionContent"
+        :scroll="this.enableScroll"
+      ></side-navigation>
       <section
         v-for="(section, index) in sectionContent"
         :key="'section-' + index"
@@ -23,13 +26,11 @@
 
 <script>
 // @ is an alias to /src
-
 const Hero = () => import(/*webpackPreload: true */ "@/components/Hero");
 const SectionText = () =>
   import(/*webpackPreload: true */ "@/components/SectionText");
 const SideNavigation = () =>
   import(/*webpackPreload: true */ "@/components/SideNavigation");
-
 export default {
   name: "home",
   components: {

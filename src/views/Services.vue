@@ -18,7 +18,10 @@
         >
           <v-card class="service-item__card" elevation="10">
             <font-awesome-layers class="fa-3x service-item__icon">
-              <font-awesome-icon class="service-item__icon--background" :icon="['fas', 'circle']" />
+              <font-awesome-icon
+                class="service-item__icon--background"
+                :icon="['fas', 'circle']"
+              />
               <font-awesome-icon
                 class="service-item__icon--plus"
                 :icon="['fas', 'plus']"
@@ -56,7 +59,10 @@
         >
           <v-card class="service-item__card" elevation="10">
             <font-awesome-layers class="fa-3x service-item__icon">
-              <font-awesome-icon class="service-item__icon--background" :icon="['fas', 'circle']" />
+              <font-awesome-icon
+                class="service-item__icon--background"
+                :icon="['fas', 'circle']"
+              />
               <font-awesome-icon
                 class="service-item__icon--plus"
                 :icon="['fas', 'plus']"

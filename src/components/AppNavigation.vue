@@ -15,8 +15,6 @@
 </template>
 <script>
 import debounce from "lodash.debounce";
-import JQuery from "jquery";
-var $ = JQuery;
 export default {
   name: "AppNavigation",
   components: {},
@@ -36,13 +34,13 @@ export default {
       switch (true) {
         case viewportWidth <= 500:
           return "65px";
-          break;
+
         case viewportWidth <= 740:
           return "58px";
-          break;
+
         case viewportWidth < 960:
           return "56px";
-          break;
+
         default:
           return "65px";
       }
@@ -50,7 +48,10 @@ export default {
   },
   methods: {
     isScrolling: debounce(function() {
-      this.hasClass = $(".v-application").hasClass("services");
+      var hasClass = document
+        .querySelectorAll(".v-application")[0]
+        .classList.contains("services");
+      this.hasClass = hasClass; //$(".v-application").hasClass("services");
       this.scrolledDown = window.scrollY > 10 || this.hasClass;
     }, 100)
   },
