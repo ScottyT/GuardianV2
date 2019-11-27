@@ -1,5 +1,5 @@
 import Vue from "vue";
-const App = () => import("./App.vue");
+const App = () => import( /*webpackPreload: true*/ "./App.vue");
 import PrismicVue from "prismic-vue";
 import linkResolver from "./prismic/link-resolver";
 import htmlSerializer from "./prismic/html-serializer";

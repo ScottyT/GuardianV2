@@ -35,7 +35,7 @@
         class="justify-center row__column align-center d-flex"
       >
         <div class="row__content row__content--right">
-          <p v-for="(content, i) in secondaryText" :key="i">
+          <p v-for="content in secondaryText" :key="content.id">
             {{ content }}
           </p>
         </div>
@@ -65,14 +65,14 @@ export default {
       var sectionText = this.sectionText;
       this.heading = this.section.section_heading[0].text;
       this.sectionImage = this.section.section_image;
-      content.map(function(value, key) {
+      content.map(function(value) {
         sectionText.push(value.text);
       });
 
       var contentSecond = this.section.secondary_text;
       this.secondaryImage = this.section.secondary_image;
       var secondaryText = this.secondaryText;
-      contentSecond.map(function(value, key) {
+      contentSecond.map(function(value) {
         secondaryText.push(value.text);
       });
 
