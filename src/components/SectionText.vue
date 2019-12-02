@@ -8,9 +8,7 @@
 
         <div class="row__content row__content--left">
           <p class="subheading" v-show="subheading">{{ subheading }}</p>
-          <p v-for="(content, i) in sectionText" v-bind:key="i">
-            {{ content }}
-          </p>
+          <p v-for="(content, i) in sectionText" v-bind:key="i">{{ content }}</p>
         </div>
       </v-col>
       <div class="section-image-col col-md-6 col-12 no-padding">
@@ -29,15 +27,9 @@
           class="section-image-col__img section-image-col__img--left section-image-col__img--small"
         ></v-img>
       </v-col>
-      <v-col
-        cols="12"
-        md="6"
-        class="justify-center row__column align-center d-flex"
-      >
+      <v-col cols="12" md="6" class="justify-center row__column align-center d-flex">
         <div class="row__content row__content--right">
-          <p v-for="content in secondaryText" :key="content.id">
-            {{ content }}
-          </p>
+          <p v-for="content in secondaryText" :key="content.id">{{ content }}</p>
         </div>
       </v-col>
     </v-row>
@@ -107,6 +99,10 @@ export default {
     margin: 0;
   }
 
+  @include respond(tabletSmall) {
+    margin: 0 0 4rem 0;
+  }
+
   @include respond(tabletLarge) {
     margin: 0 6rem 6rem 0rem;
   }
@@ -116,22 +112,6 @@ export default {
   }
 
   &--0 {
-    &:after {
-      content: "";
-      display: block;
-      position: absolute;
-      background-color: $primary-dark;
-      height: 76px;
-      width: 400px;
-      z-index: 4;
-      left: 53%;
-      transform: translateX(-50%);
-
-      @media only screen and (max-width: $md) {
-        display: none;
-      }
-    }
-
     .section-intro {
       &__heading {
         @include respond(iPhoneX) {
@@ -195,6 +175,25 @@ export default {
         @include respond(mobileSmallLand) {
           // min-height: 230px;
         }
+      }
+    }
+  }
+
+  &--0,
+  &--1 {
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      background-color: $primary-dark;
+      height: 76px;
+      width: 400px;
+      z-index: 4;
+      left: 53%;
+      transform: translateX(-50%);
+
+      @media only screen and (max-width: $md) {
+        display: none;
       }
     }
   }
