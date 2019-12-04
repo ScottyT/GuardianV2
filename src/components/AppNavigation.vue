@@ -35,7 +35,7 @@ export default {
         case viewportWidth <= 500:
           return "65px";
 
-        case viewportWidth <= 740:
+        case viewportWidth <= 768:
           return "58px";
 
         case viewportWidth < 960:
