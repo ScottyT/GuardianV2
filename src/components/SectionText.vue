@@ -292,7 +292,7 @@ export default {
         margin: 0;
       }
       @include respond(tabletSmall) {
-        padding: 0 25px 0;
+        padding: 0 23px 0;
       }
 
       @include respond(tabletLand) {
@@ -323,7 +323,7 @@ export default {
 
       &--left {
         @include respond(tabletSmall) {
-          padding-right: 20px;
+          padding-right: 15px;
         }
 
         @include respond(tabletLarge) {
@@ -436,6 +436,10 @@ export default {
   &__img {
     //position: absolute;
 
+    @include respond(mobileSmall) {
+      min-height: 250px;
+    }
+
     &--big {
       max-width: 625px;
 
@@ -490,10 +494,6 @@ export default {
       @include respond(tabletLarge) {
         left: -20px;
       }
-    }
-
-    @include respond(mobileSmall) {
-      min-height: 250px;
     }
 
     @include respond(iPhoneX) {

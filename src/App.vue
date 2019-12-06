@@ -103,20 +103,20 @@ html {
   scroll-behavior: smooth;
   font-size: 62.5% !important;
 
-  @media only screen and (max-width: $md) {
-    font-size: 58% !important;
-  }
-
-  @media only screen and (max-width: $tab-port) {
-    font-size: 54% !important;
-  }
-
-  @media only screen and (max-width: $sm) {
+  @include respond(mobileSmall) {
     font-size: 50.5% !important;
   }
 
   @include respond(iPhoneX) {
     font-size: 50.5% !important;
+  }
+
+  @include respond(mobileLarge) {
+    font-size: 54% !important;
+  }
+
+  @include respond(tabletLand) {
+    font-size: 58% !important;
   }
 }
 
@@ -150,9 +150,9 @@ h1 {
       line-height: 10rem;
     }
 
-    @include respond(tabletLand) {
-      font-size: 10rem;
-      line-height: 12rem;
+    @include respond(tabletLarge) {
+      font-size: 9rem;
+      line-height: 10rem;
     }
 
     @include respond(iPhoneX) {
