@@ -401,6 +401,26 @@ export default {
     height: 200px;
   }
 }
+@-webkit-keyframes slideDownMobile {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(-154px);
+    transform: translateY(-154px);
+    height: 0px;
+  }
+  50% {
+    opacity: 1;
+    -webkit-transform: translateY(20px);
+    transform: translateY(20px);
+    height: 140px;
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    height: 130px;
+  }
+}
 @keyframes slideDownMobile {
   0% {
     opacity: 0;
