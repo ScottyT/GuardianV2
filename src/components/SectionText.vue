@@ -450,6 +450,13 @@ export default {
       @media only screen and (max-width: $lg) {
         max-width: 100%;
       }
+
+      @include respond(iPhoneX) {
+        min-height: 290px;
+      }
+      @include respond(GalaxyS10Plus) {
+        min-height: 290px;
+      }
     }
 
     &--small {
@@ -467,6 +474,13 @@ export default {
 
       @include respond(desktopSmall) {
         max-width: 555px;
+      }
+
+      @include respond(iPhoneX) {
+        min-height: 290px;
+      }
+      @include respond(GalaxyS10Plus) {
+        min-height: 290px;
       }
     }
 
@@ -494,13 +508,6 @@ export default {
       @include respond(tabletLarge) {
         left: -20px;
       }
-    }
-
-    @include respond(iPhoneX) {
-      min-height: 290px;
-    }
-    @include respond(GalaxyS10Plus) {
-      min-height: 290px;
     }
 
     @include respond(mobileSmallLand) {

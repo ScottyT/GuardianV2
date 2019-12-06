@@ -121,6 +121,12 @@ html {
   @include respond(tabletLarge) {
     font-size: 62.5% !important;
   }
+  @include respond(iPhoneX) {
+    font-size: 54% !important;
+  }
+  @include respond(iPhoneXR) {
+    font-size: 54% !important;
+  }
 }
 
 body {
@@ -199,6 +205,19 @@ h2 {
     line-height: 5.5rem;
   }
 
+  @include respond(tabletSmall) {
+    font-size: 5rem;
+    line-height: 5.5rem;
+  }
+  @include respond(tabletLand) {
+    font-size: 4.5rem;
+    line-height: 5rem;
+  }
+  @include respond(desktopSmall) {
+    font-size: 6rem;
+    line-height: 6.5rem;
+  }
+
   @include respond(iPhoneX) {
     font-size: 4rem;
     line-height: 4.5rem;
@@ -206,14 +225,6 @@ h2 {
   @include respond(iPhoneXR) {
     font-size: 4rem;
     line-height: 4.5rem;
-  }
-  @include respond(tabletSmall) {
-    font-size: 5rem;
-    line-height: 5.5rem;
-  }
-  @include respond(desktopSmall) {
-    font-size: 6rem;
-    line-height: 6.5rem;
   }
 }
 
