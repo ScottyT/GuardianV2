@@ -101,7 +101,6 @@ export default {
 
 html {
   scroll-behavior: smooth;
-  font-size: 62.5% !important;
 
   @include respond(mobileSmall) {
     font-size: 50.5% !important;
@@ -115,8 +114,12 @@ html {
     font-size: 54% !important;
   }
 
-  @include respond(tabletLand) {
+  @include respond(tabletSmall) {
     font-size: 58% !important;
+  }
+
+  @include respond(tabletLarge) {
+    font-size: 62.5% !important;
   }
 }
 
