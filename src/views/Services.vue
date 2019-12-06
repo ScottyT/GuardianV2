@@ -278,9 +278,11 @@ export default {
 
       &--plus {
         // transform: rotate(0) scale3d(1, 1, 1) translateZ(0);
+        -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
         transition: all 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
         color: $color-white;
         backface-visibility: hidden;
+        -webkit-transform: scale(0.7);
         transform: scale(0.7);
         -webkit-font-smoothing: subpixel-antialiased;
       }
@@ -297,7 +299,9 @@ export default {
       @include respond(mobileSmall) {
         opacity: 0;
         height: 0;
+        -webkit-transform: translateY(-154px);
         transform: translateY(-154px);
+        -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
         transition: all 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
       }
 
