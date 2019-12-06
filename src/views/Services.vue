@@ -321,20 +321,25 @@ export default {
       .service-item__big-description {
         display: flex;
         @include respond(mobileSmall) {
-          height: 130px;
+          height: 164px;
           opacity: 1;
+          -webkit-transform: translateY(0);
           transform: translateY(0);
+          -webkit-animation: slideDownMobile 0.6s
+            cubic-bezier(0.25, 0.8, 0.5, 1);
           animation: slideDownMobile 0.6s cubic-bezier(0.25, 0.8, 0.5, 1);
         }
         @include respond(mobileSmallLand) {
           height: 100px;
           opacity: 1;
+          -webkit-transform: translateY(0);
           transform: translateY(0);
           animation: slideDownLand 0.6s cubic-bezier(0.25, 0.8, 0.5, 1);
         }
         @include respond(mobileLarge) {
           height: 190px;
           opacity: 1;
+          -webkit-transform: translateY(0);
           transform: translateY(0);
           animation: slideDownDesktop 0.6s cubic-bezier(0.25, 0.8, 0.5, 1);
         }
@@ -379,16 +384,19 @@ export default {
 @keyframes slideDownTablet {
   0% {
     opacity: 0;
+    -webkit-transform: translate(-154px);
     transform: translateY(-154px);
     height: 0px;
   }
   50% {
     opacity: 1;
+    -webkit-transform: translateY(20px);
     transform: translateY(20px);
     height: 210px;
   }
   100% {
     opacity: 1;
+    -webkit-transform: translateY(0);
     transform: translateY(0);
     height: 200px;
   }
@@ -396,16 +404,19 @@ export default {
 @keyframes slideDownMobile {
   0% {
     opacity: 0;
+    -webkit-transform: translateY(-154px);
     transform: translateY(-154px);
     height: 0px;
   }
   50% {
     opacity: 1;
+    -webkit-transform: translateY(20px);
     transform: translateY(20px);
     height: 140px;
   }
   100% {
     opacity: 1;
+    -webkit-transform: translateY(0);
     transform: translateY(0);
     height: 130px;
   }
@@ -413,16 +424,19 @@ export default {
 @keyframes slideDownLand {
   0% {
     opacity: 0;
+    -webkit-transform: translateY(-154px);
     transform: translateY(-154px);
     height: 0px;
   }
   50% {
     opacity: 1;
+    -webkit-transform: translateY(20px);
     transform: translateY(20px);
     height: 120px;
   }
   100% {
     opacity: 1;
+    -webkit-transform: translateY(0);
     transform: translateY(0);
     height: 100px;
   }

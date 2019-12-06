@@ -52,7 +52,7 @@ export default {
         .querySelectorAll(".v-application")[0]
         .classList.contains("services");
       this.hasClass = hasClass; //$(".v-application").hasClass("services");
-      this.scrolledDown = window.scrollY > 10 || this.hasClass;
+      this.scrolledDown = window.scrollY > 50 || this.hasClass;
     }, 100)
   },
   created() {
