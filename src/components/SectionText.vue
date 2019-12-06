@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row class="section-intro">
-      <v-col cols="12" md="6" class="offset-col row__column">
+      <v-col cols="12" lg="6" class="offset-col row__column">
         <div class="section-intro__heading row__content--left">
           <h2>{{ heading | allCaps }}</h2>
         </div>
@@ -11,7 +11,7 @@
           <p v-for="(content, i) in sectionText" v-bind:key="i">{{ content }}</p>
         </div>
       </v-col>
-      <div class="section-image-col col-md-6 col-12 no-padding">
+      <div class="section-image-col col-lg-6 col-12 no-padding">
         <v-img
           :lazy-src="sectionImage.url"
           :src="sectionImage.url"
@@ -20,14 +20,14 @@
       </div>
     </v-row>
     <v-row class="section-row">
-      <v-col cols="12" md="6" class="section-image-col left no-padding">
+      <v-col cols="12" lg="6" class="section-image-col left no-padding">
         <v-img
           :lazy-src="secondaryImage.url"
           :src="secondaryImage.url"
           class="section-image-col__img section-image-col__img--left section-image-col__img--small"
         ></v-img>
       </v-col>
-      <v-col cols="12" md="6" class="justify-center row__column align-center d-flex">
+      <v-col cols="12" lg="6" class="justify-center row__column align-center d-flex">
         <div class="row__content row__content--right">
           <p v-for="content in secondaryText" :key="content.id">{{ content }}</p>
         </div>
@@ -454,6 +454,9 @@ export default {
       @include respond(iPhoneX) {
         min-height: 290px;
       }
+      @include respond(iPhoneXR) {
+        min-height: 290px;
+      }
       @include respond(GalaxyS10Plus) {
         min-height: 290px;
       }
@@ -477,6 +480,9 @@ export default {
       }
 
       @include respond(iPhoneX) {
+        min-height: 290px;
+      }
+      @include respond(iPhoneXR) {
         min-height: 290px;
       }
       @include respond(GalaxyS10Plus) {
