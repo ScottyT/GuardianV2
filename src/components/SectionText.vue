@@ -102,9 +102,9 @@ export default {
     margin: 0;
   }
 
-  @include respond(tabletSmall) {
-    margin: 0 0 4rem 0;
-  }
+  // @include respond(tabletSmall) {
+  //   margin: 0 0 4rem 0;
+  // }
 
   @include respond(tabletLarge) {
     margin: 0 6rem 6rem 0rem;
@@ -137,18 +137,18 @@ export default {
         }
       }
 
-      @include respond(mobileLarge) {
-        padding: 0 0 5rem 0;
-      }
+      // @include respond(mobileLarge) {
+      //   padding: 0 0 5rem 0;
+      // }
 
       .offset-col {
         margin-top: 0;
         padding: 32px 32px 16px;
 
-        @include respond(tabletSmall) {
-          margin-top: -7rem;
-          padding: 49px 32px 16px;
-        }
+        // @include respond(tabletSmall) {
+        //   margin-top: -7rem;
+        //   padding: 49px 32px 16px;
+        // }
         @include respond(GalaxyS10Plus) {
           margin-top: 0;
           padding: 50px 32px 16px;
@@ -174,7 +174,7 @@ export default {
       }
 
       .section-image-col {
-        @include respond(mobileLarge) {
+        @include respond(tabletLarge) {
           margin-top: 7rem;
         }
       }
@@ -264,15 +264,12 @@ export default {
         flex-direction: column-reverse;
       }
 
-      @include respond(mobileLarge) {
+      @include respond(tabletLarge) {
         flex-direction: row;
       }
     }
 
     &__column {
-      @media only screen and (max-width: $sm) {
-        max-width: 555px;
-      }
       @include respond(mobileSmall) {
         margin-top: 0;
         padding: 32px 32px 16px;
@@ -286,11 +283,11 @@ export default {
         padding: 42px 20px 16px 10px;
       }
 
-      @include respond(mobileLarge) {
-        display: flex;
-        padding: 0 32px 0;
-        margin: 0;
-      }
+      // @include respond(mobileLarge) {
+      //   display: flex;
+      //   padding: 0 32px 0;
+      //   margin: 0;
+      // }
       @include respond(tabletSmall) {
         padding: 0 23px 0;
       }
@@ -300,6 +297,7 @@ export default {
       }
       @include respond(tabletLarge) {
         padding: 0 40px 0;
+        max-width: 555px;
       }
       @include respond(desktopSmall) {
         padding: 0 55px 0;
@@ -322,9 +320,9 @@ export default {
       }
 
       &--left {
-        @include respond(tabletSmall) {
-          padding-right: 15px;
-        }
+        // @include respond(tabletSmall) {
+        //   padding-right: 15px;
+        // }
 
         @include respond(tabletLarge) {
           padding-right: 30px;
@@ -334,9 +332,9 @@ export default {
       }
 
       &--right {
-        @include respond(tabletSmall) {
-          padding-left: 25px;
-        }
+        // @include respond(tabletSmall) {
+        //   padding-left: 25px;
+        // }
 
         @include respond(tabletLarge) {
           padding-left: 30px;
@@ -363,9 +361,9 @@ export default {
     padding: 0;
   }
 
-  @include respond(tabletSmall) {
-    padding: 0 0 5rem 0;
-  }
+  // @include respond(tabletSmall) {
+  //   padding: 0 0 5rem 0;
+  // }
 
   @include respond(tabletLarge) {
     padding: 0 0 3rem 0;
@@ -425,9 +423,9 @@ export default {
   &.left {
     justify-content: flex-end;
     display: flex;
-    @include respond(tabletSmall) {
-      align-items: flex-end;
-    }
+    // @include respond(tabletSmall) {
+    //   align-items: flex-end;
+    // }
   }
   .section-intro__content {
     top: 57px;
@@ -444,7 +442,7 @@ export default {
       max-width: 625px;
 
       @include respond(tabletSmall) {
-        min-height: 380px;
+        min-height: 300px;
       }
 
       @media only screen and (max-width: $lg) {
@@ -497,7 +495,7 @@ export default {
         right: 0;
       }
 
-      @include respond(mobileLarge) {
+      @include respond(tabletLarge) {
         right: -10px;
       }
     }
@@ -505,10 +503,6 @@ export default {
     &--right {
       @include respond(mobileSmall) {
         left: 0;
-      }
-
-      @include respond(mobileLarge) {
-        left: -10px;
       }
 
       @include respond(tabletLarge) {
