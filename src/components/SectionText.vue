@@ -288,9 +288,9 @@ export default {
       //   padding: 0 32px 0;
       //   margin: 0;
       // }
-      @include respond(tabletSmall) {
-        padding: 0 23px 0;
-      }
+      // @include respond(tabletSmall) {
+      //   padding: 0 23px 0;
+      // }
 
       @include respond(tabletLand) {
         padding: 4px 60px 0 35px;
