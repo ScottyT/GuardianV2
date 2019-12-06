@@ -90,6 +90,9 @@ export default {
   @include respond(iPhoneX) {
     margin: 0 0 6rem 0;
   }
+  @include respond(iPhoneXR) {
+    margin: 0 0 6rem 0;
+  }
 
   @include respond(GalaxyS10Plus) {
     margin: 0 0 6rem 0;
@@ -115,6 +118,9 @@ export default {
     .section-intro {
       &__heading {
         @include respond(iPhoneX) {
+          padding-top: 32px;
+        }
+        @include respond(iPhoneXR) {
           padding-top: 32px;
         }
 
@@ -148,6 +154,10 @@ export default {
           padding: 50px 32px 16px;
         }
         @include respond(iPhoneX) {
+          margin-top: 0;
+          padding: 50px 20px 16px 10px;
+        }
+        @include respond(iPhoneXR) {
           margin-top: 0;
           padding: 50px 20px 16px 10px;
         }
@@ -239,6 +249,11 @@ export default {
       margin-bottom: 5rem;
     }
 
+    @include respond(iPhoneXR) {
+      padding: 0 0 0 0;
+      margin-bottom: 5rem;
+    }
+
     @include respond(mobileSmallLand) {
       padding: 0;
       margin: 0;
@@ -264,6 +279,10 @@ export default {
         margin: 0 auto;
       }
       @include respond(iPhoneX) {
+        padding: 42px 20px 16px 10px;
+      }
+
+      @include respond(iPhoneXR) {
         padding: 42px 20px 16px 10px;
       }
 
@@ -318,9 +337,7 @@ export default {
         @include respond(tabletSmall) {
           padding-left: 25px;
         }
-        @include respond(iPhoneX) {
-          padding-left: 25px;
-        }
+
         @include respond(tabletLarge) {
           padding-left: 30px;
           max-width: 555px;
@@ -364,6 +381,10 @@ export default {
     flex-direction: column;
 
     @include respond(iPhoneX) {
+      margin-top: 0;
+      padding: 0px 20px 16px 10px;
+    }
+    @include respond(iPhoneXR) {
       margin-top: 0;
       padding: 0px 20px 16px 10px;
     }
@@ -414,16 +435,6 @@ export default {
 
   &__img {
     //position: absolute;
-    @include respond(mobileSmall) {
-      min-height: 250px;
-    }
-
-    @include respond(iPhoneX) {
-      min-height: 290px;
-    }
-    @include respond(GalaxyS10Plus) {
-      min-height: 290px;
-    }
 
     &--big {
       max-width: 625px;
@@ -479,6 +490,17 @@ export default {
       @include respond(tabletLarge) {
         left: -20px;
       }
+    }
+
+    @include respond(mobileSmall) {
+      min-height: 250px;
+    }
+
+    @include respond(iPhoneX) {
+      min-height: 290px;
+    }
+    @include respond(GalaxyS10Plus) {
+      min-height: 290px;
     }
 
     @include respond(mobileSmallLand) {

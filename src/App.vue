@@ -5,14 +5,11 @@
       <template v-slot:nav-items>
         <v-toolbar-items class="navigation">
           <ul id="services-list" class="v-toolbar__items">
-            <li
-              v-for="(menuLink, index) in menuLinks"
-              :key="index"
-              class="navigation__menu-item"
-            >
-              <router-link :key="index" :to="linkResolver(menuLink.link)">
-                {{ menuLink.label[0].text }}
-              </router-link>
+            <li v-for="(menuLink, index) in menuLinks" :key="index" class="navigation__menu-item">
+              <router-link
+                :key="index"
+                :to="linkResolver(menuLink.link)"
+              >{{ menuLink.label[0].text }}</router-link>
             </li>
           </ul>
         </v-toolbar-items>
@@ -23,23 +20,11 @@
       <template v-slot:site-title>Guardian Restoration</template>
       <template v-slot:nav-items>
         <ul class="footer__items">
-          <li
-            v-for="(menuLink, index) in menuLinks"
-            :key="index"
-            class="footer__menu-item"
-          >
-            <router-link :key="index" :to="linkResolver(menuLink.link)">
-              {{ menuLink.label[0].text }}
-            </router-link>
-            <ul
-              id="services-list"
-              class="footer__menu-item--services"
-              v-if="index === 1"
-            >
+          <li v-for="(menuLink, index) in menuLinks" :key="index" class="footer__menu-item">
+            <router-link :key="index" :to="linkResolver(menuLink.link)">{{ menuLink.label[0].text }}</router-link>
+            <ul id="services-list" class="footer__menu-item--services" v-if="index === 1">
               <li v-for="service in services" :key="service.id">
-                <router-link :to="linkResolver(service)">
-                  {{ service.data.service_name[0].text }}
-                </router-link>
+                <router-link :to="linkResolver(service)">{{ service.data.service_name[0].text }}</router-link>
               </li>
             </ul>
           </li>
@@ -174,6 +159,10 @@ h1 {
       font-size: 5rem;
       line-height: 5rem;
     }
+    @include respond(iPhoneXR) {
+      font-size: 5rem;
+      line-height: 5rem;
+    }
     @include respond(GalaxyS10Plus) {
       font-size: 5rem;
       line-height: 5rem;
@@ -208,6 +197,10 @@ h2 {
   }
 
   @include respond(iPhoneX) {
+    font-size: 4rem;
+    line-height: 4.5rem;
+  }
+  @include respond(iPhoneXR) {
     font-size: 4rem;
     line-height: 4.5rem;
   }

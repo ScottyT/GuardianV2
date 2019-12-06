@@ -71,6 +71,13 @@ sans-serif;
         }
     }
 
+    // iPhoneXR
+    @if $breakpoint==iPhoneXR {
+        @media only screen and (min-device-width: 375px) and (max-device-height: 896px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2) {
+            @content;
+        }
+    }
+
 
     @if $breakpoint==tabletSmall {
         @media only screen and (min-width:768px) and (max-width:1024px) {
