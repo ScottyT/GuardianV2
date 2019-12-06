@@ -95,7 +95,7 @@ export default {
   }
 
   @include respond(GalaxyS10Plus) {
-    margin: 0 0 4rem 0;
+    margin: 0 0 1rem 0;
   }
 
   @include respond(mobileSmallLand) {
@@ -319,14 +319,13 @@ export default {
       }
 
       &--left {
-        // @include respond(tabletSmall) {
-        //   padding-right: 15px;
-        // }
-
         @include respond(tabletLarge) {
           padding-right: 30px;
           max-width: 555px;
           align-self: flex-end;
+        }
+        @include respond(desktopSmall) {
+          margin: auto;
         }
       }
 

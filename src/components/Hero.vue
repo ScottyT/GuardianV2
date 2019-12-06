@@ -49,12 +49,10 @@ export default {
       top: 55%;
       transform: translateY(-50%);
     }
-    @include respond(desktopSmall) {
+    @include respond(mobileLarge) {
       max-width: auto;
-    }
-
-    @media (min-width: 768px) {
       @include absCentered(50%, 50%);
+      width: 89%;
     }
 
     &--subheading {

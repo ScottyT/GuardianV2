@@ -11,17 +11,14 @@
           v-for="service in oddServices"
           :key="service.id"
           cols="12"
-          md="6"
+          lg="6"
           @click="serviceSelect($event)"
           @mouseenter="mouseEnter($event)"
           @mouseleave="mouseLeave($event)"
         >
           <v-card class="service-item__card" elevation="10">
             <font-awesome-layers class="fa-3x service-item__icon">
-              <font-awesome-icon
-                class="service-item__icon--background"
-                :icon="['fas', 'circle']"
-              />
+              <font-awesome-icon class="service-item__icon--background" :icon="['fas', 'circle']" />
               <font-awesome-icon
                 class="service-item__icon--plus"
                 :icon="['fas', 'plus']"
@@ -51,7 +48,7 @@
           v-for="service in evenServices"
           :key="service.id"
           cols="12"
-          md="6"
+          lg="6"
           @click="serviceSelect($event)"
           :refs="'service--' + service.title"
           @mouseenter="mouseEnter($event)"
@@ -59,10 +56,7 @@
         >
           <v-card class="service-item__card" elevation="10">
             <font-awesome-layers class="fa-3x service-item__icon">
-              <font-awesome-icon
-                class="service-item__icon--background"
-                :icon="['fas', 'circle']"
-              />
+              <font-awesome-icon class="service-item__icon--background" :icon="['fas', 'circle']" />
               <font-awesome-icon
                 class="service-item__icon--plus"
                 :icon="['fas', 'plus']"

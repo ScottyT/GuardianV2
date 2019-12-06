@@ -7,10 +7,7 @@
       gradient="120deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.6) 45%, rgba(0,0,0,0.4) 60%,  rgba(0,0,0,0) 100%"
     />
     <div class="home-content">
-      <side-navigation
-        :links="this.sectionContent"
-        :scroll="this.enableScroll"
-      ></side-navigation>
+      <side-navigation :links="this.sectionContent" :scroll="this.enableScroll"></side-navigation>
       <section
         v-for="(section, index) in sectionContent"
         :key="'section-' + index"
@@ -99,10 +96,10 @@ export default {
   position: relative;
   padding: env(safe-area-inset-top) env(safe-area-inset-right)
     env(safe-area-inset-bottom) env(safe-area-inset-left);
-  // @include respond(iPhoneX) {
-  //   padding: env(safe-area-inset-top) env(safe-area-inset-right)
-  //     env(safe-area-inset-bottom) env(safe-area-inset-left);
-  // }
+  @include respond(iPhoneX) {
+    padding: env(safe-area-inset-top) env(safe-area-inset-right)
+      env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
   @include respond(GalaxyS10Plus) {
     padding: env(safe-area-inset-top) env(safe-area-inset-right)
       env(safe-area-inset-bottom) env(safe-area-inset-left);
