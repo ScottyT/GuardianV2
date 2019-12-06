@@ -404,8 +404,8 @@ export default {
 @-webkit-keyframes slideDownMobile {
   from {
     opacity: 0;
-    // -webkit-transform: translateY(-154px);
-    // transform: translateY(-154px);
+    -webkit-transform: translateY(-154px);
+    transform: translateY(-154px);
     height: 0px;
   }
   // 50% {
@@ -416,8 +416,8 @@ export default {
   // }
   to {
     opacity: 1;
-    // -webkit-transform: translateY(0);
-    // transform: translateY(0);
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
     height: 130px;
   }
 }
