@@ -88,14 +88,14 @@ export default {
   }
 
   @include respond(iPhoneX) {
-    margin: 0 0 6rem 0;
+    margin: 0 0 4rem 0;
   }
   @include respond(iPhoneXR) {
-    margin: 0 0 6rem 0;
+    margin: 0 0 4rem 0;
   }
 
   @include respond(GalaxyS10Plus) {
-    margin: 0 0 6rem 0;
+    margin: 0 0 4rem 0;
   }
 
   @include respond(mobileSmallLand) {
@@ -272,7 +272,7 @@ export default {
     &__column {
       @include respond(mobileSmall) {
         margin-top: 0;
-        padding: 32px 32px 16px;
+        padding: 32px 28px 16px;
         margin: 0 auto;
       }
       @include respond(iPhoneX) {
@@ -302,7 +302,7 @@ export default {
         padding: 0 55px 0;
       }
       @include respond(GalaxyS10Plus) {
-        padding: 0px 32px 10px;
+        padding: 22px 32px 10px;
       }
       @include respond(mobileSmallLand) {
         padding: 24px 32px 10px;
