@@ -246,12 +246,12 @@ export default {
 
     @include respond(iPhoneX) {
       padding: 0 0 0 0;
-      margin-bottom: 5rem;
+      //margin-bottom: 5rem;
     }
 
     @include respond(iPhoneXR) {
       padding: 0 0 0 0;
-      margin-bottom: 5rem;
+      //margin-bottom: 5rem;
     }
 
     @include respond(mobileSmallLand) {
@@ -297,7 +297,6 @@ export default {
       }
       @include respond(tabletLarge) {
         padding: 0 40px 0;
-        max-width: 555px;
       }
       @include respond(desktopSmall) {
         padding: 0 55px 0;
@@ -445,18 +444,22 @@ export default {
         min-height: 300px;
       }
 
+      @include respond(tabletLArge) {
+        min-height: 380px;
+      }
+
       @media only screen and (max-width: $lg) {
         max-width: 100%;
       }
 
       @include respond(iPhoneX) {
-        min-height: 290px;
+        height: 290px;
       }
       @include respond(iPhoneXR) {
-        min-height: 290px;
+        height: 290px;
       }
       @include respond(GalaxyS10Plus) {
-        min-height: 290px;
+        height: 290px;
       }
     }
 
@@ -478,13 +481,13 @@ export default {
       }
 
       @include respond(iPhoneX) {
-        min-height: 290px;
+        height: 290px;
       }
       @include respond(iPhoneXR) {
-        min-height: 290px;
+        height: 290px;
       }
       @include respond(GalaxyS10Plus) {
-        min-height: 290px;
+        height: 290px;
       }
     }
 

@@ -184,7 +184,7 @@ h1 {
 }
 h2 {
   font-family: $heading-font;
-  letter-spacing: 0.1rem;
+  letter-spacing: 0.01rem;
 
   @include respond(mobileSmall) {
     font-size: 5rem;
@@ -206,7 +206,7 @@ h2 {
   }
 
   @include respond(tabletSmall) {
-    font-size: 5rem;
+    font-size: 4.6rem;
     line-height: 5.5rem;
   }
   @include respond(tabletLand) {

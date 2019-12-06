@@ -1,19 +1,9 @@
 <template>
   <div style="position:relative;" id="hero">
-    <v-img
-      class="hero"
-      max-width="100%"
-      :lazy-src="`${hero}`"
-      :src="hero"
-      :gradient="gradient"
-    >
+    <v-img class="hero" max-width="100%" :lazy-src="`${hero}`" :src="hero" :gradient="gradient">
       <div class="hero__wrapper">
-        <h1 class="extra-large white--text mb-5 hero__wrapper--heading">
-          {{ ctaHeading }}
-        </h1>
-        <p class="white--text font-weight-light hero__wrapper--subheading">
-          {{ ctaSubheading }}
-        </p>
+        <h1 class="extra-large white--text mb-5 hero__wrapper--heading">{{ ctaHeading }}</h1>
+        <p class="white--text font-weight-light hero__wrapper--subheading">{{ ctaSubheading }}</p>
       </div>
     </v-img>
   </div>
@@ -58,6 +48,9 @@ export default {
     @include respond(mobileSmall) {
       top: 55%;
       transform: translateY(-50%);
+    }
+    @include respond(desktopSmall) {
+      max-width: auto;
     }
 
     @media (min-width: 768px) {
