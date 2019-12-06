@@ -321,10 +321,10 @@ export default {
       .service-item__big-description {
         display: flex;
         @include respond(mobileSmall) {
-          height: 164px;
+          height: 187px;
           opacity: 1;
-          // -webkit-transform: translateY(0);
-          // transform: translateY(0);
+          -webkit-transform: translateY(0);
+          transform: translateY(0);
           -webkit-animation: slideDownMobile 0.6s
             cubic-bezier(0.25, 0.8, 0.5, 1);
           animation: slideDownMobile 0.6s cubic-bezier(0.25, 0.8, 0.5, 1);
@@ -402,23 +402,23 @@ export default {
   }
 }
 @-webkit-keyframes slideDownMobile {
-  from {
+  0% {
     opacity: 0;
     -webkit-transform: translateY(-154px);
     transform: translateY(-154px);
     height: 0px;
   }
-  // 50% {
-  //   opacity: 1;
-  //   // -webkit-transform: translateY(20px);
-  //   // transform: translateY(20px);
-  //   height: 140px;
-  // }
-  to {
+  50% {
+    opacity: 1;
+    -webkit-transform: translateY(20px);
+    transform: translateY(20px);
+    height: 195px;
+  }
+  100% {
     opacity: 1;
     -webkit-transform: translateY(0);
     transform: translateY(0);
-    height: 130px;
+    height: 187px;
   }
 }
 @keyframes slideDownMobile {
