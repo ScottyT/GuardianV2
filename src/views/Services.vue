@@ -432,13 +432,13 @@ export default {
     opacity: 1;
     -webkit-transform: translateY(20px);
     transform: translateY(20px);
-    height: 140px;
+    height: 195px;
   }
   100% {
     opacity: 1;
     -webkit-transform: translateY(0);
     transform: translateY(0);
-    height: 130px;
+    height: 187px;
   }
 }
 @keyframes slideDownLand {
