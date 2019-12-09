@@ -198,7 +198,7 @@ export default {
         //tl.to(".services-page__intro--title", { duration: 1, rotation: 90 });
         $(event.target)
           .closest(".service-item")
-          .toggleClass("service-item--active");
+          .addClass("service-item--active");
       }
     },
     titleSelect: function(event) {
