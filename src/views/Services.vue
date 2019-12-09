@@ -196,10 +196,15 @@ export default {
       //const tl = gsap.timeline();
       if (event) {
         //tl.to(".services-page__intro--title", { duration: 1, rotation: 90 });
-        $(event.target)
-          .closest(".service-item")
-          .toggleClass("service-item--active");
       }
+      $(event.target)
+        .closest(".service-item")
+        .toggleClass("service-item--active");
+      /* eslint-disable no-alert, no-console */
+      console.log(
+        $(".service-item--active .service-item__bigdescription").height()
+      );
+      /* eslint-enable no-alert, no-console */
     },
     titleSelect: function(event) {
       if (event) {
