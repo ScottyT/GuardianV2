@@ -2,7 +2,7 @@
   <div class="content services-page" v-if="loaded">
     <div class="row">
       <div id="log"></div>
-      <div class="services-page__intro">
+      <div class="services-page__intro" v-on="titleSelect($event)">
         <h1 refs="intro" class="services-page__intro--title">Services</h1>
         <hr class="small" />
       </div>
@@ -202,6 +202,11 @@ export default {
           .toggleClass("service-item--active");
       }
     },
+    titleSelect: function(event) {
+      if (event) {
+        $(event.target).toggleClass("services-page__intro--active");
+      }
+    },
     destroyComp: function() {
       this.destroyComponent = false;
     }
@@ -245,9 +250,20 @@ export default {
 
   &__intro {
     width: 100%;
+    height: 50px;
     grid-column: span 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
     @include respond(mobileLarge) {
       grid-column: span 2;
+    }
+
+    &--active {
+      -webkit-animation: -webkit-scale 0.3s linear;
+      animation: scale 0.3s linear;
+      height: 100px;
+      -webkit-transform: scale(1.5);
+      transform: scale(1.5);
     }
 
     &--title {
@@ -382,6 +398,41 @@ export default {
         }
       }
     }
+  }
+}
+
+@-webkit-keyframes -webkit-scale {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    height: 50px;
+  }
+  50% {
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+    height: 70px;
+  }
+  100% {
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    height: 100px;
+  }
+}
+@keyframes scale {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    height: 50px;
+  }
+  50% {
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+    height: 70px;
+  }
+  100% {
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    height: 100px;
   }
 }
 
