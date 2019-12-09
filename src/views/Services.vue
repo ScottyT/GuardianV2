@@ -349,6 +349,11 @@ export default {
         }
         @include respond(tabletSmall) {
           height: 200px;
+          opacity: 1;
+          -webkit-transform: translateY(0);
+          transform: translateY(0);
+          -webkit-animation: slideDownTablet 0.6s
+            cubic-bezier(0.25, 0.8, 0.5, 1);
           animation: slideDownTablet 0.6s cubic-bezier(0.25, 0.8, 0.5, 1);
         }
         @include respond(tabletLarge) {
@@ -383,6 +388,26 @@ export default {
     opacity: 1;
     transform: translateY(0);
     height: 190px;
+  }
+}
+@-webkit-keyframes slideDownTablet {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate(-154px);
+    transform: translateY(-154px);
+    height: 0px;
+  }
+  50% {
+    opacity: 1;
+    -webkit-transform: translateY(20px);
+    transform: translateY(20px);
+    height: 210px;
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    height: 200px;
   }
 }
 @keyframes slideDownTablet {
