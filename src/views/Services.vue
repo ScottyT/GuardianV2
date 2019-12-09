@@ -251,10 +251,9 @@ export default {
 
   &__intro {
     width: 100%;
-    height: 50px;
+
     grid-column: span 1;
-    -webkit-transform: scale(1);
-    transform: scale(1);
+
     @include respond(mobileLarge) {
       grid-column: span 2;
     }
@@ -272,6 +271,9 @@ export default {
     &--title {
       text-align: center;
       line-height: 11rem;
+      height: 50px;
+      -webkit-transform: scale(1);
+      transform: scale(1);
     }
   }
 
