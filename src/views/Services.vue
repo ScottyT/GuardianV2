@@ -203,7 +203,9 @@ export default {
     },
     titleSelect: function(event) {
       if (event) {
-        $(event.target).toggleClass("services-page__intro--active");
+        $(event.target)
+          .closest(".services-page__intro")
+          .toggleClass("services-page__intro--active");
       }
     },
     destroyComp: function() {
