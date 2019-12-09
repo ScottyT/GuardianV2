@@ -260,11 +260,13 @@ export default {
     }
 
     &--active {
-      -webkit-animation: -webkit-scale 0.3s linear;
-      animation: scale 0.3s linear;
-      height: 100px;
-      -webkit-transform: scale(1.5);
-      transform: scale(1.5);
+      .services-page__intro--title {
+        -webkit-animation: -webkit-scale 0.3s linear;
+        animation: scale 0.3s linear;
+        height: 100px;
+        -webkit-transform: scale(1.5);
+        transform: scale(1.5);
+      }
     }
 
     &--title {
