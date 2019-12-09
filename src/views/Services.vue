@@ -14,8 +14,6 @@
           cols="12"
           lg="6"
           @click="serviceSelect($event)"
-          @mouseenter="mouseEnter($event)"
-          @mouseleave="mouseLeave($event)"
         >
           <v-card class="service-item__card" elevation="10">
             <font-awesome-layers class="fa-3x service-item__icon">
