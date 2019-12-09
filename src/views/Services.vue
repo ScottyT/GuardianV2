@@ -264,22 +264,9 @@ export default {
       grid-column: span 2;
     }
 
-    &--active {
-      .services-page__intro--title {
-        -webkit-animation: -webkit-scale 0.3s linear;
-        animation: scale 0.3s linear;
-        height: 100px;
-        -webkit-transform: scale(1.5);
-        transform: scale(1.5);
-      }
-    }
-
     &--title {
       text-align: center;
       line-height: 11rem;
-      height: 50px;
-      -webkit-transform: scale(1);
-      transform: scale(1);
     }
   }
 
@@ -367,15 +354,18 @@ export default {
           opacity: 1;
           -webkit-transform: translateY(0);
           transform: translateY(0);
-          -webkit-animation: slideDownMobile 0.6s ease-in-out;
-          animation: slideDownMobile 0.6s ease-in-out;
+          -webkit-transition: all 0.6s cubic-bezier(0.67, 0.01, 0.52, 1.4);
+          transition: all 0.6s cubic-bezier(0.67, 0.01, 0.52, 1.4);
+          animation: none;
         }
         @include respond(mobileSmallLand) {
           height: 100px;
           opacity: 1;
           -webkit-transform: translateY(0);
           transform: translateY(0);
-          animation: slideDownLand 0.6s cubic-bezier(0.25, 0.8, 0.5, 1);
+          -webkit-transition: all 0.6s cubic-bezier(0.67, 0.01, 0.52, 1.4);
+          transition: all 0.6s cubic-bezier(0.67, 0.01, 0.52, 1.4);
+          animation: none;
         }
         @include respond(mobileLarge) {
           height: 190px;
@@ -397,9 +387,9 @@ export default {
           opacity: 1;
           -webkit-transform: translateY(0);
           transform: translateY(0);
-          -webkit-animation: slideDownTablet 0.6s
-            cubic-bezier(0.25, 0.8, 0.5, 1);
-          animation: slideDownTablet 0.6s cubic-bezier(0.25, 0.8, 0.5, 1);
+          -webkit-transition: all 0.6s cubic-bezier(0.67, 0.01, 0.52, 1.4);
+          transition: all 0.6s cubic-bezier(0.67, 0.01, 0.52, 1.4);
+          animation: none;
         }
         @include respond(tabletLarge) {
         }
