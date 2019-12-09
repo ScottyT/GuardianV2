@@ -2,7 +2,7 @@
   <div class="content services-page" v-if="loaded">
     <div class="row">
       <div id="log"></div>
-      <div class="services-page__intro" v-on="titleSelect($event)">
+      <div class="services-page__intro" @click="titleSelect($event)">
         <h1 refs="intro" class="services-page__intro--title">Services</h1>
         <hr class="small" />
       </div>
@@ -158,16 +158,15 @@ export default {
     //const intro = this.$refs.intro;
     //const timeline = new TimelineLite();
     //gsap.to(".services-page__intro--title", { rotation: 27 });
-    var card = document.querySelectorAll(".service-item__big-description");
-
-    var log = document.getElementById("log");
-    card.on("animationstart webkitAnimationStart", function() {
-      log.empty();
-      log.append("<p>Animation has started</p>");
-    });
-    card.on("animationiteration webkitAnimationIteration", function() {
-      log.append("<p>An iteration fired</p>");
-    });
+    // var card = document.querySelectorAll(".service-item__big-description");
+    // var log = document.getElementById("log");
+    // card.on("animationstart webkitAnimationStart", function() {
+    //   log.empty();
+    //   log.append("<p>Animation has started</p>");
+    // });
+    // card.on("animationiteration webkitAnimationIteration", function() {
+    //   log.append("<p>An iteration fired</p>");
+    // });
   },
   methods: {
     mouseEnter: function(event) {
