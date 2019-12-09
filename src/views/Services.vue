@@ -381,6 +381,7 @@ export default {
           height: 190px;
           opacity: 1;
           -webkit-transform: translateY(0);
+          -webkit-transition: all 0.3s ease-in;
           transition: all 0.3s ease-in;
           // -webkit-animation-name: slideDownDesktop;
           // -webkit-animation-duration: 0.6s;
