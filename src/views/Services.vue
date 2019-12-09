@@ -355,6 +355,8 @@ export default {
           opacity: 1;
           -webkit-transform: translateY(0);
           transform: translateY(0);
+          -webkit-animation: -webkit-slideDownDesktop 0.6s
+            cubic-bezier(0.25, 0.8, 0.5, 1);
           animation: slideDownDesktop 0.6s cubic-bezier(0.25, 0.8, 0.5, 1);
         }
         @include respond(tabletSmall) {
@@ -383,6 +385,26 @@ export default {
   }
 }
 
+@-webkit-keyframes -webkit-slideDownDesktop {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(-154px);
+    transform: translateY(-154px);
+    height: 0px;
+  }
+  50% {
+    opacity: 1;
+    -webkit-transform: translateY(20px);
+    transform: translateY(20px);
+    height: 200px;
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    height: 190px;
+  }
+}
 @keyframes slideDownDesktop {
   0% {
     opacity: 0;
