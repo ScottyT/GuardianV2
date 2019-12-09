@@ -275,6 +275,14 @@ export default {
     position: relative;
     max-width: 100%;
     //flex: 1 0 100%;
+
+    @include respond(mobileSmall) {
+      padding: 12px 20px;
+    }
+
+    @include respond(desktopSmall) {
+      padding: 12px;
+    }
     cursor: pointer;
     &__title {
       letter-spacing: 0.3rem;
@@ -323,7 +331,7 @@ export default {
     &__big-description {
       @include respond(mobileSmall) {
         opacity: 0;
-        height: 1px;
+        height: 0;
         -webkit-transform: translateY(-154px);
         transform: translateY(-154px);
         -webkit-transition: all 0.3s ease-in-out;
@@ -374,13 +382,6 @@ export default {
           -webkit-transition: all 0.6s cubic-bezier(0.67, 0.01, 0.52, 1.4);
           transition: all 0.6s cubic-bezier(0.67, 0.01, 0.52, 1.4);
           animation: none;
-          // -webkit-animation-name: slideDownDesktop;
-          // -webkit-animation-duration: 0.6s;
-          // -webkit-animation-timing-function: ease-in;
-          // transform: translateY(0);
-          // -webkit-animation: slideDownDesktop 0.6s
-          //   cubic-bezier(0.25, 0.8, 0.5, 1);
-          // animation: slideDownDesktop 0.6s cubic-bezier(0.25, 0.8, 0.5, 1);
         }
         @include respond(tabletSmall) {
           height: 200px;
