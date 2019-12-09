@@ -196,13 +196,15 @@ export default {
       //const tl = gsap.timeline();
       if (event) {
         //tl.to(".services-page__intro--title", { duration: 1, rotation: 90 });
+        $(event.target)
+          .closest(".service-item")
+          .find(".service-item__big-description")
+          .toggleClass("service-item__big-description--active");
       }
-      $(event.target)
-        .closest(".service-item")
-        .toggleClass("service-item--active");
+
       /* eslint-disable no-alert, no-console */
       console.log(
-        $(".service-item--active .service-item__bigdescription").height()
+        $(".service-item--active .service-item__big-description").height()
       );
       /* eslint-enable no-alert, no-console */
     },
@@ -348,18 +350,8 @@ export default {
         background-color: transparent;
         margin-bottom: 0;
       }
-    }
 
-    &--hover {
-      .service-item__icon--plus {
-        -webkit-transform: scale(1);
-        backface-visibility: hidden;
-        -webkit-font-smoothing: subpixel-antialiased;
-      }
-    }
-
-    &--active {
-      .service-item__big-description {
+      &--active {
         display: flex;
         @include respond(mobileSmall) {
           height: 187px;
@@ -399,16 +391,25 @@ export default {
         }
         @include respond(tabletLarge) {
         }
-      }
-      .service-item {
-        &__card {
-          height: auto;
-        }
 
-        &__icon--plus {
-          transform: rotate(225deg);
-          transition: all 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+        .service-item {
+          &__card {
+            height: auto;
+          }
+
+          &__icon--plus {
+            transform: rotate(225deg);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+          }
         }
+      }
+    }
+
+    &--hover {
+      .service-item__icon--plus {
+        -webkit-transform: scale(1);
+        backface-visibility: hidden;
+        -webkit-font-smoothing: subpixel-antialiased;
       }
     }
   }
