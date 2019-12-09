@@ -336,9 +336,10 @@ export default {
     &__big-description {
       @include respond(mobileSmall) {
         opacity: 0;
-        height: 0;
-        -webkit-transform: translateY(-154px);
-        transform: translateY(-154px);
+        height: 1px;
+        // -webkit-transform: translateY(-154px);
+        // transform: translateY(-154px);
+        -webkit-transform: scale(1);
         -webkit-transition: all 0.3s ease-in-out;
         transition: all 0.3s ease-in-out;
       }
@@ -380,7 +381,7 @@ export default {
         @include respond(mobileLarge) {
           height: 190px;
           opacity: 1;
-          -webkit-transform: translateY(0);
+          -webkit-transform: scale(1);
           -webkit-animation-name: slideDownDesktop;
           -webkit-animation-duration: 0.6s;
           -webkit-animation-timing-function: ease-in;
@@ -453,19 +454,19 @@ export default {
 @-webkit-keyframes slideDownDesktop {
   0% {
     opacity: 0;
-    -webkit-transform: translateY(-154px);
+    -webkit-transform: scale(1);
     //transform: translateY(-154px);
-    height: 0px;
+    height: 1px;
   }
   50% {
     opacity: 1;
-    -webkit-transform: translateY(20px);
+    -webkit-transform: scale(1.2);
     //transform: translateY(20px);
     height: 200px;
   }
   100% {
     opacity: 1;
-    -webkit-transform: translateY(0);
+    -webkit-transform: scale(1.5);
     //transform: translateY(0);
     height: 190px;
   }
