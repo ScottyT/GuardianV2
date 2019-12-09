@@ -14,6 +14,8 @@
           cols="12"
           lg="6"
           @click="serviceSelect($event)"
+          @mouseenter="mouseEnter($event)"
+          @mouseleave="mouseLeave($event)"
         >
           <v-card class="service-item__card" elevation="10">
             <font-awesome-layers class="fa-3x service-item__icon">
@@ -196,7 +198,7 @@ export default {
         //tl.to(".services-page__intro--title", { duration: 1, rotation: 90 });
         $(event.target)
           .closest(".service-item")
-          .addClass("service-item--active");
+          .toggleClass("service-item--active");
       }
     },
     titleSelect: function(event) {
@@ -420,7 +422,7 @@ export default {
   }
   100% {
     -webkit-transform: scale(1.5);
-    transform: scale(1.2);
+    transform: scale(1.5);
     height: 100px;
   }
 }
