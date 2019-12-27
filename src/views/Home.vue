@@ -58,9 +58,6 @@ export default {
       componentKey: 0
     };
   },
-  mounted() {
-    //console.log($(".page-sections__buttons").find("a"));
-  },
   methods: {
     getContent() {
       this.$prismic.client.getSingle("home").then(document => {
@@ -69,17 +66,9 @@ export default {
         this.heroCtaHeading = document.data.hero_cta_heading;
         this.heroCtaSubheading = document.data.hero_cta_subheading;
         this.sectionContent = document.data.section;
-        //this.pageSections = this.sectionContent;
         this.loaded = true;
         this.enableScroll = true;
       });
-      // var sectionNodeList = document.querySelectorAll(".section");
-      // var sections = Array.prototype.map.call(sectionNodeList, function(el) {
-      //   return el;
-      // });
-      // this.pageSections = sections;
-      // console.log(sections);
-      // console.log(sectionNodeList);
       this.pageSections = this.$refs;
     }
   },
