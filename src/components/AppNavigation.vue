@@ -85,7 +85,7 @@ export default {
   }
 
   &__items {
-    flex: 0 0 50%;
+    flex: 0 0 40%;
     max-width: 1170px;
     justify-content: space-between;
 
