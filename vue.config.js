@@ -4,7 +4,7 @@ const PreloadPlugin = require("@vue/preload-webpack-plugin");
 module.exports = {
   configureWebpack: {
     plugins: [
-      new BundleAnalyzerPlugin(),
+      // new BundleAnalyzerPlugin(),
       new PreloadPlugin({
         rel: "preload",
         include: "allAssets",
