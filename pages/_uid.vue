@@ -1,5 +1,6 @@
 <template>
 	<div class="content services-page" v-if="loaded">
+		<slices-block :slices="slices" />
 		<div class="row">
 			<div id="log"></div>
 			<div class="services-page__intro" @click="titleSelect($event)">
@@ -50,13 +51,13 @@
 	</div>
 </template>
 <script>
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { faPlus, faCircle } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon, FontAwesomeLayers } from "@fortawesome/vue-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core"
+import { faPlus, faCircle } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon, FontAwesomeLayers } from "@fortawesome/vue-fontawesome"
 
-library.add(faPlus, faCircle);
-import JQuery from "jquery";
-var $ = JQuery;
+library.add(faPlus, faCircle)
+import JQuery from "jquery"
+var $ = JQuery
 export default {
 	name: "Page",
 	components: {
@@ -124,57 +125,67 @@ export default {
 		//   log.append("<p>An iteration fired</p>");
 		// });
 	},
+	async asyncData({ $prismic, params, error }) {
+		const page = (await $prismic.api.getByUID("page", params.uid)).data
+		return {
+			slices: page.body,
+		}
+	},
 	methods: {
-		mouseEnter: function (event) {
-			var eventClass = event.srcElement;
-			eventClass.classList.add("service-item--hover");
+		mouseEnter: function(event) {
+			var eventClass = event.srcElement
+			eventClass.classList.add("service-item--hover")
 			if (eventClass.className.indexOf("sevice-item--hover")) {
-				this.hover = true;
+				this.hover = true
 			}
 		},
-		mouseLeave: function (event) {
-			var eventClass = event.srcElement;
-			eventClass.classList.remove("service-item--hover");
-			this.hover = false;
+		mouseLeave: function(event) {
+			var eventClass = event.srcElement
+			eventClass.classList.remove("service-item--hover")
+			this.hover = false
 		},
 		getServices() {
-			this.loaded = true;
+			this.loaded = true
 
 			for (var i = 0; i < this.services.length; i++) {
 				if (this.services[i].id % 2 === 0) {
-					this.evenServices.push(this.services[i]);
+					this.evenServices.push(this.services[i])
 				} else {
-					this.oddServices.push(this.services[i]);
+					this.oddServices.push(this.services[i])
 				}
 			}
 		},
-		serviceSelect: function (event) {
+		serviceSelect: function(event) {
 			//const tl = gsap.timeline();
 			if (event) {
 				//tl.to(".services-page__intro--title", { duration: 1, rotation: 90 });
-				$(event.target).closest(".service-item").toggleClass("service-item--active");
+				$(event.target)
+					.closest(".service-item")
+					.toggleClass("service-item--active")
 			}
 
 			/* eslint-disable no-alert, no-console */
-			console.log($(".service-item--active .service-item__big-description").height());
+			console.log($(".service-item--active .service-item__big-description").height())
 			/* eslint-enable no-alert, no-console */
 		},
-		titleSelect: function (event) {
+		titleSelect: function(event) {
 			if (event) {
-				$(event.target).closest(".services-page__intro").toggleClass("services-page__intro--active");
+				$(event.target)
+					.closest(".services-page__intro")
+					.toggleClass("services-page__intro--active")
 			}
 		},
-		destroyComp: function () {
-			this.destroyComponent = false;
+		destroyComp: function() {
+			this.destroyComponent = false
 		},
 	},
 	created() {
-		this.getServices();
+		this.getServices()
 	},
 	destroyed() {
-		this.destroyComp();
+		this.destroyComp()
 	},
-};
+}
 </script>
 <style lang="scss">
 .layerd-icons {
@@ -183,15 +194,10 @@ export default {
 	width: 50px;
 }
 .services-page {
-	padding-top: 5rem;
 	width: 100%;
 
 	.page-sections {
 		display: none;
-	}
-
-	@include respond(mobileSmall) {
-		padding-top: 10rem;
 	}
 
 	.row {

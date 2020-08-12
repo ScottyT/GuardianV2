@@ -4,34 +4,38 @@
 		<main class="v-content__wrap page">
 			<nuxt />
 		</main>
+		<footer-nav />
 	</v-app>
 </template>
 
 <script>
 export default {
 	data() {
-		return {};
+		return {}
 	},
 	head() {
-		const capitalizedName = [];
+		const capitalizedName = []
 		if (Object.entries(this.$route.params).length > 0) {
-			var normalizedName;
+			var normalizedName
 
-			normalizedName = this.$route.params.uid.replace(/\W+/g, " ").trim().split(" ");
+			normalizedName = this.$route.params.uid
+				.replace(/\W+/g, " ")
+				.trim()
+				.split(" ")
 
 			normalizedName.map((word, i) => {
-				word = word.charAt(0).toUpperCase() + word.slice(1);
-				capitalizedName.push(word);
-			});
+				word = word.charAt(0).toUpperCase() + word.slice(1)
+				capitalizedName.push(word)
+			})
 		}
 		return {
 			title: capitalizedName.join(" "),
-		};
+		}
 	},
 	async middleware({ store, $prismic }) {
-		await store.dispatch("fetchMenu", $prismic);
+		await store.dispatch("fetchMenu", $prismic)
 	},
-};
+}
 </script>
 <style lang="scss">
 html {

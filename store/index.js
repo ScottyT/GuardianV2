@@ -22,7 +22,9 @@ export const actions = {
   }, $prismic) {
     try {
       const header = (await $prismic.api.getByUID('menu', 'header')).data
+      const footer = (await $prismic.api.getByUID('menu', 'footer')).data
       commit('setHeader', header)
+      commit('setFooter', footer)
     } catch (e) {
       const error = 'Please create a menu document'
       commit('setError', error)

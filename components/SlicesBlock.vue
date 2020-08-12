@@ -4,6 +4,9 @@
 			<template v-if="slice.slice_type === 'homehero'">
 				<home-hero :slice="slice" />
 			</template>
+			<template v-else-if="slice.slice_type === 'pagehero'">
+				<page-hero :slice="slice" />
+			</template>
 			<template v-else-if="slice.slice_type === 'offsetsectiontext'">
 				<offset-section-text :slice="slice" />
 			</template>
@@ -16,7 +19,7 @@ export default {
 	props: {
 		slices: Array,
 	},
-};
+}
 </script>
 <style lang="scss">
 html {
@@ -61,6 +64,9 @@ h2 {
 	@include respond(desktopSmall) {
 		font-size: 3em;
 	}
+}
+ul {
+	list-style: none;
 }
 img {
 	width: 100%;
