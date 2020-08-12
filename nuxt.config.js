@@ -102,7 +102,6 @@ export default {
   build: {
     extractCSS: true,
     optimization: {
-
       minimize: true,
       splitChunks: {
         cacheGroups: {

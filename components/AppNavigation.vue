@@ -2,7 +2,7 @@
 	<v-app-bar :height="navbarHeight" hide-on-scroll elevate-on-scroll class="navigation" :dark="!scrolledDown" fixed>
 		<nuxt-link class="navigation__site-title" to="/">Gaurdian Restoration</nuxt-link>
 		<v-toolbar-items class="navigation">
-			<ul id="services-list" class="v-toolbar__items">
+			<ul class="v-toolbar__items">
 				<li v-for="(menuLink, index) in $store.state.header.menu_links" :key="index" class="navigation__menu-item">
 					<prismic-link :field="menuLink.link">{{ $prismic.asText(menuLink.label) }}</prismic-link>
 				</li>
@@ -24,12 +24,6 @@ export default {
 		}
 	},
 	mounted() {
-		// var isScrolling = $debounce(function () {
-		// 	var scrolledDown = window.scrollY > 50
-		// 	this.scrolledDown = scrolledDown
-		// 	console.log(scrolledDown)
-		// 	return scrolledDown
-		// }, 100)
 		window.addEventListener("scroll", this.isScrolling)
 	},
 	computed: {
@@ -108,12 +102,13 @@ export default {
 	}
 
 	&__menu-item {
-		min-width: 64px;
+		min-width: 135px;
 		height: 100%;
 		display: flex;
 		background-image: linear-gradient(120deg, transparent 0%, transparent 50%, rgba($color-white, 0.2) 50%);
 		background-size: 245%;
 		transition: all 0.4s ease-in;
+		justify-content: center;
 
 		&:hover {
 			background-position: 100%;

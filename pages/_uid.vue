@@ -1,54 +1,5 @@
 <template>
-	<div class="content services-page" v-if="loaded">
-		<slices-block :slices="slices" />
-		<div class="row">
-			<div id="log"></div>
-			<div class="services-page__intro" @click="titleSelect($event)">
-				<h1 refs="intro" class="services-page__intro--title">Services</h1>
-				<hr class="small" />
-			</div>
-			<div class="services-page__columns">
-				<v-col class="service-pages service-item" v-for="service in oddServices" :key="service.id" cols="12" lg="6" @click="serviceSelect($event)" @mouseenter="mouseEnter($event)" @mouseleave="mouseLeave($event)">
-					<v-card class="service-item__card" elevation="10">
-						<font-awesome-layers class="fa-3x service-item__icon">
-							<font-awesome-icon class="service-item__icon--background" :icon="['fas', 'circle']" />
-							<font-awesome-icon class="service-item__icon--plus" :icon="['fas', 'plus']" transform="shrink-6" />
-						</font-awesome-layers>
-
-						<v-img src="https://cdn.vuetifyjs.com/images/cards/docks.jpg" class="service-item__background white--text" gradient="120deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.6) 45%, rgba(0,0,0,0.4) 60%,  rgba(0,0,0,0) 100%">
-							<h2 class="service-item__title">{{ service.title }}</h2>
-							<p class="light">{{ service.serviceText }}</p>
-						</v-img>
-						<div class="service-item__big-description">
-							<div class="service-item__big-description--wrap">
-								<p>{{ service.bigDescription }}</p>
-							</div>
-						</div>
-					</v-card>
-				</v-col>
-			</div>
-			<div class="services-page__columns">
-				<v-col class="service-pages service-item" v-for="service in evenServices" :key="service.id" cols="12" lg="6" @click="serviceSelect($event)" :refs="'service--' + service.title" @mouseenter="mouseEnter($event)" @mouseleave="mouseLeave($event)">
-					<v-card class="service-item__card" elevation="10">
-						<font-awesome-layers class="fa-3x service-item__icon">
-							<font-awesome-icon class="service-item__icon--background" :icon="['fas', 'circle']" />
-							<font-awesome-icon class="service-item__icon--plus" :icon="['fas', 'plus']" transform="shrink-6" />
-						</font-awesome-layers>
-
-						<v-img src="https://cdn.vuetifyjs.com/images/cards/docks.jpg" class="service-item__background white--text" gradient="120deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.6) 45%, rgba(0,0,0,0.4) 60%,  rgba(0,0,0,0) 100%">
-							<h2 class="service-item__title">{{ service.title }}</h2>
-							<p class="light">{{ service.serviceText }}</p>
-						</v-img>
-						<div class="service-item__big-description">
-							<div class="service-item__big-description--wrap">
-								<p>{{ service.bigDescription }}</p>
-							</div>
-						</div>
-					</v-card>
-				</v-col>
-			</div>
-		</div>
-	</div>
+	<slices-block :slices="slices" />
 </template>
 <script>
 import { library } from "@fortawesome/fontawesome-svg-core"

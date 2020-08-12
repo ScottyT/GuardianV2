@@ -7,6 +7,9 @@
 			<template v-else-if="slice.slice_type === 'pagehero'">
 				<page-hero :slice="slice" />
 			</template>
+			<template v-else-if="slice.slice_type === 'twocolcardlist'">
+				<two-col-cards :slice="slice" />
+			</template>
 			<template v-else-if="slice.slice_type === 'offsetsectiontext'">
 				<offset-section-text :slice="slice" />
 			</template>
@@ -18,6 +21,9 @@ export default {
 	name: "slices-block",
 	props: {
 		slices: Array,
+	},
+	components: {
+		TwoColCards: () => import("./slices/TwoColCardList.vue"),
 	},
 }
 </script>
