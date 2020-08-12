@@ -1,0 +1,6 @@
+@font-face {
+  font-family: "Oswald";
+  font-display: swap;
+  src: local("Oswald"),
+    url(https://fonts.gstatic.com/s/oswald/v29/TK3iWkUHHAIjg752GT8G.woff2) format("woff2");
+}
