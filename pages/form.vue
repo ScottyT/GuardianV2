@@ -1,6 +1,6 @@
 <template>
 	<div class="form-wrapper">
-		<form method="POST" action="/sendform">
+		<form method="POST" action="/thankyou">
 			<label>Name</label><input name="name" type="text" value="" />
 			<label>Address</label>
 			<input name="address" type="text" value="" />

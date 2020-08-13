@@ -79,4 +79,9 @@ img {
 	height: 100%;
 	object-fit: cover;
 }
+.section {
+	position: relative;
+	margin: 0 0 4rem 0;
+	height: auto;
+}
 </style>

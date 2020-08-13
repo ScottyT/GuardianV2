@@ -1,4 +1,4 @@
-module restorewithguardian.com
+module github.com/ScottyT/GuardianV2
 
 go 1.14
 
