@@ -21,12 +21,13 @@ export default {
 	methods: {
 		async submitForm() {
 			await this.$axios
-				.$post("sendform", {
+				.$post("https://httpbin.org/post", {
 					name: this.name,
 					address: this.address,
 				})
 				.then((res) => {
 					this.message = res
+					this.$router.push("/thankyou")
 				})
 				.catch((error) => {
 					console.log(error)
