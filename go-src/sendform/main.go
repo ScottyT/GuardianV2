@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -19,15 +20,11 @@ type Form struct {
 }
 
 // type
-type Payload struct {
-	Form Form `json:"data"`
-}
+type Body []Form
 
-// type
-type Body struct {
-	Payload Payload `json:"payload"`
+func HandleRequest(ctx context.Context, form Form) (string, error) {
+	return fmt.Sprintf("Hello %s!", form.Name), nil
 }
-
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	var body Body
 	json.Unmarshal([]byte(request.Body), &body)
@@ -74,12 +71,13 @@ func formHandler(w http.ResponseWriter, r *http.Request) {
 // 	formData :=
 // }
 func main() {
-	fileServer := http.FileServer(http.Dir("./dist"))
-	http.Handle("/", fileServer)
-	//http.HandleFunc("/form", formHandler)
-	fmt.Printf("Starting server at port 8080\n")
-	if err := http.ListenAndServe(":8080", nil); err != nil {
-		log.Fatal(err)
-	}
 	lambda.Start(handler)
+	// fileServer := http.FileServer(http.Dir("./dist"))
+	// http.Handle("/", fileServer)
+	// //http.HandleFunc("/form", formHandler)
+	// fmt.Printf("Starting server at port 8080\n")
+	// if err := http.ListenAndServe(":8080", nil); err != nil {
+	// 	log.Fatal(err)
+	// }
+
 }
