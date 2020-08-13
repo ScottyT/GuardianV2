@@ -21,7 +21,7 @@ export default {
 	methods: {
 		async submitForm() {
 			await this.$axios
-				.$post("https://httpbin.org/post", {
+				.$post("sendform", {
 					name: this.name,
 					address: this.address,
 				})
