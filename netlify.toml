@@ -1,11 +1,7 @@
 [build]
-  command = "./build.sh"
+  command = "make build"
   publish = "dist"
   functions = "functions"
 [build.environment]
   GO_IMPORT_PATH = "github.com/ScottyT/GuardianV2"
   GO_VERSION = "1.14.6"
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/sendform/:splat"
-  status = 200
