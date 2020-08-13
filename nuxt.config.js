@@ -74,7 +74,10 @@ export default {
    ** Nuxt.js modules
    */
   modules: [
-    '@nuxtjs/prismic'
+    '@nuxtjs/prismic',
+    ['@nuxtjs/axios', {
+      baseURL: '/.netlify/functions'
+    }]
   ],
   /*
    ** vuetify module configuration
