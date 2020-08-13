@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/aws/aws-lambda-go/events"
+	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
@@ -85,6 +86,6 @@ func formHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	//lambda.Start(handler)
+	lambda.Start(handler)
 	http.HandleFunc("/thankyou", formHandler)
 }

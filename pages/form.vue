@@ -1,9 +1,9 @@
 <template>
 	<div class="form-wrapper">
-		<form method="POST">
-			<label>Name</label><input v-model="this.name" name="name" type="text" value="" />
+		<form method="POST" @submit.prevent="submitForm">
+			<label>Name</label><input v-model="name" name="name" type="text" value="" />
 			<label>Address</label>
-			<input v-model="this.address" name="address" type="text" value="" />
+			<input v-model="address" name="address" type="text" value="" />
 			<input type="submit" value="submit" />
 		</form>
 	</div>
