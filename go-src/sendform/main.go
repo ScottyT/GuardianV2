@@ -58,6 +58,14 @@ func formHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "ParseForm() err: %v", err)
 		return
 	}
+	// name := r.FormValue("name")
+	// address := r.FormValue("address")
+	// var body Body
+
+	// fields := Form{
+	// 	Name:    name,
+	// 	Address: address,
+	// }
 
 	// resp, err := http.Get("https://restorewithguardian.com/.netlify/functions/sendform")
 	// if err != nil {
@@ -94,7 +102,32 @@ func formHandler(w http.ResponseWriter, r *http.Request) {
 	// }
 }
 
+// func altSubmission(w http.ResponseWriter, r *http.Request) {
+// 	requestBody, err := json.Marshal(map[string]string{
+// 		"name":    "Scott",
+// 		"address": "swtucker@twc.com",
+// 	})
+// 	resp, err := http.Post("https://httpbin.org/post", "application/json", bytes.NewBuffer(requestBody))
+// 	if err != nil {
+// 		log.Fatalln(err)
+// 	}
+// 	defer resp.Body.Close()
+// 	body, err := ioutil.ReadAll(resp.Body)
+// 	if err != nil {
+// 		log.Fatalln(err)
+// 	}
+// 	fmt.Println(string(body))
+// }
+
 func main() {
 	lambda.Start(handler)
-	http.HandleFunc("/thankyou", formHandler)
+	// fileServer := http.FileServer(http.Dir("dist"))
+	// http.Handle("/", fileServer)
+	// fmt.Printf("Starting server at port 8080\n")
+	// //	defer fmt.Println("Server ended")
+	// if err := http.ListenAndServe(":8080", nil); err != nil {
+	// 	log.Fatal(err)
+	// }
+	// //http.HandleFunc("/thankyou", formHandler)
+	// http.HandleFunc("/thankyou", altSubmission)
 }
