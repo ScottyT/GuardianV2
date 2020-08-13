@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -19,15 +20,23 @@ type Form struct {
 }
 
 // type
-type Body []Form
+type Payload struct {
+	Form Form `json:"data"`
+}
+
+//
+type Body struct {
+	Payload Payload `json:"payload"`
+}
 
 func HandleRequest(ctx context.Context, form Form) (string, error) {
 	return fmt.Sprintf("Hello %s!", form.Name), nil
 }
-func handler(request events.APIGatewayProxyRequest, form Form) (events.APIGatewayProxyResponse, error) {
-	//json.Unmarshal([]byte(request.Body), &body)
+func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	var body Body
+	json.Unmarshal([]byte(request.Body), &body)
 	// Send email
-	from := mail.NewEmail(form.Name, form.Address)
+	from := mail.NewEmail(body.Payload.Form.Name, body.Payload.Form.Address)
 	subject := "Sending with Twilio SendGrid is Fun"
 	to := mail.NewEmail("Example user", "stuck04@gmail.com")
 	plainTextContent := "Hello there."
