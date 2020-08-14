@@ -50,8 +50,8 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 	from := mail.NewEmail(dat["name"], dat["email"])
 	subject := "Sending with Twilio SendGrid is Fun"
 	to := mail.NewEmail("Example user", "stuck04@gmail.com")
-	plainTextContent := dat["message"]
-	htmlContent := "<p style='font-size:16px;'>" + dat["email"] + "</p>"
+	plainTextContent := fmt.Sprintf("Name: %s\nEmail: %s\nMessage: %s\n", dat["name"], dat["email"], dat["message"])
+	htmlContent := fmt.Sprintf("<p style='font-size:16px;'>Name: %s</p>\n<p style='font-size:16px;'>Email: %s</p>\n<p style='font-size:16px'>Message: %s</p>", dat["name"], dat["email"], dat["message"])
 	message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
 	client := sendgrid.NewSendClient("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")
 	response, err := client.Send(message)
