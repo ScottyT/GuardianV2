@@ -76,7 +76,7 @@ export default {
   modules: [
     '@nuxtjs/prismic',
     ['@nuxtjs/axios', {
-      baseURL: '/.netlify/functions'
+      baseURL: '/.netlify/functions/'
     }]
   ],
   /*

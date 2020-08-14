@@ -13,6 +13,9 @@
 			<template v-else-if="slice.slice_type === 'offsetsectiontext'">
 				<offset-section-text :slice="slice" />
 			</template>
+			<template v-else-if="slice.slice_type === 'contactus'">
+				<contact-us :slice="slice" />
+			</template>
 		</section>
 	</div>
 </template>
@@ -83,5 +86,14 @@ img {
 	position: relative;
 	margin: 0 0 4rem 0;
 	height: auto;
+}
+.form {
+	&__input {
+		padding: 6px 12px;
+		border: 1px solid $color-black;
+		&:not(:last-child) {
+			margin-bottom: 5px;
+		}
+	}
 }
 </style>

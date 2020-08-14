@@ -2,7 +2,7 @@
 	<div class="section">
 		<h1>
 			Thank you for contacting us!<br />
-			Your message has been successfully send.
+			We will reach out to you shortly.
 		</h1>
 	</div>
 </template>

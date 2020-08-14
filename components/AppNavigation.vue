@@ -1,5 +1,5 @@
 <template>
-	<v-app-bar :height="navbarHeight" hide-on-scroll elevate-on-scroll class="navigation" :dark="!scrolledDown" fixed>
+	<v-app-bar :height="navbarHeight" hide-on-scroll elevate-on-scroll class="navigation" :dark="!scrolledDown && this.$route.name !== 'thankyou'" :fixed="this.$route.name !== 'thankyou'">
 		<nuxt-link class="navigation__site-title" to="/">Gaurdian Restoration</nuxt-link>
 		<v-toolbar-items class="navigation">
 			<ul class="v-toolbar__items">
