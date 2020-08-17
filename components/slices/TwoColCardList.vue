@@ -1,7 +1,7 @@
 <template>
 	<div class="card-list__two-col card-list">
 		<div class="card-list__two-col--col">
-			<div class="card-item" v-for="(card, i) in oddCards" :key="i" @click="serviceSelect($event)">
+			<div class="card-item" v-for="(card, i) in oddCards" :key="i" @click="$set(card, 'selected', !card.selected)" :class="{ 'card-item--active': card.selected }">
 				<v-card class="card-item__card" elevation="10" light>
 					<font-awesome-layers class="fa-3x card-item__icon">
 						<font-awesome-icon class="card-item__icon--background" :icon="['fas', 'circle']" />
@@ -20,8 +20,12 @@
 			</div>
 		</div>
 		<div class="card-list__two-col--col">
-			<div class="card-item" v-for="(card, i) in evenCards" :key="i">
+			<div class="card-item" v-for="(card, i) in evenCards" :key="i" @click="$set(card, 'selected', !card.selected)" :class="{ 'card-item--active': card.selected }">
 				<v-card class="card-item__card" elevation="10" light>
+					<font-awesome-layers class="fa-3x card-item__icon">
+						<font-awesome-icon class="card-item__icon--background" :icon="['fas', 'circle']" />
+						<font-awesome-icon class="card-item__icon--plus" :icon="['fas', 'plus']" transform="shrink-6" />
+					</font-awesome-layers>
 					<v-img class="card-item__background" dark :src="card.card_bg.url" :alt="card.card_bg.alt" gradient="120deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.6) 45%, rgba(0,0,0,0.4) 60%,  rgba(0,0,0,0) 100%">
 						<h2 class="card-item__title">{{ $prismic.asText(card.card_title) }}</h2>
 						<prismic-rich-text :field="card.card_text" />
@@ -45,6 +49,12 @@ export default {
 	components: {
 		FontAwesomeIcon,
 		FontAwesomeLayers,
+	},
+	data() {
+		return {
+			isActive: "",
+			selected: undefined,
+		}
 	},
 	computed: {
 		evenCards() {
@@ -70,14 +80,15 @@ export default {
 	},
 	methods: {
 		serviceSelect: function(event) {
+			this.isActive = !this.isActive
 			if (event) {
-				// var path = event.path
-				// path.find((item) => console.log(item.dataset))
-				console.log(event.target.className)
-				var elem = document.querySelector(`.${event.target.className}`)
-				console.log(elem)
-				var closest = elem.closest(".card-item")
-				closest.classList.toggle("card-item--active")
+				if (event.target.classList.length <= 0 || event.target.nodeName == "svg") {
+					var elem = document.getElementsByTagName(event.target.tagName)[0]
+				} else {
+					elem = document.querySelector(`.${event.target.className}`)
+				}
+				var closest = elem.closest(".card-item__card")
+				closest.classList.toggle("card-item__card--active")
 			}
 		},
 	},
@@ -96,6 +107,7 @@ export default {
 }
 .card-item {
 	padding: 12px;
+	cursor: pointer;
 	&__background {
 		height: 300px;
 		padding: 0 2rem;
@@ -124,6 +136,8 @@ export default {
 		z-index: 4;
 		position: absolute;
 		backface-visibility: hidden;
+		transform: rotate(0);
+		transition: all 0.2s ease-in;
 		&--background {
 			color: $primary-dark;
 		}
@@ -139,7 +153,15 @@ export default {
 			-webkit-font-smoothing: subpixel-antialiased;
 		}
 	}
+	&:hover {
+		.card-item__icon {
+		}
+	}
 	&--active {
+		.card-item__icon {
+			transform: rotate(270deg);
+			transition: all 0.2s ease-in;
+		}
 		.card-item__big-description {
 			display: flex;
 			height: 187px;
