@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -32,6 +33,8 @@ type ProxyRequest struct {
 
 var defaultResponse = &events.APIGatewayProxyResponse{StatusCode: 200, Body: "success!"}
 
+var apiKey = os.Getenv("SENDGRID_API_KEY")
+
 func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	// p := ProxyRequest{
 	// 	Headers:     request.Headers,
@@ -39,21 +42,20 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 	// 	Body:        request.Body,
 	// 	QueryParams: request.QueryStringParameters,
 	// }
-	// b, err := json.Marshal(&p)
-	// if err != nil {
-	// 	log.Printf("failed to marshal event to JSON: %v", err)
-	// 	return defaultResponse, nil
-	// }
-	dat := make(map[string]string)
+
+	// dat := make(map[string]string)
+	// json.Unmarshal([]byte(request.Body), &dat)
+	var dat MyForm
+
 	json.Unmarshal([]byte(request.Body), &dat)
 	// Send email
-	from := mail.NewEmail(dat["name"], dat["email"])
-	subject := "Sending with Twilio SendGrid is Fun"
-	to := mail.NewEmail("Example user", "stuck04@gmail.com")
-	plainTextContent := fmt.Sprintf("Name: %s\nEmail: %s\nMessage: %s\n", dat["name"], dat["email"], dat["message"])
-	htmlContent := fmt.Sprintf("<p style='font-size:16px;'>Name: %s</p>\n<p style='font-size:16px;'>Email: %s</p>\n<p style='font-size:16px'>Message: %s</p>", dat["name"], dat["email"], dat["message"])
+	from := mail.NewEmail(dat.Name, dat.Email)
+	subject := "Contact Form Submission"
+	to := mail.NewEmail("Headquarters", "stuck04@gmail.com")
+	plainTextContent := fmt.Sprintf("Name: %s\nEmail: %s\nMessage: %s\n", dat.Name, dat.Email, dat.Message)
+	htmlContent := fmt.Sprintf("<p style='font-size:16px;'>Name: %s</p>\n<p style='font-size:16px;'>Email: %s</p>\n<p style='font-size:16px'>Message: %s</p>", dat.Name, dat.Email, dat.Message)
 	message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
-	client := sendgrid.NewSendClient("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")
+	client := sendgrid.NewSendClient(apiKey)
 	response, err := client.Send(message)
 	if err != nil {
 		log.Println(err)
@@ -77,11 +79,11 @@ func formHandler(w http.ResponseWriter, r *http.Request) {
 	// Send email
 	from := mail.NewEmail(dat.Name, dat.Email)
 	subject := "Contact Form Submission"
-	to := mail.NewEmail("Example user", "stuck04@gmail.com")
+	to := mail.NewEmail("Headquarters", "stuck04@gmail.com")
 	plainTextContent := fmt.Sprintf("Name: %s\nEmail: %s\nMessage: %s\n", dat.Name, dat.Email, dat.Message)
 	htmlContent := fmt.Sprintf("<p style='font-size:16px;'>Name: %s</p>\n<p style='font-size:16px;'>Email: %s</p>\n<p style='font-size:16px'>Message: %s</p>", dat.Name, dat.Email, dat.Message)
 	message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
-	client := sendgrid.NewSendClient("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")
+	client := sendgrid.NewSendClient(apiKey)
 	response, err := client.Send(message)
 	if err != nil {
 		log.Println(err)

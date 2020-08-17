@@ -66,7 +66,7 @@ export default {
 			})
 			if (this.name && this.email && this.message) {
 				await this.$axios
-					.$post("thankyou", {
+					.$post("sendform", {
 						name: this.name,
 						address: this.address,
 						message: this.message,
