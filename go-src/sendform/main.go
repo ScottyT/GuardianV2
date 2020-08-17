@@ -16,7 +16,7 @@ import (
 
 type MyForm struct {
 	Name    string `json:"name"`
-	Email   string `json:"address"`
+	Email   string `json:"email"`
 	Message string `json:"message"`
 }
 type MyPayload struct {
