@@ -43,7 +43,11 @@ export default {
         rel: 'preconnect',
         href: 'https://static.cdn.prismic.io',
         crossorigin: 'true'
-      }
+      },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css?family=Oswald:300,600,700&display=swap'
+      },
     ],
   },
   /*

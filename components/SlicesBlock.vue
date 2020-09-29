@@ -16,6 +16,12 @@
 			<template v-else-if="slice.slice_type === 'contactus'">
 				<contact-us :slice="slice" />
 			</template>
+			<template v-else-if="slice.slice_type === 'rollupsection'">
+				<roll-up-section :slice="slice" />
+			</template>
+			<template v-else-if="slice.slice_type === 'beforeandafter'">
+				<before-after-section :slice="slice" />
+			</template>
 		</section>
 	</div>
 </template>
@@ -55,7 +61,15 @@ h1 {
 	}
 
 	&.extra-large {
+		font-size:2.7em;
+		@include respond(mobileLarge) {
+			font-size:3.5em;
+		}
+		
 		@include respond(tabletLarge) {
+			font-size:5em;
+		}
+		@include respond(desktopSmall) {
 			font-size: 6em;
 		}
 	}

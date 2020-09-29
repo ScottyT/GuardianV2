@@ -1,13 +1,13 @@
 <template>
-	<v-app-bar :height="navbarHeight" hide-on-scroll elevate-on-scroll class="navigation" :dark="!scrolledDown && this.$route.name !== 'thankyou'" :fixed="this.$route.name !== 'thankyou'">
-		<nuxt-link class="navigation__site-title" to="/">Gaurdian Restoration</nuxt-link>
-		<v-toolbar-items class="navigation">
-			<ul class="v-toolbar__items">
-				<li v-for="(menuLink, index) in $store.state.header.menu_links" :key="index" class="navigation__menu-item">
-					<prismic-link :field="menuLink.link">{{ $prismic.asText(menuLink.label) }}</prismic-link>
-				</li>
-			</ul>
-		</v-toolbar-items>
+	<v-app-bar :height="navbarHeight" hide-on-scroll elevate-on-scroll class="navigation" :fixed="this.$route.name !== 'thankyou'" color="rgba(255, 255, 255, .79)">
+		<nuxt-link class="navigation__site-title" to="/">
+			<img :src="scrolledDown ? $store.state.header.alt_logo.url : $store.state.header.logo.url" :alt="$store.state.header.logo.alt" />
+		</nuxt-link>
+		<ul class="navigation__items">
+			<li v-for="(menuLink, index) in $store.state.header.menu_links" :key="index" class="navigation__menu-item">
+				<prismic-link :field="menuLink.link">{{ $prismic.asText(menuLink.label) }}</prismic-link>
+			</li>
+		</ul>
 	</v-app-bar>
 </template>
 <script>
@@ -35,13 +35,13 @@ export default {
 					return "65px"
 
 				case viewportWidth <= 768:
-					return "58px"
+					return "60px"
 
 				case viewportWidth < 960:
-					return "56px"
+					return "70px"
 
 				default:
-					return "65px"
+					return "95px"
 			}
 		},
 	},
@@ -78,16 +78,6 @@ export default {
 			flex-direction: row;
 		}
 	}
-
-	&__items {
-		flex: 0 0 40%;
-		max-width: 1170px;
-		justify-content: space-between;
-
-		@include respond(mobileSmall) {
-			height: 32px;
-		}
-	}
 }
 .navigation {
 	@include respond(mobilePort) {
@@ -95,53 +85,82 @@ export default {
 	}
 	&__site-title {
 		color: inherit;
+		height: 58px;
+		max-width: 307px;
+		display: block;
 
 		@include respond(mobilePort) {
 			padding: 7px 0;
+		}
+
+		@include respond(desktopSmall) {
+			max-width:500px;
+		}
+
+		img {
+			object-fit:contain;
+		}
+	}
+
+	&__items {
+		//flex: 0 0 40%;
+		max-width: 1170px;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		display: flex;
+
+		@include respond(mobileLargeMax) {
+			background-color:rgba($color-white, .84);
 		}
 	}
 
 	&__menu-item {
 		min-width: 135px;
-		height: 100%;
+		height: 40px;
 		display: flex;
-		background-image: linear-gradient(120deg, transparent 0%, transparent 50%, rgba($color-white, 0.2) 50%);
-		background-size: 245%;
-		transition: all 0.4s ease-in;
 		justify-content: center;
-
-		&:hover {
-			background-position: 100%;
-		}
 
 		a {
 			padding: 0 16px;
 			display: flex;
 			align-items: center;
-			font-weight: 400;
+			font-weight: 700;
 			letter-spacing: 0.15rem;
 			text-transform: uppercase;
 			position: relative;
-			font-size: 14px;
+			font-size: .9em;
 			color: inherit !important;
+			text-decoration:none;
 
-			@include respond(mobileSmallLand) {
-				font-size: 14px;
-			}
+			// @include respond(mobileSmallLand) {
+			// 	font-size: 14px;
+			// }
 
-			@include respond(mobileLarge) {
-				font-size: 14px;
-			}
+			// @include respond(mobileLarge) {
+			// 	font-size: 14px;
+			// }
 
 			&::before {
 				content: "";
 				position: absolute;
-				top: 0;
 				left: 0;
-				bottom: 0;
+				bottom: 2px;
 				right: 0;
-				opacity: 0;
-				transition: opacity 0.3s;
+				opacity: .5;
+				width:0;
+				height:8px;
+				transition: all 0.3s ease-in;
+			}
+			
+			@media(hover) {
+				&:hover {
+					&::before {
+						content:'';
+						width:112%;
+						background-color:$primary;
+						transition:all 0.3s ease-in;
+					}
+				}				
 			}
 		}
 	}

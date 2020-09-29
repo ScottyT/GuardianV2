@@ -8,7 +8,9 @@ $btn-font-weight: 400;
 $btn-font-sizes: ("default": 1.6rem,
   "large": 2rem,
 );
-$material-light: ("app-bar": white);
+$material-light: ("app-bar": white, 
+  "background": rgba(#fff, .6)
+);
 $material-dark: ("app-bar": transparent,
   "background": transparent,
   "text": ("primary": white,

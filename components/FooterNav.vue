@@ -1,9 +1,6 @@
 <template>
 	<v-footer class="justify-center py-4 grey darken-4" dark padless>
 		<div class="footer">
-			<h3 class="text-center footer__site-title">
-				Guardian Restoration
-			</h3>
 			<ul class="footer__items">
 				<li v-for="(menuLink, index) in $store.state.footer.menu_links" :key="index" class="footer__menu-item">
 					<prismic-link :field="menuLink.link">{{ $prismic.asText(menuLink.label) }}</prismic-link>
@@ -37,9 +34,12 @@ export default {
 	&__items {
 		flex-direction: row;
 		justify-content: center;
-		width: 100%;
-		display: flex;
+		width: 100%;		
 		padding-left: 0 !important;
+
+		@include respond(mobileLarge) {
+			display: flex;
+		}
 	}
 
 	&__menu-item {

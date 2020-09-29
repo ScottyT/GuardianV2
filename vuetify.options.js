@@ -1,6 +1,5 @@
 export default {
   theme: {
-    disable: true,
     customProperties: true,
     minifyTheme: function (css) {
       return process.env.NODE_ENV === "production" ?

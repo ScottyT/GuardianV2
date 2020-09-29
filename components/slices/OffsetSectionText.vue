@@ -45,7 +45,7 @@ export default {
 
 		&:first-child {
 			.offset-section-text__content {
-				margin-top: -10rem;
+				margin-top: 0rem;
 				background-color: $color-white;
 				position: relative;
 			}
@@ -61,6 +61,10 @@ export default {
 
 		@include respond(desktopSmall) {
 			grid-template-columns: 500px;
+		}
+		h2 {
+			text-transform:uppercase;
+			font-weight:700;
 		}
 		&--left {
 			padding: 32px;
