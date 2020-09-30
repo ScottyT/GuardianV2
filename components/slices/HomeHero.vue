@@ -42,7 +42,7 @@ export default {
 		height:90vh;
 	}
 	@include respond(desktopSmall) {
-		height:147vh;
+		height:141vh;
 	}
 
 	@include respond(mobileSmallLand) {

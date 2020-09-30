@@ -1,10 +1,13 @@
 <template>
 	<div class="slices-wrapper">
-		<section v-for="(slice, index) in slices" :key="index" class="section">
+		<section class="home-hero-wrapper" v-for="(slice, i) in homeHeroSlice" :key="i">
 			<template v-if="slice.slice_type === 'homehero'">
 				<home-hero :slice="slice" />
 			</template>
-			<template v-else-if="slice.slice_type === 'pagehero'">
+		</section>
+		<div class="slices-wrapper__body-wrapper">
+		<section v-for="(slice, index) in slices" :key="index" class="section">			
+			<template v-if="slice.slice_type === 'pagehero'">
 				<page-hero :slice="slice" />
 			</template>
 			<template v-else-if="slice.slice_type === 'twocolcardlist'">
@@ -23,6 +26,7 @@
 				<before-after-section :slice="slice" />
 			</template>
 		</section>
+		</div>
 	</div>
 </template>
 <script>
@@ -30,6 +34,19 @@ export default {
 	name: "slices-block",
 	props: {
 		slices: Array,
+	},
+	computed: {
+		homeHeroSlice() {
+			var slicesArr = this.slices
+			const heroSliceIndex = slicesArr.filter((slice) => {
+				return slice.slice_type == "homehero"
+			})
+			return heroSliceIndex
+		},
+		// filteredSlices() { 
+		// 	var removeElement = this.slices.shift()
+		// 	return this.slices
+		// }
 	},
 	components: {
 		TwoColCards: () => import("./slices/TwoColCardList.vue"),
@@ -96,9 +113,18 @@ img {
 	height: 100%;
 	object-fit: cover;
 }
+.slices-wrapper {
+	position:relative;
+
+	&__body-wrapper {
+		background-image:url('https://images.prismic.io/guardianrestoration/9d94a63c-fe7f-461b-bc1f-c5b446dccd79_Triangles+BG+for+Guardian+home.png?auto=compress,format');
+		background-repeat:repeat;
+		padding-top:30px;
+		background-position-y:-305px;
+	}
+}
 .section {
 	position: relative;
-	margin: 0 0 4rem 0;
 	height: auto;
 }
 .form {
@@ -109,5 +135,8 @@ img {
 			margin-bottom: 5px;
 		}
 	}
+}
+.block-heading {
+	position:relative;
 }
 </style>

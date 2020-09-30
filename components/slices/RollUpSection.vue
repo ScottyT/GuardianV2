@@ -1,6 +1,6 @@
 <template>
   <div class="services-featured" :style="`background-image:url(${slice.primary.bg_image.url}`">
-    <div class="services-featured__col" v-for="column in slice.items" :key="column.id">
+    <div :class="`services-featured__col services-featured__col--${i}`" :data-col="i" v-for="(column, i) in slice.items" :key="i">
       <div class="services-featured__heading">{{$prismic.asText(column.col_title)}}</div>
       <div class="services-featured__subheading">{{$prismic.asText(column.col_subtitle)}}</div>
       <p class="services-featured__text">{{$prismic.asText(column.col_text)}}</p>
@@ -8,9 +8,28 @@
   </div>
 </template>
 <script>
+import anime from 'animejs';
+import $debounce from 'lodash.debounce';
 export default {
   name: "RollUpSection",
-  props: ['slice']
+  props: ['slice'],
+  mounted() {
+    function hoverAnim() {
+      var classTarget = this.classList[1]
+      anime({
+        targets: `.${classTarget}`,
+        translateY: 0,
+        easeing: 'easeInOut'
+      })
+      console.log(classTarget)
+    }
+
+    var serviceCols = document.querySelectorAll('.services-featured__col');
+    serviceCols.forEach((el) => {
+      console.log(el)
+      el.addEventListener("mouseover", hoverAnim, false)
+    })
+  }
 }
 </script>
 <style lang="scss">
@@ -18,7 +37,7 @@ export default {
   height:700px;
   width:100%;
   max-width:1600px;
-  margin:auto;
+  margin:0 auto 50px;
   background-size:cover;
   color:$color-white;
   // display:grid;
@@ -75,13 +94,13 @@ export default {
       transition:all .5s cubic-bezier(0.65, 0.06, 0.29, 0.93);
     }
 
-    &:hover {
-      transition:all .5s cubic-bezier(0.65, 0.06, 0.29, 0.93);
-      transform:translateY(0);
-      &::before {
-        opacity:.9;
-      }
-    }
+    // &:hover {
+    //   transition:all .5s cubic-bezier(0.65, 0.06, 0.29, 0.93);
+    //   transform:translateY(0);
+    //   &::before {
+    //     opacity:.9;
+    //   }
+    // }
   }
 }
 </style>

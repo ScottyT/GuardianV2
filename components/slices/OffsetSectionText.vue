@@ -2,12 +2,12 @@
 	<div class="offset-section-text">
 		<div class="offset-section-text__row" v-for="(section, i) in slice.items" :key="i">
 			<div :class="`offset-section-text__content offset-section-text__content--${(i + 1) % 2 === 0 ? 'left' : 'right'}`">
-				<prismic-rich-text :htmlSerializer="heading" :field="section.sectionheading" v-if="section.sectionheading.length > 0" />
-				<p>{{ $prismic.asText(section.sectiontext) }}</p>
+				<prismic-rich-text class="block-heading" :htmlSerializer="heading" :field="section.sectionheading" v-if="section.sectionheading.length > 0" />
+				<prismic-rich-text :field="section.sectiontext" />
 			</div>
-			<div :class="`offset-section-text__image offset-section-text__image--${(i + 1) % 2 === 0 ? 'left' : 'right'}`">
-				<img :src="section.sectionimage.url" :alt="section.sectionimage.alt" />
-			</div>
+			
+				<lazy-image :source="section.sectionimage.url" :alt="section.sectionimage.alt" :class="`offset-section-text__image offset-section-text__image--${(i + 1) % 2 === 0 ? 'left' : 'right'}`" />
+			
 		</div>
 	</div>
 </template>
@@ -15,13 +15,28 @@
 import prismicDOM from "prismic-dom";
 const Elements = prismicDOM.RichText.Elements;
 
+const mainText = function(type, element, content, children) {
+
+}
+
 const heading = function (type, element, content, children) {
+	if (type === Elements.image) {
+		var result = `<img src="${element.url}" alt="${element.alt || ''}" />`
+		const wrapperClassList = [element.label || '', 'block-img'];
+		result = `<div class="${wrapperClassList.join(' ')}">${result}</div>`
+		return result
+	}
 	switch (type) {
 		case Elements.paragraph:
 			return `<p class="offset-section-text__content--subheading">${children.join("")}</p>`;
+		// case Elements.image: 
+		// 	const wrapperClassList = [element.label || '', 'block-img'];
+		// 	const result = `<img src="${element.url}" alt="${element.alt || ''}" class="${wrapperClassList.join(' ')} />`;
+		// 	return result;
 		default:
 			return null;
 	}
+	return null;
 };
 export default {
 	name: "OffsetSectionText",
@@ -35,18 +50,46 @@ export default {
 </script>
 <style lang="scss">
 .offset-section-text {
+	&__heading {
+		&--army-rust {
+			font-family:"Army Rust";
+			font-size:2em;
+			letter-spacing:12px;
+			color:$primary;
+			position:relative;
+
+			&::before, &::after {
+				content:'';
+				position:absolute;
+				width:100%;
+				height:15px;
+				left:0;
+				background:url('https://images.prismic.io/guardianrestoration/6f3bc3ec-1109-4f93-9e5b-8284ad5b9925_Red+Line+for+COMPLETE.png?auto=compress,format');
+				background-size:contain;
+				background-repeat:no-repeat;
+			}
+			&::before {
+				top:-5px;
+			}
+			&::after {
+				bottom:-5px;
+			}
+		}
+		&--light {
+			font-weight: 300;
+		}
+	}
 	&__row {
 		display: flex;
 		flex-wrap: wrap;
 
 		@include respond(tabletLarge) {
-			padding: 0 0 3rem 0;
+			padding: 0px 0 6rem 0;
 		}
 
 		&:first-child {
 			.offset-section-text__content {
 				margin-top: 0rem;
-				background-color: $color-white;
 				position: relative;
 			}
 		}
@@ -58,6 +101,7 @@ export default {
 		width: 50%;
 		display: grid;
 		place-content: center;
+		row-gap:20px;
 
 		@include respond(desktopSmall) {
 			grid-template-columns: 500px;
@@ -68,6 +112,8 @@ export default {
 		}
 		&--left {
 			padding: 32px;
+			justify-content:flex-start;
+			padding-left:50px;
 		}
 		&--right {
 			padding: 0 28px 0 40px;
@@ -76,21 +122,61 @@ export default {
 			font-size: 1.2em;
 			text-transform: uppercase;
 		}
+		&--small-image {
+			height:40px;
+			width:179px;
+			position:absolute;
+			bottom:12px;
+			right:33px;
+			img {
+				object-fit:contain;
+			}
+		}
 	}
+	&__call-button {
+			padding:7px 15px 7px 55px;
+			border:2px solid $primary;
+			font-weight:700;
+			font-size:1.2em;
+			font-family:$heading-font;
+			letter-spacing:3px;
+			position:relative;
+			&::after {
+				content:'';
+				position:absolute;
+				background:url('https://images.prismic.io/guardianrestoration/9e332084-cc94-4611-abac-010984e892f4_CALL+NOW+button+3+waves.png?auto=compress,format');
+				background-size:contain;
+				background-repeat:no-repeat;
+				width:100%;
+				height:100%;
+				right:-187px;
+				top:0;
+			}
+			&::before {
+				content:'';
+				position:absolute;
+				background:url('https://images.prismic.io/guardianrestoration/d6565558-4e9f-431a-ac43-519d90904eae_Phone+for+Call+Now+button+Guardian.png?auto=compress,format');
+				background-size:contain;
+				background-repeat:no-repeat;
+				width:36px;
+				height:36px;
+				left:11px;
+				top:5px;
+			}
+		}
 	&__image {
 		width: 50%;
 		position: relative;
 
 		&--right {
-			max-width: 625px;
+			max-width: 690px;
 			min-height: 250px;
 			left: -20px;
-			margin-top: 7rem;
 		}
 		&--left {
-			max-width: 555px;
+			max-width: 690px;
 			right: -10px;
-			max-height: 333px;
+			//max-height: 333px;
 		}
 	}
 }
