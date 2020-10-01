@@ -6,26 +6,33 @@
 			</template>
 		</section>
 		<div class="slices-wrapper__body-wrapper">
-		<section v-for="(slice, index) in slices" :key="index" class="section">			
-			<template v-if="slice.slice_type === 'pagehero'">
-				<page-hero :slice="slice" />
-			</template>
-			<template v-else-if="slice.slice_type === 'twocolcardlist'">
-				<two-col-cards :slice="slice" />
-			</template>
-			<template v-else-if="slice.slice_type === 'offsetsectiontext'">
-				<offset-section-text :slice="slice" />
-			</template>
-			<template v-else-if="slice.slice_type === 'contactus'">
-				<contact-us :slice="slice" />
-			</template>
-			<template v-else-if="slice.slice_type === 'rollupsection'">
-				<roll-up-section :slice="slice" />
-			</template>
-			<template v-else-if="slice.slice_type === 'beforeandafter'">
-				<before-after-section :slice="slice" />
-			</template>
-		</section>
+			<section v-for="(slice, index) in slices" :key="index" class="section">			
+				<template v-if="slice.slice_type === 'pagehero'">
+					<page-hero :slice="slice" />
+				</template>
+				<template v-else-if="slice.slice_type === 'twocolcardlist'">
+					<two-col-cards :slice="slice" />
+				</template>
+				<template v-else-if="slice.slice_type === 'offsetsectiontext'">
+					<offset-section-text :slice="slice" />
+				</template>
+				<template v-else-if="slice.slice_type === 'contactus'">
+					<contact-us :slice="slice" />
+				</template>
+				<template v-else-if="slice.slice_type === 'rollupsection'">
+					<roll-up-section :slice="slice" />
+				</template>
+				<template v-else-if="slice.slice_type === 'beforeandafter'">
+					<before-after-section :slice="slice" />
+				</template>
+			</section>
+		</div>
+		<div class="slices-wrapper__service-buttons">
+			<section v-for="slice in serviceButtonSlice" :key="slice.id">
+				<template v-if="slice.slice_type === 'servicesiconbuttons'">
+					<services-icon-buttons :slice="slice" />
+				</template>
+			</section>
 		</div>
 	</div>
 </template>
@@ -43,6 +50,12 @@ export default {
 			})
 			return heroSliceIndex
 		},
+		serviceButtonSlice() {
+			var slicesArr = this.slices
+			return slicesArr.filter((slice) => {
+				return slice.slice_type == "servicesiconbuttons"
+			})
+		}
 		// filteredSlices() { 
 		// 	var removeElement = this.slices.shift()
 		// 	return this.slices
@@ -66,6 +79,16 @@ html {
 	@include respond(tabletLarge) {
 		font-size: 62.5% !important;
 	}
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 body {
 	font-size: 18px;

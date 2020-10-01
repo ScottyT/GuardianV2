@@ -82,7 +82,9 @@ export default {
 	&__row {
 		display: flex;
 		flex-wrap: wrap;
-
+		@include respond(mobileLarge) {
+			padding:0 0 3rem;
+		}
 		@include respond(tabletLarge) {
 			padding: 0px 0 6rem 0;
 		}
@@ -102,6 +104,10 @@ export default {
 		display: grid;
 		place-content: center;
 		row-gap:20px;
+
+		grid-template-columns:auto;
+		padding:0 10px;
+		
 
 		@include respond(desktopSmall) {
 			grid-template-columns: 500px;
