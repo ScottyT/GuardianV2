@@ -13,7 +13,7 @@
         </div>
         
       </div>
-      <div class="offset-section-text__content">
+      <div class="offset-section-text__content offset-section-text__content--left">
         <p>{{$prismic.asText(slice.primary.text)}}</p>
       </div>
     </div>

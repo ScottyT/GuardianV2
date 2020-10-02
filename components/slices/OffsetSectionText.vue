@@ -67,6 +67,10 @@ export default {
 				background:url('https://images.prismic.io/guardianrestoration/6f3bc3ec-1109-4f93-9e5b-8284ad5b9925_Red+Line+for+COMPLETE.png?auto=compress,format');
 				background-size:contain;
 				background-repeat:no-repeat;
+
+				@include respond(mobileLargeMax) {
+					height:10px;
+				}
 			}
 			&::before {
 				top:-5px;
@@ -82,8 +86,10 @@ export default {
 	&__row {
 		display: flex;
 		flex-wrap: wrap;
+		flex-direction:column;
 		@include respond(mobileLarge) {
 			padding:0 0 3rem;
+			flex-direction:row;
 		}
 		@include respond(tabletLarge) {
 			padding: 0px 0 6rem 0;
@@ -96,19 +102,21 @@ export default {
 			}
 		}
 		&:nth-of-type(even) {
-			flex-direction: row-reverse;
+			@include respond(mobileLarge) {
+				flex-direction: row-reverse;
+			}		
 		}
 	}
 	&__content {
-		width: 50%;
 		display: grid;
 		place-content: center;
 		row-gap:20px;
-
 		grid-template-columns:auto;
 		padding:0 10px;
 		
-
+		@include respond(mobileLarge) {
+			width: 50%;
+		}
 		@include respond(desktopSmall) {
 			grid-template-columns: 500px;
 		}
@@ -129,11 +137,21 @@ export default {
 			text-transform: uppercase;
 		}
 		&--small-image {
-			height:40px;
-			width:179px;
+			height:25px;
+			right:unset;
+			left:139px;		
 			position:absolute;
 			bottom:12px;
-			right:33px;
+			
+			@include respond(mobileLarge) {
+				width:133px;
+				right:33px;
+				left:unset;
+			}
+			@include respond(desktopSmall) {
+				width:179px;
+				height:40px;
+			}
 			img {
 				object-fit:contain;
 			}
@@ -173,16 +191,22 @@ export default {
 	&__image {
 		width: 50%;
 		position: relative;
+		margin:auto;
 
 		&--right {
 			max-width: 690px;
 			min-height: 250px;
-			left: -20px;
+			
+			@include respond(mobileLarge) {
+				left:-20px;
+			}
 		}
 		&--left {
 			max-width: 690px;
-			right: -10px;
 			//max-height: 333px;
+			@include respond(mobileLarge) {
+				right:-10px;
+			}
 		}
 	}
 }

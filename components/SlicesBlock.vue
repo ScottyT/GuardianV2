@@ -25,6 +25,9 @@
 				<template v-else-if="slice.slice_type === 'beforeandafter'">
 					<before-after-section :slice="slice" />
 				</template>
+				<template v-else-if="slice.slice_type === 'fullwidthimage'">
+					<full-width-image :slice="slice" />
+				</template>
 			</section>
 		</div>
 		<div class="slices-wrapper__service-buttons">
@@ -131,6 +134,32 @@ h2 {
 ul {
 	list-style: none;
 }
+a {
+	&.button {
+		display:inline-block;
+		padding:4px 14px;
+		color:$color-white;
+
+		&--services {
+			background-color:$primary;
+			color:$color-white;
+			position:absolute;
+			left:50%;
+			transform:translateX(-50%);
+			font-size:1.2em;
+			text-transform:uppercase;
+			font-family:$heading-font;
+			z-index:-1;
+			bottom:23px;
+			opacity:0;
+			transition:opacity .5s ease-in, bottom .5s ease-in;
+		}
+
+		&--red {
+			background-color:$primary;
+		}
+	}
+}
 img {
 	width: 100%;
 	height: 100%;
@@ -143,7 +172,12 @@ img {
 		background-image:url('https://images.prismic.io/guardianrestoration/9d94a63c-fe7f-461b-bc1f-c5b446dccd79_Triangles+BG+for+Guardian+home.png?auto=compress,format');
 		background-repeat:repeat;
 		padding-top:30px;
-		background-position-y:-305px;
+		background-size:contain;
+
+		@include respond(mobileLarge) {
+			background-position-y:-305px;
+			background-size:cover;
+		}
 	}
 }
 .section {
