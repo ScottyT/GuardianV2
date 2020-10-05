@@ -19,17 +19,28 @@ export default {
 <style lang="scss">
 .full-width {
   &__image {
-    height: 610px;
+    height:300px;
     width:100%;
     position:relative;
+
+    @include respond(mobileLarge) {
+      height: 610px;
+    }
+    img {     
+      object-position:-45px 0px;
+      @include respond(mobileLarge) {
+        object-position: unset;
+      }
+    }
   }
   &__text {
     &--contact-us {
       color:$primary;
-      @include absCentered(20%, 20%);
-      font-size:2.7em;
+      @include absCentered(20%, 45%);
+      font-size:2em;
       @include respond(mobileLarge) {
         font-size:3em;
+        @include absCentered(20%, 20%);
       }
       @include respond(tabletLarge) {
         font-size:4em;       

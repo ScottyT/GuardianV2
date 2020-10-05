@@ -83,6 +83,9 @@ html {
 		font-size: 62.5% !important;
 	}
 }
+.v-application--wrap {
+	overflow:hidden;
+}
 .sr-only {
   position: absolute;
   width: 1px;
@@ -104,7 +107,7 @@ h1 {
 	}
 
 	&.extra-large {
-		font-size:2.7em;
+		font-size:2.5em;
 		@include respond(mobileLarge) {
 			font-size:3.5em;
 		}
@@ -138,25 +141,32 @@ a {
 	&.button {
 		display:inline-block;
 		padding:4px 14px;
+		max-width:100px;
+		width:100%;
 		color:$color-white;
 
+		&--red {
+			background: rgb(251,132,132);
+			background: linear-gradient(90deg, rgba(251,132,132,1) 0%, rgba(211,83,83,1) 50%);
+			transition:box-shadow .3s ease-in;
+
+			&:hover {
+				box-shadow:inset 0 0 0 4px $color-black;
+				transition:box-shadow .3s ease-in;
+			}
+		}
 		&--services {
-			background-color:$primary;
 			color:$color-white;
 			position:absolute;
 			left:50%;
-			transform:translateX(-50%);
+			transform:translateX(-50%) translateY(-5px);
 			font-size:1.2em;
 			text-transform:uppercase;
 			font-family:$heading-font;
 			z-index:-1;
 			bottom:23px;
 			opacity:0;
-			transition:opacity .5s ease-in, bottom .5s ease-in;
-		}
-
-		&--red {
-			background-color:$primary;
+			transition:opacity .5s ease-in, transform .5s ease-in;
 		}
 	}
 }

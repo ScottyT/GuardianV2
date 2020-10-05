@@ -9,7 +9,7 @@
             src="https://images.prismic.io/guardianrestoration/375399f0-e528-4740-85bb-4f27e0b04e77_Roofing+L+Pushed+down.png?auto=compress,format" />
           <img class="icon icon--right-pushed hidden"
             src="https://images.prismic.io/guardianrestoration/7741a1d9-58b7-4500-8e22-bf978381bd60_Roofing+R+Pushed+down.png?auto=compress,format" />
-            <a class="button button--services">Explore</a>
+            <a class="button button--services button--red">Explore</a>
         </div>
         <span data-side="left" class="services-buttons__half services-buttons__left-half"></span>
         <span data-side="right" class="services-buttons__half services-buttons__right-half"></span>
@@ -77,26 +77,44 @@
 <style lang="scss">
   .services-buttons-wrapper {
     display: grid;
-    grid-template-columns:repeat(3, 200px) 250px;
-    grid-template-rows:repeat(2, 260px);
     column-gap:40px;
-    row-gap:10px;
+    row-gap:40px;
     padding:20px 0 70px;
     width: 100%;
     justify-content: center;
     align-items: center;
     position: relative;
+    grid-template-columns:200px;
+    @include respond(mobileSmallPort) {
+      grid-template-columns:repeat(2, 200px);
+      grid-template-rows:repeat(4, 230px);
+      row-gap:10px;
+    }
+    @include respond(mobileLarge) {
+      grid-template-columns:repeat(2, 222px) 200px;
+      grid-template-rows:repeat(3, 231px);
+    }
+    
+    @include respond(desktopSmall) {
+      grid-template-columns:repeat(3, 200px) 250px;
+      grid-template-rows:repeat(2, 260px);
+    }
 
-    .gr-logo-col {
-      grid-column:4;
-      grid-row:1/2 span;
+    .gr-logo-col {      
       text-align:center;
+
+      @include respond(mobileLarge) {
+        grid-column:3;
+        grid-row:1/2 span;
+      }
+
+      @include respond(desktopSmall) {
+        grid-column:4;
+      }
     }
   }
 
   .services-buttons {
-    height: 200px;
-    width: 200px;
     //box-shadow:-12px 1px 7px -3px rgba(60,58,58,.45098);
     position: relative;
     //background-color: $color-white;
@@ -117,7 +135,7 @@
       &:hover {
         .button--services {
           opacity:1;
-          bottom:-36px;
+          transform:translateX(-50%) translateY(62px);
           transition:all .5s ease-in;
         }
       }
@@ -169,45 +187,5 @@
       right: 0;
       float: right;
     }
-
-    // &__left-half {
-    //   box-shadow: none;
-    //   transition: box-shadow .3s ease-in;
-
-    //   &:hover {
-    //     transition: box-shadow .3s ease-in;
-    //     box-shadow: -12px 1px 7px -3px rgba(60, 58, 58, .45098);
-    //   }
-
-    //   &.hovered {
-    //     transition: box-shadow .3s ease-in;
-    //     box-shadow: -23px 0px 12px -9px #0000008c;
-    //   }
-    // }
-
-    // &::after {
-    //   position: absolute;
-    //   content: "";
-    //   z-index: -1;
-    //   bottom: 15px;
-    //   right: 8px;
-    //   top: 80%;
-    //   width: 50%;
-    //   box-shadow: -5px 20px 16px 0px #0b0c0c;
-    //   transform: rotate(10deg);
-    // }
-
-    // &::before {
-    //   content: '';
-    //   position: absolute;
-    //   bottom: 15px;
-    //   z-index: -1;
-    //   left: 8px;
-    //   top: 80%;
-    //   width: 50%;
-    //   background: #111;
-    //   box-shadow: -5px 20px 16px 0px #0b0c0c;
-    //   transform: rotate(-10deg);
-    // }
   }
 </style>

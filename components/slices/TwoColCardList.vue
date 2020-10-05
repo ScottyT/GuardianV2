@@ -39,17 +39,10 @@
 	</div>
 </template>
 <script>
-import { library } from "@fortawesome/fontawesome-svg-core"
-import { faPlus, faCircle } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon, FontAwesomeLayers } from "@fortawesome/vue-fontawesome"
-library.add(faPlus, faCircle)
+import '@fortawesome/fontawesome-svg-core/styles.css'
 export default {
 	name: "TwoColCards",
 	props: ["slice"],
-	components: {
-		FontAwesomeIcon,
-		FontAwesomeLayers,
-	},
 	data() {
 		return {
 			isActive: "",
@@ -100,6 +93,7 @@ export default {
 	margin: auto;
 	&__two-col {
 		display: grid;
+		padding: 0 30px;
 		@include respond(mobileLarge) {
 			grid-template-columns: 50% 50%;
 		}

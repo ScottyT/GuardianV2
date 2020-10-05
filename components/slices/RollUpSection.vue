@@ -2,11 +2,16 @@
   <div class="services-featured" :style="`background-image:url(${slice.primary.bg_image.url}`">
     <div :class="`services-featured__col services-featured__col--${i}`" :data-col="i" v-for="(column, i) in slice.items"
       :key="i">
+      <span style="text-align:center;" v-if="$vuetify.breakpoint.width < 768">
+        <div class="services-featured__heading" >{{$prismic.asText(column.col_title)}}</div>
+        <div class="services-featured__subheading">{{$prismic.asText(column.col_subtitle)}}</div>
+      </span>
+      
       <div class="target">
-      <span :class="`services-featured__col-bg`"><span class="sr-only">Bg</span></span>
-      <div class="services-featured__heading">{{$prismic.asText(column.col_title)}}</div>
-      <div class="services-featured__subheading">{{$prismic.asText(column.col_subtitle)}}</div>
-      <p class="services-featured__text">{{$prismic.asText(column.col_text)}}</p>
+        <span :class="`services-featured__col-bg`"><span class="sr-only">Bg</span></span>
+        <div class="services-featured__heading" v-if="$vuetify.breakpoint.width > 768">{{$prismic.asText(column.col_title)}}</div>
+        <div class="services-featured__subheading" v-if="$vuetify.breakpoint.width > 768">{{$prismic.asText(column.col_subtitle)}}</div>
+        <p class="services-featured__text">{{$prismic.asText(column.col_text)}}</p>
       </div>
     </div>
   </div>
@@ -54,7 +59,8 @@
       }
       var servicesBox = document.querySelector('.services-featured');
       let currentElm = null;
-      servicesBox.onmouseover = function (event) {
+      if (window.innerWidth > 768) {
+        servicesBox.onmouseover = function (event) {
         if (currentElm) return;
 
         let target = event.target.closest('div.services-featured__col');
@@ -70,14 +76,11 @@
           if (relatedTarget == currentElm) return;
           relatedTarget = relatedTarget.parentNode;
         }
-        hoverAnimOff(currentElm.classList[1])
-        currentElm = null;
-      };
-      var serviceCols = document.querySelectorAll('.services-featured__col');
-      // serviceCols.forEach((el) => {
-      //   console.log(el)
-      //   el.addEventListener("mouseover", hoverAnim, false)
-      // })
+          hoverAnimOff(currentElm.classList[1])
+          currentElm = null;
+        };
+      }
+    
     }
   }
 </script>
@@ -97,7 +100,7 @@
   }
 }
   .services-featured {
-    height: 648px;
+    height:604px;
     width: 100%;
     max-width: 1600px;
     margin: 0 auto 50px;
@@ -106,8 +109,16 @@
     // display:grid;
     // grid-template-columns: repeat(4, 1fr);
     overflow: hidden;
-    display: flex;
-    justify-content: space-around;
+    display:block;
+    justify-content:space-between;
+    flex-direction:column;
+
+    @include respond(mobileLarge) {
+      flex-direction:row;
+      display: flex;
+      justify-content: space-around;
+      height: 648px;
+    }
 
     &__heading {
       font-family: $heading-font;
@@ -133,24 +144,60 @@
       z-index: 1;
       font-size: .9em;
 
+      @include respond(mobileLargeMax) {
+        //display: none;
+      }
+
       @include respond(desktopSmall) {
         font-size: 1em;
       }
     }
 
     &__col {   
-      width: 24%;
       position: relative;
-      height:105%;
+
+      & > span {
+        z-index:1;
+        position:relative;
+        display:block;
+      }
+      
+      @include respond(mobileLargeMax) {
+        &:hover {
+          .target {
+            height:200px;
+            transition:all .3s ease-in;
+          }
+          .services-featured__text {
+            display:block;
+          }
+          .services-featured__col-bg {
+            opacity:.8;
+          }
+          
+        }
+      }
+
+      @include respond(mobileLarge) {
+        width:24%;
+        height:105%;
+      }
       
       .target {
-        transform: translateY(542px);
+        overflow:hidden;
         border-left: 11px solid $primary-dark;
-        height:100%;
+        height:0;
         padding:10px;
         display: flex;
-      flex-direction: column;
-      align-items: center;
+        flex-direction: column;
+        align-items: center;
+        transition:all .3s ease-in;
+
+        @include respond(mobileLarge) {
+          height:100%;
+          overflow:unset;
+          transform: translateY(542px);
+        }
       }
     }
 
@@ -163,6 +210,14 @@
       left: 0;
       opacity: 0;
       background-color: rgba($color-grey, 1);
+      transition:opacity .3s ease-in;
+
+      @include respond(mobileLargeMax) {
+        z-index:0;
+        right:0;
+        left:unset;
+        width:98%;
+      }
     }
   }
 </style>

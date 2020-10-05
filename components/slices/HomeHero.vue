@@ -70,7 +70,7 @@ export default {
 	}
 
 	&__wrapper {
-		@include absCentered(43%, 50%);
+		@include absCentered(60%, 50%);
 
 		@include respond(mobileSmall) {
 			max-width: 800px;
@@ -78,6 +78,7 @@ export default {
 		@include respond(mobileLarge) {
 			max-width: 1000px;
 			width: 100%;
+			@include absCentered(43%, 50%);
 		}
 
 		&--heading {

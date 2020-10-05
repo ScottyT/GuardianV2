@@ -189,9 +189,13 @@ export default {
 			}
 		}
 	&__image {
-		width: 50%;
+		width:100%;
 		position: relative;
 		margin:auto;
+
+		@include respond(mobileSmallPort) {
+			width: 50%;
+		}
 
 		&--right {
 			max-width: 690px;

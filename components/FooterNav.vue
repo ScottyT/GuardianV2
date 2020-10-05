@@ -7,25 +7,29 @@
       </li>
     </ul>
 		<div class="footer-wrapper__bottom">
-			<img src="https://images.prismic.io/guardianrestoration/63a35591-7f6b-4f3e-9600-bdb13206e5e9_Guardian+Logo+text+black+transp.png?auto=compress,format" class="footer-wrapper__bottom--logo" />
+			<lazy-image source="https://images.prismic.io/guardianrestoration/63a35591-7f6b-4f3e-9600-bdb13206e5e9_Guardian+Logo+text+black+transp.png?auto=compress,format&h=100" imageClass="footer-wrapper__bottom--logo" />
 			<div class="footer-wrapper__social-icons">
-				<div v-for="n in 2" :key="n">
-					<p>Icon</p>
-				</div>
+				<a href="#">
+					<font-awesome-icon :icon="['fab', 'facebook-square']" size="2x" class="footer-wrapper__social-icon" />
+				</a>
+				<a href="#">
+					<font-awesome-icon :icon="['fab', 'linkedin']" size="2x" class="footer-wrapper__social-icon" />
+				</a>
 			</div>
 		</div>
   </div>
 </template>
 <script>
+import '@fortawesome/fontawesome-svg-core/styles.css'
   export default {
-    name: "FooterNav",
+		name: "FooterNav",
   }
 </script>
 <style lang="scss">
   .footer-wrapper {
     background-image: url('https://images.prismic.io/guardianrestoration/1810cd43-a5b6-4590-88c6-ff6e05bb5392_Footer+BG+image.png?auto=compress,format');
     background-size: cover;
-    padding: 3.7rem 0 2rem 0;
+    padding: 3.7rem 20px 2rem;
 		height: 420px;
 		position:relative;
 		display:grid;
@@ -37,11 +41,9 @@
       width: 100%;
       padding-left: 0 !important;
       max-width: 1200px;
-      margin: auto;
-
-      @include respond(mobileLarge) {
-        display: flex;
-      }
+			margin: 0 auto;
+			display: flex;
+			flex-wrap:wrap;
 		}
 		
 		&__social-icons {
@@ -58,7 +60,7 @@
     }
 
     &__menu-item {
-      padding: 0 4px;
+      padding: 10px 4px;
       line-height: 20px;
 
       a {
@@ -87,10 +89,13 @@
 			justify-content:space-between;
 			width:100%;
 			&--logo {
-				object-fit:contain;
-				height:50px;
-				width:200px;
+				//height:100px;		
 			}
+		}
+
+		&__social-icon {
+			color:#505050;
+			margin:0 20px;
 		}
   }
 

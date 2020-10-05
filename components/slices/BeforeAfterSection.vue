@@ -54,9 +54,12 @@ export default {
     height:100%;
 
     &--before {
-      width:50%;
+      width:100%;
       margin-left:-50px;
       z-index:1;
+      @include respond(mobileSmallPort) {
+        width:50%;
+      }
     }
 
     img {
