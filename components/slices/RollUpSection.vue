@@ -191,7 +191,10 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        transition:all .3s ease-in;
+        
+        @include respond(moibleLargeMax) {
+          transition:all .3s ease-in;
+        }
 
         @include respond(mobileLarge) {
           height:100%;
