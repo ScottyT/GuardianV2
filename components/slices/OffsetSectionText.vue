@@ -157,37 +157,7 @@ export default {
 			}
 		}
 	}
-	&__call-button {
-			padding:7px 15px 7px 55px;
-			border:2px solid $primary;
-			font-weight:700;
-			font-size:1.2em;
-			font-family:$heading-font;
-			letter-spacing:3px;
-			position:relative;
-			&::after {
-				content:'';
-				position:absolute;
-				background:url('https://images.prismic.io/guardianrestoration/9e332084-cc94-4611-abac-010984e892f4_CALL+NOW+button+3+waves.png?auto=compress,format');
-				background-size:contain;
-				background-repeat:no-repeat;
-				width:100%;
-				height:100%;
-				right:-187px;
-				top:0;
-			}
-			&::before {
-				content:'';
-				position:absolute;
-				background:url('https://images.prismic.io/guardianrestoration/d6565558-4e9f-431a-ac43-519d90904eae_Phone+for+Call+Now+button+Guardian.png?auto=compress,format');
-				background-size:contain;
-				background-repeat:no-repeat;
-				width:36px;
-				height:36px;
-				left:11px;
-				top:5px;
-			}
-		}
+	
 	&__image {
 		width:100%;
 		position: relative;

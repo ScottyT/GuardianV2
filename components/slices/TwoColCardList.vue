@@ -1,5 +1,6 @@
 <template>
 	<div class="card-list__two-col card-list">
+		
 		<div class="card-list__two-col--col">
 			<div class="card-item" v-for="(card, i) in oddCards" :key="i" @click="$set(card, 'selected', !card.selected)" :class="{ 'card-item--active': card.selected }">
 				<v-card class="card-item__card" elevation="10" light>
@@ -36,6 +37,7 @@
 				</v-card>
 			</div>
 		</div>
+				
 	</div>
 </template>
 <script>
@@ -92,22 +94,30 @@ export default {
 	max-width: 150rem;
 	margin: auto;
 	&__two-col {
-		display: grid;
-		padding: 0 30px;
+		padding: 0 2vw;
+		position:relative;
+		z-index:2;
 		@include respond(mobileLarge) {
+			padding:0 30px;
+			display: grid;
 			grid-template-columns: 50% 50%;
 		}
 	}
+
+	
 }
 .card-item {
 	padding: 12px;
 	cursor: pointer;
 	&__background {
-		height: 300px;
+		height: 225px;
 		padding: 0 2rem;
 		display: flex;
 		align-items: flex-end;
 		z-index: 3 !important;
+		@include respond(mobileLarge) {
+			height: 300px;
+		}
 	}
 	&__big-description {
 		opacity: 0;
@@ -121,6 +131,10 @@ export default {
 			transform: translateY(0);
 			background-color: transparent;
 			margin-bottom: 0;
+		}
+		font-size:.9em;
+		@include respond(tabletLarge) {
+			font-size:1em;
 		}
 	}
 	&__icon {
@@ -158,7 +172,7 @@ export default {
 		}
 		.card-item__big-description {
 			display: flex;
-			height: 187px;
+			height: 210px;
 			opacity: 1;
 			-webkit-transform: translateY(0);
 			transform: translateY(0);

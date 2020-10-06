@@ -5,13 +5,20 @@
 				<home-hero :slice="slice" />
 			</template>
 		</section>
-		<div class="slices-wrapper__body-wrapper">
-			<section v-for="(slice, index) in slices" :key="index" class="section">			
+		<div :class="`slices-wrapper__body-wrapper slices-wrapper__body-wrapper--${this.$route.name == 'uid' ? 'page' : 'home'}`">
+			<section v-for="(slice, index) in slices" :key="index" class="section" :class="{
+				'section__services-cards': slice.slice_type === 'twocolcardlist'
+			}">
 				<template v-if="slice.slice_type === 'pagehero'">
 					<page-hero :slice="slice" />
 				</template>
 				<template v-else-if="slice.slice_type === 'twocolcardlist'">
 					<two-col-cards :slice="slice" />
+					<div class="paint-roller" v-if="$vuetify.breakpoint.width > 768">
+						<img src="https://images.prismic.io/guardianrestoration/b04b10b4-c826-4b47-be23-f5fcf8cdb64c_Paint+Roller+for+Our+Services.png?auto=compress,format" />
+					</div>
+					<lazy-image source="https://images.prismic.io/guardianrestoration/96c6ffbf-d737-4fcf-bba9-b71cf728d9d3_Roof+Image+Our+Services+Guardian.png?auto=compress,format" imageClass="section__roof-image" v-if="$vuetify.breakpoint.width < 768" />
+					<a role="button" class="button button--red button--expand">More</a>
 				</template>
 				<template v-else-if="slice.slice_type === 'offsetsectiontext'">
 					<offset-section-text :slice="slice" />
@@ -137,6 +144,53 @@ h2 {
 ul {
 	list-style: none;
 }
+.button {
+	&__call-button {
+			padding:7px 15px 7px 55px;
+			border:2px solid $primary;
+			font-weight:700;
+			font-size:.9em;
+			font-family:$heading-font;
+			letter-spacing:3px;
+			position:relative;
+			@include respond(mobileLarge) {
+				font-size:1.2em;
+			}
+			&::after {
+				content:'';
+				position:absolute;
+				background:url('https://images.prismic.io/guardianrestoration/9e332084-cc94-4611-abac-010984e892f4_CALL+NOW+button+3+waves.png?auto=compress,format');
+				background-size:contain;
+				background-repeat:no-repeat;
+				width:100%;
+				height:100%;
+				right:-187px;
+				top:0;
+				@include respond(mobileLargeMax) {
+					right:-159px;
+				}
+			}
+			&::before {
+				content:'';
+				position:absolute;
+				background:url('https://images.prismic.io/guardianrestoration/d6565558-4e9f-431a-ac43-519d90904eae_Phone+for+Call+Now+button+Guardian.png?auto=compress,format');
+				background-size:contain;
+				background-repeat:no-repeat;
+				width:36px;
+				height:36px;
+				left:11px;
+				top:5px;
+				@include respond(mobileLargeMax) {
+					height:25px;
+				}
+			}
+		}
+}
+p {
+	@include respond(mobileLargeMax) {
+		font-size:.9em;
+	}
+}
 a {
 	&.button {
 		display:inline-block;
@@ -154,6 +208,17 @@ a {
 				box-shadow:inset 0 0 0 4px $color-black;
 				transition:box-shadow .3s ease-in;
 			}
+		}
+
+		&--expand {
+			position:absolute;
+			bottom:40px;
+			transform:translateX(-50%);
+			left:50%;
+			text-align:center;
+			text-transform:uppercase;
+			max-width:150px;
+			z-index:3;
 		}
 		&--services {
 			color:$color-white;
@@ -179,20 +244,62 @@ img {
 	position:relative;
 
 	&__body-wrapper {
-		background-image:url('https://images.prismic.io/guardianrestoration/9d94a63c-fe7f-461b-bc1f-c5b446dccd79_Triangles+BG+for+Guardian+home.png?auto=compress,format');
-		background-repeat:repeat;
-		padding-top:30px;
-		background-size:contain;
+		&--home {
+			background-image:url('https://images.prismic.io/guardianrestoration/9d94a63c-fe7f-461b-bc1f-c5b446dccd79_Triangles+BG+for+Guardian+home.png?auto=compress,format');
+			background-repeat:repeat;
+			padding-top:30px;
+			background-size:contain;
 
-		@include respond(mobileLarge) {
-			background-position-y:-305px;
-			background-size:cover;
+			@include respond(mobileLarge) {
+				background-position-y:-305px;
+				background-size:cover;
+			}
 		}
 	}
 }
 .section {
 	position: relative;
 	height: auto;
+
+	&__roof-image {
+		@include respond(mobileLargeMax) {
+			height:276px;
+		}
+	}
+
+	&__services-cards {
+		background-image:url('https://images.prismic.io/guardianrestoration/69818d1d-e79a-496e-9a54-8ca3de0c10cc_Concrete+Wall+for+Our+Services+Guardian+3.3+MB.jpg?auto=compress,format');
+		background-size:cover;
+		position: relative;
+
+		@include respond(mobileLarge) {
+			height:1713px;
+		}
+
+		@include respond(mobileLarge) {
+			&:after {
+				content:'';
+				position:absolute;
+				bottom:0;
+				width:100%;
+				height:636px;
+				background-image:url('https://images.prismic.io/guardianrestoration/96c6ffbf-d737-4fcf-bba9-b71cf728d9d3_Roof+Image+Our+Services+Guardian.png?auto=compress,format');
+			}
+		}
+		
+
+		.paint-roller {
+			height:388px;
+			position:absolute;
+			bottom:653px;
+			@include respond(mobileLargeMax) {
+				display:none;
+			}
+			img {
+				object-position: right center;
+			}
+		}
+	}
 }
 .form {
 	&__input {

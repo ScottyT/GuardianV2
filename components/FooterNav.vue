@@ -9,7 +9,7 @@
 		<div class="footer-wrapper__bottom">
 			<lazy-image source="https://images.prismic.io/guardianrestoration/63a35591-7f6b-4f3e-9600-bdb13206e5e9_Guardian+Logo+text+black+transp.png?auto=compress,format&h=100" imageClass="footer-wrapper__bottom--logo" />
 			<div class="footer-wrapper__social-icons">
-				<a href="#">
+				<a href="https://www.facebook.com/Guardian-Restoration-106414297902537/?view_public_for=106414297902537" target="_blank">
 					<font-awesome-icon :icon="['fab', 'facebook-square']" size="2x" class="footer-wrapper__social-icon" />
 				</a>
 				<a href="#">
