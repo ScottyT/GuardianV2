@@ -6,6 +6,7 @@ export default {
         css.replace(/[\r\n|\r|\n]/g, "") :
         css;
     },
+    disable: true,
     themes: {
       light: {
         primary: {

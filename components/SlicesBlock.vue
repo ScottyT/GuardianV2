@@ -12,13 +12,13 @@
 				<template v-if="slice.slice_type === 'pagehero'">
 					<page-hero :slice="slice" />
 				</template>
-				<template v-else-if="slice.slice_type === 'twocolcardlist'">
+				<template v-else-if="slice.slice_type === 'twocolcardlist' && slice.primary.label === 'services'">
 					<two-col-cards :slice="slice" />
 					<div class="paint-roller" v-if="$vuetify.breakpoint.width > 768">
 						<img src="https://images.prismic.io/guardianrestoration/b04b10b4-c826-4b47-be23-f5fcf8cdb64c_Paint+Roller+for+Our+Services.png?auto=compress,format" />
 					</div>
 					<lazy-image source="https://images.prismic.io/guardianrestoration/96c6ffbf-d737-4fcf-bba9-b71cf728d9d3_Roof+Image+Our+Services+Guardian.png?auto=compress,format" imageClass="section__roof-image" v-if="$vuetify.breakpoint.width < 768" />
-					<a role="button" class="button button--red button--expand">More</a>
+					
 				</template>
 				<template v-else-if="slice.slice_type === 'offsetsectiontext'">
 					<offset-section-text :slice="slice" />
@@ -34,6 +34,9 @@
 				</template>
 				<template v-else-if="slice.slice_type === 'fullwidthimage'">
 					<full-width-image :slice="slice" />
+				</template>
+				<template v-else-if="slice.slice_type === 'singleimage'">
+					<single-image :slice="slice" />
 				</template>
 			</section>
 		</div>
@@ -212,13 +215,16 @@ a {
 
 		&--expand {
 			position:absolute;
-			bottom:40px;
+			top:-47px;
 			transform:translateX(-50%);
 			left:50%;
 			text-align:center;
 			text-transform:uppercase;
 			max-width:150px;
 			z-index:3;
+			@include respond(mobileLarge) {
+				top:-67px;
+			}
 		}
 		&--services {
 			color:$color-white;
@@ -271,9 +277,12 @@ img {
 		background-image:url('https://images.prismic.io/guardianrestoration/69818d1d-e79a-496e-9a54-8ca3de0c10cc_Concrete+Wall+for+Our+Services+Guardian+3.3+MB.jpg?auto=compress,format');
 		background-size:cover;
 		position: relative;
+		z-index:2;
+		box-shadow:0px 40px 12px 0px rgba(6, 6, 6, .52);
 
 		@include respond(mobileLarge) {
 			height:1713px;
+			box-shadow:0px 60px 12px 0px rgba(6, 6, 6, .52);
 		}
 
 		@include respond(mobileLarge) {

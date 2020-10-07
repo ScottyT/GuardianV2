@@ -3,14 +3,16 @@
     <div :class="`services-featured__col services-featured__col--${i}`" :data-col="i" v-for="(column, i) in slice.items"
       :key="i">
       <span style="text-align:center;" v-if="$vuetify.breakpoint.width < 768">
-        <div class="services-featured__heading" >{{$prismic.asText(column.col_title)}}</div>
+        <div class="services-featured__heading">{{$prismic.asText(column.col_title)}}</div>
         <div class="services-featured__subheading">{{$prismic.asText(column.col_subtitle)}}</div>
       </span>
-      
-      <div class="target">
+
+      <div :class="`${isMobile ? 'target--mobile' : 'target'}`">
         <span :class="`services-featured__col-bg`"><span class="sr-only">Bg</span></span>
-        <div class="services-featured__heading" v-if="$vuetify.breakpoint.width > 768">{{$prismic.asText(column.col_title)}}</div>
-        <div class="services-featured__subheading" v-if="$vuetify.breakpoint.width > 768">{{$prismic.asText(column.col_subtitle)}}</div>
+        <div class="services-featured__heading" v-if="$vuetify.breakpoint.width > 768">
+          {{$prismic.asText(column.col_title)}}</div>
+        <div class="services-featured__subheading" v-if="$vuetify.breakpoint.width > 768">
+          {{$prismic.asText(column.col_subtitle)}}</div>
         <p class="services-featured__text">{{$prismic.asText(column.col_text)}}</p>
       </div>
     </div>
@@ -19,22 +21,37 @@
 <script>
   import anime from 'animejs';
   import $debounce from 'lodash.debounce';
+  import debounce from 'lodash.debounce';
   export default {
     name: "RollUpSection",
     props: ['slice'],
+    data: () => ({
+      isMobile: false
+    }),
+    beforeDestroy() {
+      if (typeof window === 'undefined') return
+      window.removeEventListener('resize', this.onResize, {
+        passive: true
+      })
+    },
     mounted() {
+      this.onResize()
+      window.addEventListener('resize', this.onResize, {
+        passive: true
+      })
+
       function hoverAnimOn(target) {
         var tl = anime.timeline({
           targets: `.${target} .target`,
           translateY: [542, 0],
           easing: 'easeOutElastic(1, 1)',
           duration: 1000,
-          begin: function(anim) {
+          begin: function (anim) {
             document.querySelector(`.${target} .services-featured__heading`).classList.add('glow')
             document.querySelector(`.${target} .services-featured__subheading`).classList.add('glow')
             document.querySelector(`.${target} .services-featured__text`).classList.add('glow')
           },
-          complete: function(anim) {
+          complete: function (anim) {
             document.querySelector(`.${target} .services-featured__heading`).classList.remove('glow')
             document.querySelector(`.${target} .services-featured__subheading`).classList.remove('glow')
             document.querySelector(`.${target} .services-featured__text`).classList.remove('glow')
@@ -45,6 +62,7 @@
           opacity: .9
         })
       }
+
       function hoverAnimOff(target) {
         var tl = anime.timeline({
           targets: `.${target} .target`,
@@ -54,13 +72,13 @@
         })
         tl.add({
           targets: `.${target} .services-featured__col-bg`,
-          opacity:0
+          opacity: 0
         })
       }
       var servicesBox = document.querySelector('.services-featured');
       let currentElm = null;
-      if (window.innerWidth > 768) {
-        servicesBox.onmouseover = function (event) {
+
+      servicesBox.onmouseover = function (event) {
         if (currentElm) return;
 
         let target = event.target.closest('div.services-featured__col');
@@ -76,31 +94,38 @@
           if (relatedTarget == currentElm) return;
           relatedTarget = relatedTarget.parentNode;
         }
-          hoverAnimOff(currentElm.classList[1])
-          currentElm = null;
-        };
-      }
-    
+        hoverAnimOff(currentElm.classList[1])
+        currentElm = null;
+      };
+
+    },
+    methods: {
+      onResize: $debounce(function () {
+        this.isMobile = window.innerWidth < 768
+      }, 50)
     }
   }
 </script>
 <style lang="scss">
-.glow {
-  color:$color-white;
-  -webkit-animation: glow .5s ease-in-out 2 alternate;
-  -moz-animation: glow .5s ease-in-out 2 alternate;
-  animation: glow .5s ease-in-out 2 alternate;
-}
-@-webkit-keyframes glow {
-  from {
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0);
+  .glow {
+    color: $color-white;
+    -webkit-animation: glow .5s ease-in-out 2 alternate;
+    -moz-animation: glow .5s ease-in-out 2 alternate;
+    animation: glow .5s ease-in-out 2 alternate;
   }
-  to {
-    text-shadow: 0 0 10px #d4cdcd, 0 0 20px #ffffff, 0 0 30px #ffffff, 0 0 40px #000000, 0 0 20px #ffffff, 0 0 60px #9554b300, -1px 11px 70px #e6e2e8;
+
+  @-webkit-keyframes glow {
+    from {
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0);
+    }
+
+    to {
+      text-shadow: 0 0 10px #d4cdcd, 0 0 20px #ffffff, 0 0 30px #ffffff, 0 0 40px #000000, 0 0 20px #ffffff, 0 0 60px #9554b300, -1px 11px 70px #e6e2e8;
+    }
   }
-}
+
   .services-featured {
-    height:604px;
+    height: 604px;
     width: 100%;
     max-width: 1600px;
     margin: 0 auto 50px;
@@ -109,12 +134,12 @@
     // display:grid;
     // grid-template-columns: repeat(4, 1fr);
     overflow: hidden;
-    display:block;
-    justify-content:space-between;
-    flex-direction:column;
+    display: block;
+    justify-content: space-between;
+    flex-direction: column;
 
     @include respond(mobileLarge) {
-      flex-direction:row;
+      flex-direction: row;
       display: flex;
       justify-content: space-around;
       height: 648px;
@@ -153,52 +178,61 @@
       }
     }
 
-    &__col {   
+    &__col {
       position: relative;
 
-      & > span {
-        z-index:1;
-        position:relative;
-        display:block;
+      &>span {
+        z-index: 1;
+        position: relative;
+        display: block;
       }
-      
+
       @include respond(mobileLargeMax) {
         &:hover {
-          .target {
-            height:200px;
-            transition:all .3s ease-in;
+          .target--mobile {
+            height: 200px;
+            transition: all .3s ease-in;
           }
+
           .services-featured__text {
-            display:block;
+            display: block;
           }
+
           .services-featured__col-bg {
-            opacity:.8;
+            opacity: .8;
           }
-          
+
         }
       }
 
       @include respond(mobileLarge) {
-        width:24%;
-        height:105%;
+        width: 24%;
+        height: 105%;
       }
-      
+
       .target {
-        overflow:hidden;
+        overflow: hidden;
         border-left: 11px solid $primary-dark;
-        height:0;
-        padding:10px;
+        height: 0;
+        padding: 10px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        
-        @include respond(moibleLargeMax) {
-          transition:all .3s ease-in;
+
+        &--mobile {
+          transition: all .3s ease-in;
+          overflow: hidden;
+          border-left: 11px solid $primary-dark;
+          height: 0;
+          padding: 10px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
 
         @include respond(mobileLarge) {
-          height:100%;
-          overflow:unset;
+          height: 100%;
+          overflow: unset;
           transform: translateY(542px);
         }
       }
@@ -213,13 +247,13 @@
       left: 0;
       opacity: 0;
       background-color: rgba($color-grey, 1);
-      transition:opacity .3s ease-in;
 
       @include respond(mobileLargeMax) {
-        z-index:0;
-        right:0;
-        left:unset;
-        width:98%;
+        z-index: 0;
+        right: 0;
+        left: unset;
+        width: 98%;
+        //transition: opacity .3s ease-in;
       }
     }
   }

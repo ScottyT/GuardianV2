@@ -8,7 +8,7 @@
 						<font-awesome-icon class="card-item__icon--background" :icon="['fas', 'circle']" />
 						<font-awesome-icon class="card-item__icon--plus" :icon="['fas', 'plus']" transform="shrink-6" />
 					</font-awesome-layers>
-					<v-img class="card-item__background" dark :src="card.card_bg.url" :alt="card.card_bg.alt" gradient="120deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.6) 45%, rgba(0,0,0,0.4) 60%,  rgba(0,0,0,0) 100%">
+					<v-img class="card-item__background" dark :src="card.card_bg.url" :alt="card.card_bg.alt">
 						<h2 class="card-item__title">{{ $prismic.asText(card.card_title) }}</h2>
 						<p class="card-item__text">{{ $prismic.asText(card.card_text) }}</p>
 					</v-img>
@@ -27,7 +27,7 @@
 						<font-awesome-icon class="card-item__icon--background" :icon="['fas', 'circle']" />
 						<font-awesome-icon class="card-item__icon--plus" :icon="['fas', 'plus']" transform="shrink-6" />
 					</font-awesome-layers>
-					<v-img class="card-item__background" dark :src="card.card_bg.url" :alt="card.card_bg.alt" gradient="120deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.6) 45%, rgba(0,0,0,0.4) 60%,  rgba(0,0,0,0) 100%">
+					<v-img class="card-item__background" dark :src="card.card_bg.url" :alt="card.card_bg.alt">
 						<h2 class="card-item__title">{{ $prismic.asText(card.card_title) }}</h2>
 						<prismic-rich-text :field="card.card_text" />
 					</v-img>
