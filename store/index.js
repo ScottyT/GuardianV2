@@ -1,3 +1,14 @@
+import {
+  auth
+} from '@/plugins/firebase';
+import {
+  fireDb
+} from '@/plugins/firebase';
+import {
+  persistance
+} from '@/plugins/firebase';
+import Cookie from 'js-cookie';
+
 export const state = () => ({
   header: {},
   footer: {},
