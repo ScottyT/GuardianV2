@@ -61,7 +61,8 @@ export default {
    ** https://nuxtjs.org/guide/plugins
    */
   plugins: [
-    '~/plugins/font-awesome.js'
+    '~/plugins/font-awesome.js',
+    '~/plugins/firebase.js'
   ],
   /*
    ** Auto import components
