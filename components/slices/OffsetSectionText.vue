@@ -3,7 +3,7 @@
 		<div class="offset-section-text__row" v-for="(section, i) in slice.items" :key="i">
 			<div :class="`offset-section-text__content offset-section-text__content--${(i + 1) % 2 === 0 ? 'left' : 'right'}`">
 				<prismic-rich-text class="block-heading" :htmlSerializer="heading" :field="section.sectionheading" v-if="section.sectionheading.length > 0" />
-				<prismic-rich-text :field="section.sectiontext" />
+				<prismic-rich-text :htmlSerializer="mainText" :field="section.sectiontext" />
 			</div>
 			
 				<lazy-image :source="section.sectionimage.url" :alt="section.sectionimage.alt" :class="`offset-section-text__image offset-section-text__image--${(i + 1) % 2 === 0 ? 'left' : 'right'}`" />
@@ -13,10 +13,21 @@
 </template>
 <script>
 import prismicDOM from "prismic-dom";
+import linkResolver from '~/plugins/link-resolver.js';
 const Elements = prismicDOM.RichText.Elements;
 
 const mainText = function(type, element, content, children) {
+	if (type === Elements.hyperlink) {
+		let result = '';
+    const url = prismicDOM.Link.url(element.data, linkResolver);
 
+    if (element.data.link_type === 'Document') {
+      result = `<router-link to="${url}">${content}</router-link>`;
+    } else {
+			const target = element.data.target ? `target="'${element.data.target}'" rel="noopener"` : '';
+      result = `<a class="${element.label}" href="${url}" ${target}>${content}</a>`;
+    }
+	}
 }
 
 const heading = function (type, element, content, children) {
@@ -26,6 +37,7 @@ const heading = function (type, element, content, children) {
 		result = `<div class="${wrapperClassList.join(' ')}">${result}</div>`
 		return result
 	}
+	
 	switch (type) {
 		case Elements.paragraph:
 			return `<p class="offset-section-text__content--subheading">${children.join("")}</p>`;
@@ -44,6 +56,7 @@ export default {
 	data() {
 		return {
 			heading,
+			mainText
 		};
 	},
 };

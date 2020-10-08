@@ -1,15 +1,12 @@
 <template>
   <div class="services-buttons-wrapper">
-    <div class="services-buttons" v-for="n in 6" :key="n">
+    <div class="services-buttons" v-for="(item, i) in slice.items" :key="i">
       <div class="services-buttons__button">
         <div class="services-buttons__button--icon">
-          <img class="icon icon--centered"
-            src="https://images.prismic.io/guardianrestoration/d1fe609f-2a2a-4c68-900d-0788b310fc3f_Roofing+Centered.png?auto=compress,format" />
-          <img class="icon icon--left-pushed hidden"
-            src="https://images.prismic.io/guardianrestoration/375399f0-e528-4740-85bb-4f27e0b04e77_Roofing+L+Pushed+down.png?auto=compress,format" />
-          <img class="icon icon--right-pushed hidden"
-            src="https://images.prismic.io/guardianrestoration/7741a1d9-58b7-4500-8e22-bf978381bd60_Roofing+R+Pushed+down.png?auto=compress,format" />
-            <a class="button button--services button--red">Explore</a>
+          <img class="icon icon--centered" :src="item.service_icon_center.url"/>
+          <img class="icon icon--left-pushed hidden" :src="item.service_icon_left.url" />
+          <img class="icon icon--right-pushed hidden" :src="item.service_icon_right.url" />
+          <a class="button button--services button--red">Explore</a>
         </div>
         <span data-side="left" class="services-buttons__half services-buttons__left-half"></span>
         <span data-side="right" class="services-buttons__half services-buttons__right-half"></span>

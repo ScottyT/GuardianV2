@@ -93,8 +93,8 @@ export default {
   top:50%;
   transform:translateY(-50%);
   border-radius:50%;
-  border: 5px solid $color-white;
-  background-color: transparent;
+  border: 5px solid $color-black;
+  background-color: rgba(0, 0, 0, .3);
   opacity:0.9;
   pointer-events:auto;
   z-index:2;
@@ -111,7 +111,7 @@ export default {
 
   &:before, &:after {
     content:" ";
-    background:$color-white;
+    background:$color-black;
     display: block;
     width: 7px;
     height: 9999px;

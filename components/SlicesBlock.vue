@@ -195,6 +195,8 @@ p {
 	}
 }
 a {
+	color:inherit;
+	text-decoration:none;
 	&.button {
 		display:inline-block;
 		padding:4px 14px;
