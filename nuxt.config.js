@@ -62,7 +62,13 @@ export default {
    */
   plugins: [
     '~/plugins/font-awesome.js',
-    '~/plugins/firebase.js'
+    '~/plugins/firebase.js',
+    '~/plugins/vee-validate.js',
+    {
+      src: '~/plugins/localStorage.js',
+      ssr: false
+    }
+    
   ],
   /*
    ** Auto import components
@@ -110,7 +116,8 @@ export default {
    ** See https://nuxtjs.org/api/configuration-build/
    */
   build: {
-    extractCSS: true,
+    transpile: ["vee-validate/dist/rules"],
+    extractCSS: false,
     optimization: {
       minimize: true,
       splitChunks: {

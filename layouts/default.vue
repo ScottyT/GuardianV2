@@ -5,10 +5,13 @@
 			<nuxt />
 		</main>
 		<footer-nav />
+		<login-modal />
 	</v-app>
 </template>
 
 <script>
+import { createNamespacedHelpers } from "vuex";
+const { mapActions } = createNamespacedHelpers("auth");
 export default {
 	data() {
 		return {}
@@ -35,6 +38,9 @@ export default {
 	async middleware({ store, $prismic }) {
 		await store.dispatch("fetchMenu", $prismic)
 	},
+	methods: {
+		// ...mapActions(['hideAuthModal'])
+	}
 }
 </script>
 <style lang="scss">
