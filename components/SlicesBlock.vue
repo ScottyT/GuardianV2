@@ -207,7 +207,7 @@ a {
 		color:$primary-dark;
 	}
 	&.button {
-		display:inline-block;
+	//	display:inline-block;
 		padding:4px 14px;
 		max-width:100px;
 		width:100%;

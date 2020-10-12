@@ -10,8 +10,6 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from "vuex";
-const { mapActions } = createNamespacedHelpers("auth");
 export default {
 	data() {
 		return {}

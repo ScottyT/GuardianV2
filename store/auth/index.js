@@ -27,7 +27,7 @@ export const mutations = {
 }
 
 export const actions = {
-  async login({ commit }, account) {
+  async login({ commit, dispatch }, account) {
     try {
       // await auth.setPersistence(persistance.Persistence.LOCAL).then(() => {
       //   return auth.signInWithEmailAndPassword(account.email, account.password).catch((error) => {
@@ -65,6 +65,8 @@ export const actions = {
       //commit('setUser', data)
       await auth.signInWithEmailAndPassword(account.email, account.password).then(() => {
         commit('setUser', data)
+        dispatch('hideAuthModal')
+        commit('setError', null)
       }).catch((error) => {
         commit('setError', error.message)
       })
@@ -72,6 +74,14 @@ export const actions = {
       throw error;
     }
     
+  },
+  async passwordReset({ commit, dispatch }, email) {
+    await auth.sendPasswordResetEmail(email).then(() => {
+      //dispatch('hideAuthModal')
+      commit('setError', null)
+    }).catch((error) => {
+      commit('setError', error.message)
+    })
   },
   showAuthModal({ commit }) {
     commit("updateAuthModalVisibility", { visibility: true });
