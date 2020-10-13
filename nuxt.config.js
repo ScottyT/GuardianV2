@@ -92,6 +92,9 @@ export default {
       baseURL: '/.netlify/functions/'
     }]
   ],
+  router: {
+    middleware: ['redirects'],
+  },
   /*
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module

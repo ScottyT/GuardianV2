@@ -12,7 +12,7 @@
 				<a class="logout-button" @click="signOut" role="button" v-else>Logout</a>				
 			</li>
 			<li class="navigation__menu-item--user" v-if="$store.state.auth.user != null">
-				<span>{{$store.state.auth.user.name}}</span>
+				{{$store.state.auth.user.email}}
 			</li>
 		</ul>
 	</v-app-bar>
@@ -76,9 +76,8 @@ export default {
 		}, 100),
 		async signOut() {
 			await auth.signOut()
-			//await Cookie.remove('user_token');
-			Cookie.remove('vuex');
-			this.$forceUpdate();
+			await Cookie.remove('vuex');
+			//this.$forceUpdate();
 			this.$store.commit('auth/setUser', null)
 		}
 	},

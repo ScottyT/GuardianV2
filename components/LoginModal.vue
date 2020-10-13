@@ -100,7 +100,9 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
           this.email = ''
           this.password = ''
           this.loggingIn = false
-          //this.closeModal()
+          this.closeModal()
+        }).catch((error) => {
+          this.loggingIn = false
         });
       },
       closeModal() {

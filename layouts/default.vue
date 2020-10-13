@@ -1,7 +1,7 @@
 <template>
 	<v-app dark>
 		<app-navigation />
-		<main class="v-content__wrap page">
+		<main class="v-content__wrap page" :class="this.$route.name == undefined ? 'error' : ''">
 			<nuxt />
 		</main>
 		<footer-nav />
@@ -69,5 +69,8 @@ h2 {
 	@include respond(desktopSmall) {
 		font-size: 3em;
 	}
+}
+.error {
+	padding-top:100px;
 }
 </style>

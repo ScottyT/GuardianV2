@@ -78,9 +78,15 @@ export default {
 	},
 	async asyncData({ $prismic, params, error }) {
 		const page = (await $prismic.api.getByUID("page", params.uid)).data
-		return {
-			slices: page.body,
+
+		if (page) {
+			return {
+				slices: page.body,
+			}
+		} else {
+			error({ statusCode: 404, message: 'Page not found' })
 		}
+		
 	},
 	methods: {
 		mouseEnter: function(event) {

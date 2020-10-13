@@ -38,6 +38,9 @@
 				<template v-else-if="slice.slice_type === 'singleimage'">
 					<single-image :slice="slice" />
 				</template>
+				<template v-else-if="slice.slice_type === 'listprojects'">
+					<list-projects :slice="slice" />
+				</template>
 			</section>
 		</div>
 		<div class="slices-wrapper__service-buttons">
