@@ -21,4 +21,8 @@ export default function (doc) {
   if (doc.type === "page") {
     return "/" + doc.uid;
   }
+  if (doc.type === 'user') {
+    return "/user/" + doc.uid;
+  }
+  return '/' + doc.type + '/' + doc.uid
 }

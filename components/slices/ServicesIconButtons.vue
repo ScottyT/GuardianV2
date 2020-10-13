@@ -36,7 +36,6 @@
         if (!target) return;
         if (!button.contains(target)) return;
         currentElm = target
-        console.log(event.clientX)
         if (event.target.dataset.side == "right") {          
           target.querySelector('.icon--left-pushed').classList.add('hidden')
           target.querySelector('.icon--right-pushed').classList.remove('hidden')
@@ -56,7 +55,6 @@
           relatedTarget = relatedTarget.parentNode;
         }
         if (event.target.dataset.side == "right") {
-          console.log("mouse out")
           currentElm.querySelector('.icon--left-pushed').classList.add('hidden')
           currentElm.querySelector('.icon--right-pushed').classList.add('hidden')
           currentElm.querySelector('.icon--centered').classList.remove("hidden")

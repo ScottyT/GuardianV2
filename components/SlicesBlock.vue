@@ -38,6 +38,9 @@
 				<template v-else-if="slice.slice_type === 'singleimage'">
 					<single-image :slice="slice" />
 				</template>
+				<template v-else-if="slice.slice_type === 'listprojects'">
+					<list-projects :slice="slice" />
+				</template>
 			</section>
 		</div>
 		<div class="slices-wrapper__service-buttons">
@@ -144,6 +147,12 @@ h2 {
 		font-size: 3em;
 	}
 }
+h3 {
+	font-size:2.027em;
+}
+h4 {
+	font-size:1.424em;
+}
 ul {
 	list-style: none;
 }
@@ -197,8 +206,11 @@ p {
 a {
 	color:inherit;
 	text-decoration:none;
+	&.color-red {
+		color:$primary-dark;
+	}
 	&.button {
-		display:inline-block;
+	//	display:inline-block;
 		padding:4px 14px;
 		max-width:100px;
 		width:100%;
@@ -315,7 +327,7 @@ img {
 .form {
 	&__input {
 		padding: 6px 12px;
-		border: 1px solid $color-black;
+		
 		&:not(:last-child) {
 			margin-bottom: 5px;
 		}
@@ -323,5 +335,55 @@ img {
 }
 .block-heading {
 	position:relative;
+}
+.modal-backdrop {
+	position:fixed;
+	top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: rgba($color-black, 0.45);
+  z-index: 999;
+  transition: opacity 0.4s ease;
+}
+.form {
+	&__input {
+		padding:2px 9px;
+		display:block;
+		border-bottom:1px solid $primary-dark;
+
+		&--input-group {
+			display:grid;
+			grid-template-columns: auto 1fr;
+			grid-template-rows:1fr 1fr;
+			column-gap:20px;
+		}
+
+		&--error {
+			color:red;
+		}
+	}
+	&__label {
+		font-weight:700;
+
+	}
+}
+
+// transition stuff
+.fadeIn-enter {
+  opacity: 0;
+}
+
+.fadeIn-leave-active {
+  opacity: 0;
+  transition: all 0.4s ease-in;
+}
+
+.fadeIn-enter .modal,
+.fadeIn-leave-active.modal {
+  transform: scale(1.1);
 }
 </style>

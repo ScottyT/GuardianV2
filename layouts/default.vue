@@ -1,10 +1,11 @@
 <template>
 	<v-app dark>
 		<app-navigation />
-		<main class="v-content__wrap page">
+		<main class="v-content__wrap page" :class="this.$route.name == undefined ? 'error' : ''">
 			<nuxt />
 		</main>
 		<footer-nav />
+		<login-modal />
 	</v-app>
 </template>
 
@@ -35,6 +36,9 @@ export default {
 	async middleware({ store, $prismic }) {
 		await store.dispatch("fetchMenu", $prismic)
 	},
+	methods: {
+		// ...mapActions(['hideAuthModal'])
+	}
 }
 </script>
 <style lang="scss">
@@ -65,5 +69,8 @@ h2 {
 	@include respond(desktopSmall) {
 		font-size: 3em;
 	}
+}
+.error {
+	padding-top:100px;
 }
 </style>

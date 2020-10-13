@@ -5,6 +5,7 @@
 			<nuxt />
 		</main>
 		<footer-nav />
+		<login-modal />
 	</v-app>
 </template>
 <script>

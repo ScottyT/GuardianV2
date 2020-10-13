@@ -61,7 +61,14 @@ export default {
    ** https://nuxtjs.org/guide/plugins
    */
   plugins: [
-    '~/plugins/font-awesome.js'
+    '~/plugins/font-awesome.js',
+    '~/plugins/firebase.js',
+    '~/plugins/vee-validate.js',
+    {
+      src: '~/plugins/localStorage.js',
+      ssr: false
+    }
+    
   ],
   /*
    ** Auto import components
@@ -85,6 +92,9 @@ export default {
       baseURL: '/.netlify/functions/'
     }]
   ],
+  router: {
+    middleware: ['redirects'],
+  },
   /*
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module
@@ -109,7 +119,8 @@ export default {
    ** See https://nuxtjs.org/api/configuration-build/
    */
   build: {
-    extractCSS: true,
+    transpile: ["vee-validate/dist/rules"],
+    extractCSS: false,
     optimization: {
       minimize: true,
       splitChunks: {

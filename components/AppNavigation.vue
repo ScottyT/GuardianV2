@@ -7,26 +7,42 @@
 			<li v-for="(menuLink, index) in $store.state.header.menu_links" :key="index" class="navigation__menu-item">
 				<prismic-link :field="menuLink.link">{{ $prismic.asText(menuLink.label) }}</prismic-link>
 			</li>
+			<li class="navigation__menu-item">
+				<a v-if="$store.state.auth.user == null" @click="$store.dispatch('auth/showAuthModal')" role="button">Login</a>
+				<a class="logout-button" @click="signOut" role="button" v-else>Logout</a>				
+			</li>
+			<li class="navigation__menu-item--user" v-if="$store.state.auth.user != null">
+				{{$store.state.auth.user.email}}
+			</li>
 		</ul>
 	</v-app-bar>
 </template>
 <script>
+import Cookie from 'js-cookie'
+import { createNamespacedHelpers } from "vuex";
+const { mapState, mapActions } = createNamespacedHelpers("auth");
 import $debounce from "lodash.debounce"
+import { auth } from '~/plugins/firebase.js';
 export default {
 	name: "AppNavigation",
 	components: {},
+  
 	data() {
 		return {
 			scrolledDown: false,
 			menuContent: [],
 			menuLinks: [],
 			hasClass: false,
+			dialog: false
 		}
 	},
 	mounted() {
 		window.addEventListener("scroll", this.isScrolling)
 	},
 	computed: {
+		...mapState({
+      visibility: (state) => state.authModal.visibility
+    }),
 		navbarHeight() {
 			var viewportWidth = this.$vuetify.breakpoint.width
 
@@ -45,10 +61,25 @@ export default {
 			}
 		},
 	},
+	watch: {
+    visibility(newVal) {
+      newVal ? console.log('true') : console.log('false')
+    }
+  },
 	methods: {
+		...mapActions(['hideAuthModal']),
+		// showModal() {
+		// 	this.$store.dis
+		// },
 		isScrolling: $debounce(function() {
 			this.scrolledDown = window.scrollY > 50 || this.hasClass
 		}, 100),
+		async signOut() {
+			await auth.signOut()
+			await Cookie.remove('vuex');
+			//this.$forceUpdate();
+			this.$store.commit('auth/setUser', null)
+		}
 	},
 	created() {
 		//this.isScrolling()
@@ -162,6 +193,12 @@ export default {
 					}
 				}				
 			}
+		}
+
+		&--user {
+			align-items:center;
+			padding:0 16px;
+			display:flex;
 		}
 	}
 
