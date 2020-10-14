@@ -11,8 +11,8 @@
 				<a v-if="$store.state.auth.user == null" @click="$store.dispatch('auth/showAuthModal')" role="button">Login</a>
 				<a class="logout-button" @click="signOut" role="button" v-else>Logout</a>				
 			</li>
-			<li class="navigation__menu-item--user" v-if="$store.state.auth.user != null">
-				{{$store.state.auth.user.email}}
+			<li class="navigation__menu-item--user">
+				{{$store.state.auth && $store.state.auth.user ? $store.state.auth.user.email : null}}
 			</li>
 		</ul>
 	</v-app-bar>
@@ -41,7 +41,8 @@ export default {
 	},
 	computed: {
 		...mapState({
-      visibility: (state) => state.authModal.visibility
+			visibility: (state) => state.authModal.visibility,
+			user: (state) => state.user
     }),
 		navbarHeight() {
 			var viewportWidth = this.$vuetify.breakpoint.width
@@ -68,17 +69,15 @@ export default {
   },
 	methods: {
 		...mapActions(['hideAuthModal']),
-		// showModal() {
-		// 	this.$store.dis
-		// },
 		isScrolling: $debounce(function() {
 			this.scrolledDown = window.scrollY > 50 || this.hasClass
 		}, 100),
 		async signOut() {
 			await auth.signOut()
 			await Cookie.remove('vuex');
-			//this.$forceUpdate();
+			//this.$router.push('/signedout')
 			this.$store.commit('auth/setUser', null)
+			window.location.reload()
 		}
 	},
 	created() {
