@@ -17,8 +17,7 @@
 					<div class="paint-roller" v-if="$vuetify.breakpoint.width > 768">
 						<img src="https://images.prismic.io/guardianrestoration/b04b10b4-c826-4b47-be23-f5fcf8cdb64c_Paint+Roller+for+Our+Services.png?auto=compress,format" />
 					</div>
-					<lazy-image source="https://images.prismic.io/guardianrestoration/96c6ffbf-d737-4fcf-bba9-b71cf728d9d3_Roof+Image+Our+Services+Guardian.png?auto=compress,format" imageClass="section__roof-image" v-if="$vuetify.breakpoint.width < 768" />
-					
+					<lazy-image source="https://images.prismic.io/guardianrestoration/96c6ffbf-d737-4fcf-bba9-b71cf728d9d3_Roof+Image+Our+Services+Guardian.png?auto=compress,format" imageClass="section__roof-image" v-if="$vuetify.breakpoint.width < 768" />					
 				</template>
 				<template v-else-if="slice.slice_type === 'offsetsectiontext'">
 					<offset-section-text :slice="slice" />
@@ -40,6 +39,9 @@
 				</template>
 				<template v-else-if="slice.slice_type === 'listprojects'">
 					<list-projects :slice="slice" />
+				</template>
+				<template v-else-if="slice.slice_type === 'projectcalendar'">
+					<project-calendar :slice="slice" />
 				</template>
 			</section>
 		</div>
@@ -83,6 +85,9 @@ export default {
 }
 </script>
 <style lang="scss">
+.v-list-item__title {
+	font-size:1em!important;
+}
 html {
 	@include respond(mobileSmall) {
 		font-size: 56.5% !important;

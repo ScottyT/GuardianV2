@@ -82,7 +82,8 @@ export const actions = {
       // });
       commit('setUser', {
         email: account.email,
-        id: userUID
+        id: userUID,
+        role: data.role
       })
       // await auth.signInWithEmailAndPassword(account.email, account.password).then(() => {
       //   commit('setUser', dataObj)

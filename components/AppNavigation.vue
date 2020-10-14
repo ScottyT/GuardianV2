@@ -12,7 +12,7 @@
 				<a class="logout-button" @click="signOut" role="button" v-else>Logout</a>				
 			</li>
 			<li class="navigation__menu-item--user">
-				{{$store.state.auth && $store.state.auth.user ? $store.state.auth.user.email : null}}
+				<a href="/user/projects">{{$store.state.auth && $store.state.auth.user ? $store.state.auth.user.email : null}}</a>
 			</li>
 		</ul>
 	</v-app-bar>
