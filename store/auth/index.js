@@ -116,5 +116,8 @@ export const actions = {
 export const getters = {
   getError: (state) => {
     return state.error
+  },
+  getUser: (state) => {
+    return state.user
   }
 }

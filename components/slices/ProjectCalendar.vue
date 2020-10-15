@@ -130,6 +130,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: "ProjectCalendar",
   props: ['slice'],
@@ -146,9 +147,31 @@ export default {
       selectedElement: null,
       selectedOpen: false,
       events: [],
-      colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
+      //colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange'],//in order of Roofing, Gutters, Siding, Flooring, Drywall, Painting,
+      colors:[
+        {key: 'blue', value:'Roofing'},
+        {key:'indigo', value: 'Gutters'},
+        {key: 'deep-purple', value: 'Siding'},
+        {key: 'cyan', value: 'Flooring'},
+        {key: 'green', value: 'Drywall'},
+        {key: 'orange', value: 'Painting'}
+      ],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
     }),
+    computed: {
+      //...mapGetters(['project/projects']),
+      projects() {
+        var projectsArr = this.$store.state.project.projects
+        for(var x = 0; x < projectsArr.length; x++) {
+          for (var y = 0; y < this.colors.length; y++) {
+            if (projectsArr[x].type == this.colors[y].value) {
+              projectsArr[x].color = this.colors[y].key
+            }
+          }
+        }
+        return projectsArr
+      }
+    },
     mounted () {
       this.$refs.calendar.checkChange()
     },
@@ -193,22 +216,30 @@ export default {
         const min = new Date(`${start.date}T00:00:00`)
         const max = new Date(`${end.date}T23:59:59`)
         const days = (max.getTime() - min.getTime()) / 86400000
-        const eventCount = 10
+        const eventCount = this.$store.state.project.projects ? this.$store.state.project.projects.length : null
 
         for (let i = 0; i < eventCount; i++) {
-          const allDay = this.rnd(0, 3) === 0
-          const firstTimestamp = this.rnd(min.getTime(), max.getTime())
-          const first = new Date(firstTimestamp - (firstTimestamp % 900000))
-          const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
-          const second = new Date(first.getTime() + secondTimestamp)
+          // const allDay = this.rnd(0, 3) === 0
+          // const firstTimestamp = this.rnd(min.getTime(), max.getTime())
+          // const first = new Date(firstTimestamp - (firstTimestamp % 900000))
+          // const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
+          // const second = new Date(first.getTime() + secondTimestamp)
+          const startTimestamp = this.$store.state.project.projects[i].start.seconds
+          const endTimestamp = this.$store.state.project.projects[i].end.seconds
+          const start = new Date(startTimestamp * 1000)
+          const end = new Date(endTimestamp * 1000)
 
           events.push({
-            name: "project-0",
-            start: first,
-            end: second,
-            color: this.colors[this.rnd(0, this.colors.length - 1)],
-            timed: !allDay,
+            name: this.projects[i].name,
+            color: this.projects[i].color,
+            client: this.projects[i].client,
+            type: this.projects[i].type,
+            start: start,
+            end: end,
+            //timed: !allDay,
           })
+
+          
         }
 
         this.events = events

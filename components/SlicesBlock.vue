@@ -269,17 +269,22 @@ img {
 	position:relative;
 
 	&__body-wrapper {
+		background-image:url('https://images.prismic.io/guardianrestoration/9d94a63c-fe7f-461b-bc1f-c5b446dccd79_Triangles+BG+for+Guardian+home.png?auto=compress,format');
+			background-repeat:repeat;
+			
+			background-size:contain;
 		&--home {
 			background-image:url('https://images.prismic.io/guardianrestoration/9d94a63c-fe7f-461b-bc1f-c5b446dccd79_Triangles+BG+for+Guardian+home.png?auto=compress,format');
 			background-repeat:repeat;
 			padding-top:30px;
 			background-size:contain;
 
-			@include respond(mobileLarge) {
+			
+		}
+		@include respond(mobileLarge) {
 				background-position-y:-305px;
 				background-size:cover;
 			}
-		}
 	}
 }
 .section {

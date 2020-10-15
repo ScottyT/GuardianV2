@@ -35,6 +35,7 @@ export default {
 	},
 	async middleware({ store, $prismic }) {
 		await store.dispatch("fetchMenu", $prismic)
+		await store.dispatch("project/fetchProjects", null, { root: true })
 	},
 	methods: {
 		// ...mapActions(['hideAuthModal'])
