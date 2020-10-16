@@ -1,29 +1,27 @@
 <template>
-	<div class="card-list__two-col card-list">
+	<div :class="`card-list__two-col card-list card-list__two-col--${$route.params.uid}`">
 		
 		<div class="card-list__two-col--col">
-			<div class="card-item" v-for="(card, i) in oddCards" :key="i" @click="$set(card, 'selected', !card.selected)" :class="{ 'card-item--active': card.selected }">
+			<div class="card-item" v-for="(card, i) in oddCards" :key="i" @mouseenter="$set(card, 'selected', !card.selected)" :class="{ 'card-item--active': card.selected }">
 				<v-card class="card-item__card" elevation="10" light>
-					<font-awesome-layers class="fa-3x card-item__icon">
+					<font-awesome-layers class="fa-3x card-item__icon" v-if="card.icon">
 						<font-awesome-icon class="card-item__icon--background" :icon="['fas', 'circle']" />
 						<font-awesome-icon class="card-item__icon--plus" :icon="['fas', 'plus']" transform="shrink-6" />
 					</font-awesome-layers>
 					<v-img class="card-item__background" dark :src="card.card_bg.url" :alt="card.card_bg.alt">
 						<h2 class="card-item__title">{{ $prismic.asText(card.card_title) }}</h2>
-						<p class="card-item__text">{{ $prismic.asText(card.card_text) }}</p>
+						<prismic-rich-text :field="card.card_text" class="card-item__text" />
 					</v-img>
 					<div class="card-item__big-description">
-						<div class="card-item__big-description--wrap">
-							<p class="card-item__hidden-text">{{ $prismic.asText(card.card_hidden_text) }}</p>
-						</div>
+						<prismic-rich-text :htmlSerializer="bigDesc" :field="card.card_hidden_text" class="card-item__big-description--wrap" />
 					</div>
 				</v-card>
 			</div>
 		</div>
 		<div class="card-list__two-col--col">
-			<div class="card-item" v-for="(card, i) in evenCards" :key="i" @click="$set(card, 'selected', !card.selected)" :class="{ 'card-item--active': card.selected }">
+			<div class="card-item" v-for="(card, i) in evenCards" :key="i" @mouseenter="$set(card, 'selected', !card.selected)" :class="{ 'card-item--active': card.selected }">
 				<v-card class="card-item__card" elevation="10" light>
-					<font-awesome-layers class="fa-3x card-item__icon">
+					<font-awesome-layers class="fa-3x card-item__icon" v-if="card.icon">
 						<font-awesome-icon class="card-item__icon--background" :icon="['fas', 'circle']" />
 						<font-awesome-icon class="card-item__icon--plus" :icon="['fas', 'plus']" transform="shrink-6" />
 					</font-awesome-layers>
@@ -37,18 +35,57 @@
 				</v-card>
 			</div>
 		</div>
-				
 	</div>
 </template>
 <script>
 import '@fortawesome/fontawesome-svg-core/styles.css'
+import prismicDOM from 'prismic-dom';
+import linkResolver from '~/plugins/link-resolver.js';
+const Elements = prismicDOM.RichText.Elements;
+
+const cardText = function(type, element, content, children) {
+	if (type === Elements.paragraph) {
+		const wrapperClassList = [element.label || '']
+		let result = `<p class="${wrapperClassList.join(' ')}">${content}</p>`;
+		return result
+	}
+	if (type === Elements.hyperlink) {
+		let result = '';
+    const url = prismicDOM.Link.url(element.data, linkResolver);
+
+    if (element.data.link_type === 'Document') {
+      result = `<nuxt-link to="${url}">${content}</nuxt-link>`;
+    } else {
+			const target = element.data.target ? `target="'${element.data.target}'" rel="noopener"` : '';
+      result = `<a class="${element.label}" href="${url}" ${target}>${content}</a>`;
+    }
+	}
+	return null;
+}
+const bigDesc = function(type, element, content, children) {
+	if (type === Elements.hyperlink) {
+		let result = '';
+    const url = prismicDOM.Link.url(element.data, linkResolver);
+
+    if (element.data.link_type === 'Document') {
+			result = `<router-link to="${url}">${content}</router-link>`;
+			
+    } else {
+			const target = element.data.target ? `target="'${element.data.target}'" rel="noopener"` : '';
+			result = `<a class="${element.label}" href="${url}" ${target}>${content}</a>`;
+		}
+	}
+	return null;
+}
 export default {
 	name: "TwoColCards",
 	props: ["slice"],
 	data() {
 		return {
 			isActive: "",
-			selected: undefined,
+			selected: false,
+			cardText,
+			bigDesc
 		}
 	},
 	computed: {
@@ -102,6 +139,12 @@ export default {
 			display: grid;
 			grid-template-columns: 50% 50%;
 		}
+
+		&:nth-of-type(1) {
+			.card-item__text {
+				justify-content:flex-end;
+			}
+		}
 	}
 
 	
@@ -117,6 +160,18 @@ export default {
 		z-index: 3 !important;
 		@include respond(mobileLarge) {
 			height: 300px;
+		}
+	}
+	&__text {
+		display:inline-flex;
+		width:100%;
+		
+		&--transparent-bg {
+			background-color:rgba($color-white, .5);
+			font-size:1.5em;
+			color:$color-black;
+			font-family:$heading-font;
+			padding:5px 20px;
 		}
 	}
 	&__big-description {
@@ -195,6 +250,105 @@ export default {
 				-webkit-transition: all 0.6s cubic-bezier(0.67, 0.01, 0.52, 1.4);
 				transition: all 0.6s cubic-bezier(0.67, 0.01, 0.52, 1.4);
 				animation: none;
+			}
+		}
+	}
+}
+.card-list__two-col--about-us {
+	column-gap:10px;
+	.card-list__two-col--col {
+		&:nth-of-type(1) {
+			.card-item {
+				&:nth-of-type(1) {
+					.card-item__card {
+						background:url('https://images.prismic.io/guardianrestoration/b14f9686-12b9-4c52-8971-0b0b05c7d6d2_Light+Rectangle+BG+for+G+About+Us+top+section.png?auto=compress,format') no-repeat center center!important;
+					}
+				}
+				&:nth-of-type(2) {
+					.card-item__card {
+						background:url('https://images.prismic.io/guardianrestoration/9dd15327-1507-4499-af51-dd230fe5c5b1_Darker+Rectangle+BG+for+G+About+Us+top+section.png?auto=compress,format') no-repeat center center!important;
+					}
+				}
+			}
+		}
+		&:nth-of-type(2) {
+			.card-item {
+				&:nth-of-type(1) {
+					.card-item__card {
+						background:url('https://images.prismic.io/guardianrestoration/9dd15327-1507-4499-af51-dd230fe5c5b1_Darker+Rectangle+BG+for+G+About+Us+top+section.png?auto=compress,format') no-repeat center center!important;
+					}
+				}
+				&:nth-of-type(2) {
+					.card-item__card {
+						background:url('https://images.prismic.io/guardianrestoration/b14f9686-12b9-4c52-8971-0b0b05c7d6d2_Light+Rectangle+BG+for+G+About+Us+top+section.png?auto=compress,format') no-repeat center center!important;
+					}
+				}
+			}
+		}
+	}
+	
+	
+	.card-item {
+		border:5px solid $color-white;
+		&__big-description {
+			background-color:rgb(224 215 213 / 45%);
+			transform:rotate(0deg) scale(1);
+			opacity:0;
+			transition: all .3s ease-out;
+			height:300px;
+			position:absolute;
+			top:0;
+			width:100%;
+			overflow:hidden;
+			color:$color-black;
+
+			&--wrap {
+				transform:translateY(-340px);
+				transition: all .2s ease-in-out;
+				padding:12px 0px 20px 0px;
+				text-align:center;
+
+				p {
+					
+					&:not(:last-child) {
+						padding:20px 25px 5px 25px;
+					}
+				}
+			}
+		}
+
+		&__hidden-text-heading {
+			display:block;
+			width:100%;
+			background:$color-grey;
+			color:$color-white;
+		}
+
+		&__background {
+			opacity:1;
+			transition: all .5s ease-out;
+		}
+
+		// &:hover {
+		// 	.card-item__background {
+		// 		transform:rotate(720deg) scale(0);
+		// 		opacity:0;
+		// 	}
+		// }
+
+		&--active {
+			.card-item__big-description {
+				opacity:1;
+				transform:translateY(0px) rotate(0deg);
+				transition-delay:.4s;
+			}
+			.card-item__background {
+				transform:rotate(720deg) scale(0);
+				opacity:0;
+			}
+			.card-item__big-description--wrap {
+				transform:translateY(0px);
+				transition-delay: .5s;
 			}
 		}
 	}

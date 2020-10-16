@@ -6,18 +6,16 @@
 			</template>
 		</section>
 		<div :class="`slices-wrapper__body-wrapper slices-wrapper__body-wrapper--${this.$route.name == 'uid' ? 'page' : 'home'}`">
-			<section v-for="(slice, index) in slices" :key="index" class="section" :class="{
-				'section__services-cards': slice.slice_type === 'twocolcardlist'
-			}">
+			<section v-for="(slice, index) in slices" :key="index" class="section" :class="slice.slice_type === 'twocolcardlist' ? slice.primary.label : ''">
 				<template v-if="slice.slice_type === 'pagehero'">
 					<page-hero :slice="slice" />
 				</template>
-				<template v-else-if="slice.slice_type === 'twocolcardlist' && slice.primary.label === 'services'">
+				<template v-else-if="slice.slice_type === 'twocolcardlist'">
 					<two-col-cards :slice="slice" />
-					<div class="paint-roller" v-if="$vuetify.breakpoint.width > 768">
+					<div class="paint-roller" v-if="$vuetify.breakpoint.width > 768 && $route.params.uid === 'services'">
 						<img src="https://images.prismic.io/guardianrestoration/b04b10b4-c826-4b47-be23-f5fcf8cdb64c_Paint+Roller+for+Our+Services.png?auto=compress,format" />
 					</div>
-					<lazy-image source="https://images.prismic.io/guardianrestoration/96c6ffbf-d737-4fcf-bba9-b71cf728d9d3_Roof+Image+Our+Services+Guardian.png?auto=compress,format" imageClass="section__roof-image" v-if="$vuetify.breakpoint.width < 768" />					
+					<!-- <lazy-image source="https://images.prismic.io/guardianrestoration/96c6ffbf-d737-4fcf-bba9-b71cf728d9d3_Roof+Image+Our+Services+Guardian.png?auto=compress,format" imageClass="section__roof-image" v-if="$vuetify.breakpoint.width < 768 && $route.params.uid === 'services'" /> -->
 				</template>
 				<template v-else-if="slice.slice_type === 'offsetsectiontext'">
 					<offset-section-text :slice="slice" />
@@ -162,6 +160,19 @@ ul {
 	list-style: none;
 }
 .button {
+	padding: 4px 20px;
+	display:inline-block;
+	&--red {
+			background: rgb(251,132,132);
+			background: linear-gradient(90deg, rgba(251,132,132,1) 0%, rgba(211,83,83,1) 50%);
+			transition:box-shadow .3s ease-in;
+			color:$color-white;
+
+			&:hover {
+				box-shadow:inset 0 0 0 4px $color-black;
+				transition:box-shadow .3s ease-in;
+			}
+		}
 	&__call-button {
 			padding:7px 15px 7px 55px;
 			border:2px solid $primary;
@@ -179,13 +190,10 @@ ul {
 				background:url('https://images.prismic.io/guardianrestoration/9e332084-cc94-4611-abac-010984e892f4_CALL+NOW+button+3+waves.png?auto=compress,format');
 				background-size:contain;
 				background-repeat:no-repeat;
-				width:100%;
+				width:51px;
 				height:100%;
-				right:-187px;
+				right:-60px;
 				top:0;
-				@include respond(mobileLargeMax) {
-					right:-159px;
-				}
 			}
 			&::before {
 				content:'';
@@ -332,6 +340,10 @@ img {
 				object-position: right center;
 			}
 		}
+	}
+	&__about-cards {
+		background-image:url('https://images.prismic.io/guardianrestoration/69818d1d-e79a-496e-9a54-8ca3de0c10cc_Concrete+Wall+for+Our+Services+Guardian+3.3+MB.jpg?auto=compress,format');
+
 	}
 }
 .form {

@@ -30,7 +30,9 @@ export default {
   props: ['slice'],
   mounted() {
     this.$nextTick(() => {
-      const imageWrapper = document.querySelector('.before-after-block')
+      
+    })
+    const imageWrapper = document.querySelector('.before-after-block')
       const beforeLayer = imageWrapper.querySelector('.before-after-block__image--before')
       const afterLayer = imageWrapper.querySelector('.before-after-block__image--after')
       const scroller = document.querySelector('.scroller');
@@ -50,9 +52,10 @@ export default {
         active = false;
         scroller.classList.remove('scrolling')
       });
+      console.log("hello from before and after component")
       document.body.addEventListener('mouseleave', function() {
         active = false;
-        document.querySelector('.scroller').classList.remove('scrolling')
+        scroller.classList.remove('scrolling')
       });
 
       document.body.addEventListener('mousemove', function(e) {
@@ -80,7 +83,6 @@ export default {
         active = false;
         scroller.classList.remove('scrolling')
       });
-    })
   }
 }
 </script>

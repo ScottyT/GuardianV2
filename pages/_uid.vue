@@ -15,6 +15,7 @@ export default {
 		FontAwesomeIcon,
 		FontAwesomeLayers,
 	},
+	layout: 'default',
 	data: () => ({
 		links: false,
 		hover: false,
