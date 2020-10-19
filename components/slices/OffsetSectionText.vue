@@ -1,13 +1,13 @@
 <template>
-	<div class="offset-section-text">
+	<div :class="`offset-section-text ${slice.primary.label !== undefined ? slice.primary.label : ''}`">
 		<div class="offset-section-text__row" v-for="(section, i) in slice.items" :key="i">
 			<div :class="`offset-section-text__content offset-section-text__content--${(i + 1) % 2 === 0 ? 'left' : 'right'}`">
 				<prismic-rich-text class="block-heading" :htmlSerializer="heading" :field="section.sectionheading" v-if="section.sectionheading.length > 0" />
 				<prismic-rich-text :htmlSerializer="mainText" :field="section.sectiontext" />
 			</div>
 			
-				<lazy-image :source="section.sectionimage.url" :alt="section.sectionimage.alt" :class="`offset-section-text__image offset-section-text__image--${(i + 1) % 2 === 0 ? 'left' : 'right'}`" />
-			
+			<lazy-image v-if="$route.name === 'index'" :source="section.sectionimage.url" :alt="section.sectionimage.alt" :class="`offset-section-text__image offset-section-text__image--${(i + 1) % 2 === 0 ? 'left' : 'right'}`" />
+			<push-slide v-if="slice.primary.label == 'about-us'" :image="section.sectionimage" :element="'offset-section-text__image'" :hidden="section.hidden_text"/>
 		</div>
 	</div>
 </template>
@@ -63,6 +63,20 @@ export default {
 </script>
 <style lang="scss">
 .offset-section-text {
+	.block-img img {
+	}
+	
+	&.about-us {
+		padding-top:40px;
+		.block-heading h2 {
+			text-align:center;
+			color:$primary;
+		}
+	}
+	&__small-img {
+		max-width:200px;
+		margin:auto;
+	}
 	&__heading {
 		&--army-rust {
 			font-family:"Army Rust";
@@ -117,7 +131,13 @@ export default {
 		&:nth-of-type(even) {
 			@include respond(mobileLarge) {
 				flex-direction: row-reverse;
-			}		
+			}
+			.push-slide-wrapper {
+				&__button {
+					right:-100px;
+					left:unset;
+				}
+			}
 		}
 	}
 	&__content {

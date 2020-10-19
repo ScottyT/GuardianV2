@@ -2,7 +2,7 @@
 	<div :class="`card-list__two-col card-list card-list__two-col--${$route.params.uid}`">
 		
 		<div class="card-list__two-col--col">
-			<div class="card-item" v-for="(card, i) in oddCards" :key="i" @mouseenter="$set(card, 'selected', !card.selected)" :class="{ 'card-item--active': card.selected }">
+			<div class="card-item" v-for="(card, i) in oddCards" :key="i" @click="$set(card, 'selected', !card.selected)" :class="{ 'card-item--active': card.selected }">
 				<v-card class="card-item__card" elevation="10" light>
 					<font-awesome-layers class="fa-3x card-item__icon" v-if="card.icon">
 						<font-awesome-icon class="card-item__icon--background" :icon="['fas', 'circle']" />
@@ -19,7 +19,7 @@
 			</div>
 		</div>
 		<div class="card-list__two-col--col">
-			<div class="card-item" v-for="(card, i) in evenCards" :key="i" @mouseenter="$set(card, 'selected', !card.selected)" :class="{ 'card-item--active': card.selected }">
+			<div class="card-item" v-for="(card, i) in evenCards" :key="i" @click="$set(card, 'selected', !card.selected)" :class="{ 'card-item--active': card.selected }">
 				<v-card class="card-item__card" elevation="10" light>
 					<font-awesome-layers class="fa-3x card-item__icon" v-if="card.icon">
 						<font-awesome-icon class="card-item__icon--background" :icon="['fas', 'circle']" />
@@ -27,14 +27,15 @@
 					</font-awesome-layers>
 					<v-img class="card-item__background" dark :src="card.card_bg.url" :alt="card.card_bg.alt">
 						<h2 class="card-item__title">{{ $prismic.asText(card.card_title) }}</h2>
-						<prismic-rich-text :field="card.card_text" />
+						<prismic-rich-text :field="card.card_text" class="card-item__text" />
 					</v-img>
 					<div class="card-item__big-description">
-						<prismic-rich-text :field="card.card_hidden_text" class="card-item__big-description--wrap" />
+						<prismic-rich-text :htmlSerializer="bigDesc" :field="card.card_hidden_text" class="card-item__big-description--wrap" />
 					</div>
 				</v-card>
 			</div>
 		</div>
+		<prismic-rich-text class="card-list__copy" :field="slice.primary.copy" v-if="slice.primary.copy.length > 0" />
 	</div>
 </template>
 <script>
@@ -139,14 +140,21 @@ export default {
 			display: grid;
 			grid-template-columns: 50% 50%;
 		}
+	}
+	&__copy {
+		width:100%;
+		grid-column:span 2;
+		padding-bottom:10px;
 
-		&:nth-of-type(1) {
-			.card-item__text {
-				justify-content:flex-end;
-			}
+		h2 {
+			text-align:center;
+			margin:10px 0;
+		}
+
+		h2, strong {
+			color:$primary-dark;
 		}
 	}
-
 	
 }
 .card-item {
@@ -167,7 +175,7 @@ export default {
 		width:100%;
 		
 		&--transparent-bg {
-			background-color:rgba($color-white, .5);
+			background-color:rgba($color-white, .7);
 			font-size:1.5em;
 			color:$color-black;
 			font-family:$heading-font;
@@ -259,6 +267,9 @@ export default {
 	.card-list__two-col--col {
 		&:nth-of-type(1) {
 			.card-item {
+				&__text {
+					justify-content:flex-end;
+				}
 				&:nth-of-type(1) {
 					.card-item__card {
 						background:url('https://images.prismic.io/guardianrestoration/b14f9686-12b9-4c52-8971-0b0b05c7d6d2_Light+Rectangle+BG+for+G+About+Us+top+section.png?auto=compress,format') no-repeat center center!important;
@@ -273,6 +284,9 @@ export default {
 		}
 		&:nth-of-type(2) {
 			.card-item {
+				&__text {
+					justify-content: flex-start;
+				}
 				&:nth-of-type(1) {
 					.card-item__card {
 						background:url('https://images.prismic.io/guardianrestoration/9dd15327-1507-4499-af51-dd230fe5c5b1_Darker+Rectangle+BG+for+G+About+Us+top+section.png?auto=compress,format') no-repeat center center!important;
@@ -290,12 +304,15 @@ export default {
 	
 	.card-item {
 		border:5px solid $color-white;
+		&__card {
+			overflow:hidden;
+		}
 		&__big-description {
 			background-color:rgb(224 215 213 / 45%);
 			transform:rotate(0deg) scale(1);
 			opacity:0;
 			transition: all .3s ease-out;
-			height:300px;
+			height:100%;
 			position:absolute;
 			top:0;
 			width:100%;
@@ -308,8 +325,7 @@ export default {
 				padding:12px 0px 20px 0px;
 				text-align:center;
 
-				p {
-					
+				p {					
 					&:not(:last-child) {
 						padding:20px 25px 5px 25px;
 					}
@@ -327,6 +343,13 @@ export default {
 		&__background {
 			opacity:1;
 			transition: all .5s ease-out;
+			height:300px;
+			@include respond(mobileLarge) {
+				height:350px;
+			}
+			@include respond(desktopSmall) {
+				height:300px;
+			}
 		}
 
 		// &:hover {
