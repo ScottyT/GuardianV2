@@ -1,7 +1,7 @@
 <template>
 	<div :class="`offset-section-text ${slice.primary.label !== undefined ? slice.primary.label : ''}`">
 		<div class="offset-section-text__row" v-for="(section, i) in slice.items" :key="i">
-			<div :class="`offset-section-text__content offset-section-text__content--${(i + 1) % 2 === 0 ? 'left' : 'right'}`">
+			<div :class="`offset-section-text__content offset-section-text__content--${(i + 1) % 2 === 0 ? 'right' : 'left'}`">
 				<prismic-rich-text class="block-heading" :htmlSerializer="heading" :field="section.sectionheading" v-if="section.sectionheading.length > 0" />
 				<prismic-rich-text :htmlSerializer="mainText" :field="section.sectiontext" />
 			</div>
@@ -9,6 +9,7 @@
 			<lazy-image v-if="$route.name === 'index'" :source="section.sectionimage.url" :alt="section.sectionimage.alt" :class="`offset-section-text__image offset-section-text__image--${(i + 1) % 2 === 0 ? 'left' : 'right'}`" />
 			<push-slide v-if="slice.primary.label == 'about-us'" :image="section.sectionimage" :element="'offset-section-text__image'" :hidden="section.hidden_text"/>
 		</div>
+		<prismic-rich-text class="offset-section-text__copy" :field="slice.primary.copy" />
 	</div>
 </template>
 <script>
@@ -65,12 +66,30 @@ export default {
 .offset-section-text {
 	.block-img img {
 	}
+
+	&__copy {
+		max-width:900px;
+		width:100%;
+		margin:auto;
+		text-align:center;
+		padding:0 4vw;
+		position:relative;
+		&:before {
+			content:'?';
+			position:absolute;
+			left:18px;
+			font-weight:800;
+			font-size:2.5em;
+			color:$primary-dark;
+		}
+	}
 	
 	&.about-us {
 		padding-top:40px;
 		.block-heading h2 {
 			text-align:center;
 			color:$primary;
+			font-family:"Enter Sansman Bold";
 		}
 	}
 	&__small-img {
@@ -114,12 +133,15 @@ export default {
 		display: flex;
 		flex-wrap: wrap;
 		flex-direction:column;
+		align-items:center;
+		margin:auto;
 		@include respond(mobileLarge) {
 			padding:0 0 3rem;
-			flex-direction:row;
+			
 		}
 		@include respond(tabletLarge) {
 			padding: 0px 0 6rem 0;
+			flex-direction:row;
 		}
 
 		&:first-child {
@@ -129,13 +151,33 @@ export default {
 			}
 		}
 		&:nth-of-type(even) {
-			@include respond(mobileLarge) {
+			@include respond(tabletLarge) {
 				flex-direction: row-reverse;
 			}
 			.push-slide-wrapper {
-				&__button {
-					right:-100px;
+				right:0;
+				left:0;
+				@include respond(tabletLarge) {
+					right:-20px;
 					left:unset;
+				}
+				&__button {
+					@include respond(tabletLarge) {
+						right:-100px;
+						left:unset;
+					}
+				}
+				&__image {
+					&:before {
+						right: -50px;
+						left:unset;
+					}
+					&.slide-open {
+						transform:translateX(-646px);
+					}
+				}
+				&__hidden-content {
+					padding:20px 31px 20px 75px;
 				}
 			}
 		}
@@ -148,6 +190,9 @@ export default {
 		padding:0 10px;
 		
 		@include respond(mobileLarge) {
+			
+		}
+		@include respond(tabletLarge) {
 			width: 50%;
 		}
 		@include respond(desktopSmall) {
@@ -159,11 +204,14 @@ export default {
 		}
 		&--left {
 			padding: 32px;
-			justify-content:flex-start;
 			padding-left:50px;
+			padding-bottom:50px;
 		}
 		&--right {
-			padding: 0 28px 0 40px;
+			padding:0 28px 50px 40px;
+			@include respond(tabletLarge) {
+				padding: 0 28px 0 40px;
+			}
 		}
 		&--subheading {
 			font-size: 1.2em;
@@ -188,6 +236,15 @@ export default {
 			img {
 				object-fit:contain;
 			}
+		}
+		&--big-subheading {
+			color:$primary;
+			max-width:310px;
+			margin:auto;
+			text-align:center;
+			font-size:1.3em;
+			width:100%;
+			display:block;
 		}
 	}
 	

@@ -116,11 +116,15 @@ export default {
 	&__site-title {
 		color: inherit;
 		height: 58px;
-		max-width: 307px;
+		max-width: 194px;
 		display: block;
 
 		@include respond(mobilePort) {
 			padding: 7px 0;
+		}
+
+		@include respond(tabletLarge) {
+			max-width:307px;
 		}
 
 		@include respond(desktopSmall) {

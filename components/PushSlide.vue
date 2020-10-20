@@ -29,9 +29,20 @@ export default {
   max-width:643px;
   height:430px;
   width:100%;
-  
+  left:unset;
+  right:unset;
+  @include respond(mobileLarge) {
+    left:20px;
+  }
+  @include respond(tabletLarge) {
+    width:50%;
+    //left:-20px;
+  }
   &__layer {
     overflow:hidden;
+    height:100%;
+    position:relative;
+    display:flex;
   }
   &__image {
     z-index:1;
@@ -72,15 +83,33 @@ export default {
     padding:20px 75px 20px 31px;
     top:0px;
     height:100%;
-    box-shadow:inset -1px -14px 18px 0px rgba(0, 0, 0, .5)
+    box-shadow:inset -1px -14px 18px 0px rgba(0, 0, 0, .5);
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:92px 1fr;
+
+    .block-img {
+      max-width:200px;
+      img {
+        object-fit:contain;
+        mix-blend-mode:color-dodge;
+      }
+    }
+
+    p {
+      display:inline-flex;
+      &:nth-of-type(3) {
+        grid-column:2 span;
+      }
+    }
   }
   &__button {
-    max-width:100px;
+    max-width:92px;
+    max-height:63px;
     font-family:$heading-font;
-    max-height:100px;
-    left:-100px;
+    left:35%;
+    top:-32px;
     position:absolute;
-    top:50%;
     transform:translateY(-50%);
     width:100%;
     height:100%;
@@ -91,6 +120,12 @@ export default {
     cursor:pointer;
     font-size:1.5em;
     font-weight:300;
+    @include respond(tabletLarge) {
+       max-width:100px;
+       max-height:100px;
+       left:-100px;
+       top:50%;
+    }
   }
 }
 </style>

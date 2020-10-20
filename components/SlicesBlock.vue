@@ -278,16 +278,19 @@ img {
 
 	&__body-wrapper {
 		background-image:url('https://images.prismic.io/guardianrestoration/9d94a63c-fe7f-461b-bc1f-c5b446dccd79_Triangles+BG+for+Guardian+home.png?auto=compress,format');
-			background-repeat:repeat;
-			
-			background-size:contain;
+		background-repeat:repeat;			
+		background-size:contain;
 		&--home {
 			background-image:url('https://images.prismic.io/guardianrestoration/9d94a63c-fe7f-461b-bc1f-c5b446dccd79_Triangles+BG+for+Guardian+home.png?auto=compress,format');
 			background-repeat:repeat;
 			padding-top:30px;
-			background-size:contain;
-
-			
+			background-size:contain;			
+		}
+		&--page {
+			.before-after-block {
+				width:100%;
+				height:673px;
+			}
 		}
 		@include respond(mobileLarge) {
 				background-position-y:-305px;
@@ -357,6 +360,9 @@ img {
 }
 .block-heading {
 	position:relative;
+}
+.gray-bg {
+	background-color:$color-light-grey;
 }
 .modal-backdrop {
 	position:fixed;

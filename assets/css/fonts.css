@@ -11,3 +11,10 @@
   font-weight:normal;
   font-display:swap;
 }
+
+@font-face {
+  font-family:"Enter Sansman Bold";
+  src: url('./fonts/entsans.ttf') format('truetype');
+  font-weight:bold;
+  font-display:swap;
+}
