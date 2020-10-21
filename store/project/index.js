@@ -4,6 +4,8 @@ import {
 import {
   fireDb
 } from '@/plugins/firebase';
+import axios from 'axios';
+import VueAxios from 'vue-axios';
 
 export const state = () => ({
   projects: null,
@@ -29,6 +31,7 @@ export const actions = {
           })
           commit('setProjects', list)
         })
+        
       }
       if (userData.role == 'user') {
         await fireDb.collection('projects').where("client", "==", userData.id).get().then((qs) => {
@@ -42,6 +45,12 @@ export const actions = {
       const error = 'Please create a project'
       commit('setError', error)
     }
+  },
+  setMessage({ commit }) {
+    axios.get('/test').then(res => res.data).then(items => {
+      console.log(items);
+      commit('setError', items)
+    })
   }
 }
 export const getters = {

@@ -95,6 +95,7 @@
             color="grey lighten-4"
             min-width="350px"
             flat
+            class="project-card"
           >
             <v-toolbar
               :color="selectedEvent.color"
@@ -112,7 +113,7 @@
                 <v-icon>mdi-dots-vertical</v-icon>
               </v-btn>
             </v-toolbar>
-            <v-card-text>
+            <v-card-text class="project-card__details">
               <span v-html="selectedEvent.details"></span>
             </v-card-text>
             <v-card-actions>
@@ -236,10 +237,9 @@ export default {
             type: this.projects[i].type,
             start: start,
             end: end,
-            //timed: !allDay,
-          })
-
-          
+            timed: true,
+            details: this.projects[i].type
+          })         
         }
 
         this.events = events

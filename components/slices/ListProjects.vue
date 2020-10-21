@@ -27,6 +27,9 @@
         role: null
       }
     },
+    mounted() {
+      this.$store.dispatch('project/setMessage');
+    },
     methods: {
       async getProjects(userData) {
         var projectsRef

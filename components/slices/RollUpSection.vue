@@ -128,7 +128,7 @@
     height: 604px;
     width: 100%;
     max-width: 1600px;
-    margin: 0 auto 50px;
+    margin: 0 auto 14px;
     background-size: cover;
     color: $color-white;
     // display:grid;
@@ -143,6 +143,7 @@
       display: flex;
       justify-content: space-around;
       height: 648px;
+      margin: 0 auto 50px;
     }
 
     &__heading {

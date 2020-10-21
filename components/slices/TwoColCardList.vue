@@ -140,6 +140,11 @@ export default {
 			display: grid;
 			grid-template-columns: 50% 50%;
 		}
+		&--services {
+			@include respond(mobileLargeMax) {
+				padding: 0px 2vw 75px 2vw;
+			}
+		}
 	}
 	&__copy {
 		width:100%;
@@ -268,7 +273,9 @@ export default {
 		&:nth-of-type(1) {
 			.card-item {
 				&__text {
-					justify-content:flex-end;
+					@include respond(mobileLarge) {
+						justify-content: flex-start;
+					}
 				}
 				&:nth-of-type(1) {
 					.card-item__card {
@@ -285,7 +292,9 @@ export default {
 		&:nth-of-type(2) {
 			.card-item {
 				&__text {
-					justify-content: flex-start;
+					@include respond(mobileLarge) {
+						justify-content: flex-start;
+					}
 				}
 				&:nth-of-type(1) {
 					.card-item__card {

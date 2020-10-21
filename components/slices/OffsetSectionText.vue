@@ -9,7 +9,7 @@
 			<lazy-image v-if="$route.name === 'index'" :source="section.sectionimage.url" :alt="section.sectionimage.alt" :class="`offset-section-text__image offset-section-text__image--${(i + 1) % 2 === 0 ? 'left' : 'right'}`" />
 			<push-slide v-if="slice.primary.label == 'about-us'" :image="section.sectionimage" :element="'offset-section-text__image'" :hidden="section.hidden_text"/>
 		</div>
-		<prismic-rich-text class="offset-section-text__copy" :field="slice.primary.copy" />
+		<prismic-rich-text class="offset-section-text__copy" v-if="slice.primary.copy.length > 0" :field="slice.primary.copy" />
 	</div>
 </template>
 <script>
@@ -64,20 +64,18 @@ export default {
 </script>
 <style lang="scss">
 .offset-section-text {
-	.block-img img {
-	}
 
 	&__copy {
 		max-width:900px;
 		width:100%;
 		margin:auto;
 		text-align:center;
-		padding:0 4vw;
+		padding:15px 4vw;
 		position:relative;
 		&:before {
 			content:'?';
 			position:absolute;
-			left:18px;
+			left:9px;
 			font-weight:800;
 			font-size:2.5em;
 			color:$primary-dark;
@@ -187,7 +185,7 @@ export default {
 		place-content: center;
 		row-gap:20px;
 		grid-template-columns:auto;
-		padding:0 10px;
+		padding:6px 20px;
 		
 		@include respond(mobileLarge) {
 			
@@ -203,12 +201,17 @@ export default {
 			font-weight:700;
 		}
 		&--left {
-			padding: 32px;
-			padding-left:50px;
-			padding-bottom:50px;
+			@include respond(mobileLarge) {
+				padding: 32px;
+				padding-left:50px;
+				padding-bottom:50px;
+			}
 		}
 		&--right {
-			padding:0 28px 50px 40px;
+			@include respond(mobileLarge) {
+				padding:0 28px 50px 40px;
+			}
+			
 			@include respond(tabletLarge) {
 				padding: 0 28px 0 40px;
 			}

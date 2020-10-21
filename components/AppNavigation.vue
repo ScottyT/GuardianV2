@@ -93,7 +93,7 @@ export default {
 }
 .v-toolbar {
 	&__content {
-		padding: 4px 40px !important;
+		padding: 4px 0px !important;
 		justify-content: space-between;
 
 		@include respond(mobileSmall) {
@@ -106,6 +106,7 @@ export default {
 
 		@include respond(mobileLarge) {
 			flex-direction: row;
+			padding: 4px 40px !important;
 		}
 	}
 }
@@ -150,9 +151,12 @@ export default {
 
 	&__menu-item {
 		min-width: 135px;
-		height: 40px;
+		height: 30px;
 		display: flex;
 		justify-content: center;
+		@include respond(mobileLarge) {
+			height:40px;
+		}
 
 		a {
 			padding: 0 16px;
@@ -162,9 +166,13 @@ export default {
 			letter-spacing: 0.15rem;
 			text-transform: uppercase;
 			position: relative;
-			font-size: .9em;
+			font-size: .8em;
 			color: inherit !important;
 			text-decoration:none;
+
+			@include respond(mobileLarge) {
+				font-size:.9em;
+			}
 
 			// @include respond(mobileSmallLand) {
 			// 	font-size: 14px;
