@@ -8,7 +8,7 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 
 export const state = () => ({
-  projects: null,
+  projects: [],
   error: ''
 });
 export const mutations = {
@@ -22,8 +22,8 @@ export const mutations = {
 export const actions = {
   async fetchProjects({ commit, getters }) {
     const list = []
-    try {
-      var userData = getters['user'] ? getters['user'] : null;
+    let userData = getters['user'] ? getters['user'] : null;
+    try {  
       if (userData.role == 'admin') {
         await fireDb.collection('projects').get().then((qs) => {
           qs.forEach((doc) => {
@@ -32,9 +32,8 @@ export const actions = {
           commit('setProjects', list)
         })
         
-      }
-      if (userData.role == 'user') {
-        await fireDb.collection('projects').where("client", "==", userData.id).get().then((qs) => {
+      } else if (userData.role == 'user') {
+        await fireDb.collection('projects').where("client", "==", userData.email).get().then((qs) => {
           qs.forEach((doc) => {
             list.push(doc.data())
           })

@@ -28,7 +28,7 @@
       }
     },
     mounted() {
-      this.$store.dispatch('project/setMessage');
+     // this.$store.dispatch('project/setMessage');
     },
     methods: {
       async getProjects(userData) {

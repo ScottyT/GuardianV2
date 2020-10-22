@@ -42,7 +42,9 @@
           <list-projects :slice="slice" />
         </template>
         <template v-else-if="slice.slice_type === 'projectcalendar'">
-          <project-calendar :slice="slice" />
+          <div class="gray-bg">
+            <project-calendar :slice="slice" />
+          </div>
         </template>
         <template v-else-if="slice.slice_type === 'bgvideo'">
           <bg-video :slice="slice" />
@@ -202,9 +204,11 @@
       border: 2px solid $primary;
       font-weight: 700;
       font-size: .9em;
+      background-color:$color-white;
       font-family: $heading-font;
       letter-spacing: 3px;
       position: relative;
+      color:$color-black!important;
 
       @include respond(mobileLarge) {
         font-size: 1.2em;
@@ -314,7 +318,7 @@
 
     &__body-wrapper {
       background-image: url('https://images.prismic.io/guardianrestoration/9d94a63c-fe7f-461b-bc1f-c5b446dccd79_Triangles+BG+for+Guardian+home.png?auto=compress,format');
-      background-repeat: repeat;
+      background-repeat: repeat-y;
 			background-size:cover;
 			background-position-x:-48px;
 			@include respond(mobileLarge) {

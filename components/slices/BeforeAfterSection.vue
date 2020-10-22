@@ -80,19 +80,16 @@
       scroller.addEventListener('touchstart', function () {
         active = true;
         scroller.classList.add('scrolling');
-        console.log("touch start")
       });
       document.body.addEventListener('touchend', function () {
         active = false;
         scroller.classList.remove('scrolling');
-        console.log("touch end")
       });
       document.body.addEventListener('touchmove', function (e) {
         if (!active) return;
         let x = e.touches[0].pageX;
         x -=
           imageWrapper.getBoundingClientRect().left;
-        console.log("touch move:", e)
         scrollIt(x)
       });
       document.body.addEventListener('touchcancel', function () {

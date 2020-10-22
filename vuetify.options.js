@@ -6,16 +6,16 @@ export default {
         css.replace(/[\r\n|\r|\n]/g, "") :
         css;
     },
-    disable: true,
+    disable: false,
     themes: {
       light: {
         primary: {
-          base: "#bf493c",
+          base: "#a13d2e",
           anchor: "#000"
         },
         secondary: {
-          base: "#3cb2bf",
-          darken: "#2a6564"
+          base: "#777777",
+          //text: "#777777"
         }
       },
       dark: {

@@ -32,7 +32,7 @@ export default {
 <style lang="scss">
 .page-hero {
   &__video {
-
+    display:block;
   }
 }
 </style>

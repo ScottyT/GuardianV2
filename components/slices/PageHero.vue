@@ -39,11 +39,22 @@ export default {
 	@include respond(mobileLargeMax) {
 		height:399px;
 	}
+	@include respond(mobileLarge) {
+		height:418px;
+	}
+	@include respond(tabletLarge) {
+		height:518px;
+	}
+	@include respond(desktopSmall) {
+		height:800px;
+	}
 
 	img {
+		object-position:0px 0px;
 		@include respond(mobileLargeMax) {
 			object-position:0px 0px;
 		}
+		display:block;
 	}
 
 	&__button {
@@ -78,15 +89,22 @@ export default {
 	// }
 
 	&--about-us {
+		height:418px;
+		@include respond(tabletLarge){ 
+			height:auto;
+		}
+		@include respond(desktopSmall) {
+			height:600px;
+		}
 		img {
-			object-position: 68% 0px;
-			@include respond(mobileSmallPort) {
+			object-position: 65% 0px;
+			// @include respond(mobileSmallPort) {
 				
-				object-position: -245px 0px;
-			}
-			@include respond(mobileLarge) {
-				object-position:0px 0px;
-			}			
+			// 	object-position: -245px 0px;
+			// }
+			// @include respond(mobileLarge) {
+			// 	object-position:0px 0px;
+			// }			
 		}
 	}
 }
