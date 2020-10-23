@@ -67,8 +67,11 @@ export default {
     {
       src: '~/plugins/localStorage.js',
       ssr: false
+    },
+    {
+      src: '@/plugins/youtube-embed.js',
+      mode: 'client'
     }
-    
   ],
   /*
    ** Auto import components
@@ -120,7 +123,7 @@ export default {
    ** See https://nuxtjs.org/api/configuration-build/
    */
   build: {
-    transpile: ["vee-validate/dist/rules"],
+    transpile: ["vee-validate/dist/rules", "vue-youtube-embed"],
     extractCSS: false,
     optimization: {
       minimize: true,

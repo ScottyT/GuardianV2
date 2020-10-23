@@ -151,6 +151,16 @@
         font-size: 6em;
       }
     }
+
+    &.red-text {
+      color:$primary-dark;
+    }
+    &.small {
+      font-size:2em;
+      @include respond(tabletLarge) {
+        font-size:3em;
+      }
+    }
   }
 
   h2 {
@@ -320,7 +330,7 @@
       background-image: url('https://images.prismic.io/guardianrestoration/9d94a63c-fe7f-461b-bc1f-c5b446dccd79_Triangles+BG+for+Guardian+home.png?auto=compress,format');
       background-repeat: repeat-y;
 			background-size:cover;
-			background-position-x:-48px;
+			background-position-x:51px;
 			@include respond(mobileLarge) {
 				background-size: contain;
 			}
@@ -364,6 +374,10 @@
   .section {
     position: relative;
     height: auto;
+
+    &:first-child {
+      padding-bottom:40px;
+    }
 
     &__roof-image {
       @include respond(mobileLargeMax) {
@@ -428,14 +442,6 @@
     }
   }
 
-  .block-heading {
-    position: relative;
-  }
-
-  .gray-bg {
-    background-color: $color-light-grey;
-  }
-
   .modal-backdrop {
     position: fixed;
     top: 0;
@@ -472,6 +478,19 @@
       font-weight: 700;
 
     }
+  }
+
+  //generic classes
+  .text-center {
+    text-align:center;
+  }
+
+  .block-heading {
+    position: relative;
+  }
+
+  .gray-bg {
+    background-color: $color-light-grey;
   }
 
   // transition stuff
