@@ -27,7 +27,7 @@ export const actions = {
       if (userData.role == 'admin') {
         await fireDb.collection('projects').get().then((qs) => {
           qs.forEach((doc) => {
-            list.push(doc.data())           
+            list.push(doc.data())       
           })
           commit('setProjects', list)
         })
@@ -44,6 +44,17 @@ export const actions = {
       const error = 'Please create a project'
       commit('setError', error)
     }
+  },
+  async updateProject({ commit, getters }, project) {
+    let userData = getters['user'] ? getters['user'] : null;
+    console.log("project to change:", project)
+   
+    
+    var projectRef = fireDb.collection('projects').doc(project.id)
+    await projectRef.update(project)
+      .then(() => {
+        console.log("project updated successfully")
+      })
   },
   setMessage({ commit }) {
     axios.get('/test').then(res => res.data).then(items => {

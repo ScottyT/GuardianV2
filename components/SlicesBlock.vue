@@ -6,7 +6,7 @@
       </template>
     </section>
     <div
-      :class="`slices-wrapper__body-wrapper slices-wrapper__body-wrapper--${this.$route.name == 'uid' ? 'page' : 'home'}`">
+      :class="`slices-wrapper__body-wrapper slices-wrapper__body-wrapper--${Object.keys($route.params).length === 0 ? 'home' : 'page'}`">
       <section v-for="(slice, index) in slices" :key="index" class="section"
         :class="slice.slice_type === 'twocolcardlist' ? slice.primary.label : ''">
         <template v-if="slice.slice_type === 'pagehero'">
@@ -374,10 +374,6 @@
   .section {
     position: relative;
     height: auto;
-
-    &:first-child {
-      padding-bottom:40px;
-    }
 
     &__roof-image {
       @include respond(mobileLargeMax) {

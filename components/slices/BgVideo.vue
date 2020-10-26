@@ -1,18 +1,17 @@
 <template>
-  <!-- <video autoplay muted loop class="page-hero__video" ref="bgVideo">
-    <source src="~/assets/video/Contact Us on Stage CROP w sharpen-Orig.mp4" type="video/mp4" />
-  </video> -->
+  
   <div class="page-hero__video">
     <span class="overlay">
       <img :class="buffer || $vuetify.breakpoint.width < 959 ? '' : 'hidden'" src="https://images.prismic.io/guardianrestoration/d04a9219-a032-420e-b90f-0b7bed7124ac_Contact+Us+STILL.png?auto=compress,format" />
     </span>
-    <div class="page-hero__video-wrapper">
+    <video v-show="$vuetify.breakpoint.width > 960" autoplay muted loop ref="bgVideo" class="page-hero__video-wrapper">
+      <source src="~/assets/video/Contact Us on Stage CROP w sharpen-Orig.mp4" type="video/mp4" />
+    </video>
     <!-- <client-only>
       <youtube @ready="ready" @playing="playing" @buffering="buffering" :video-id="slice.primary.videoid" player-width="100%" player-height="600px" :player-vars="{autoplay:1, rel:0, loop:1, mute:1, playlist:slice.primary.videoid, origin: 'http://localhost:3000'}"></youtube>
     </client-only> -->
-    </div>
     
-    <iframe v-show="$vuetify.breakpoint.width > 960" width="100%" height="100%" src="https://www.youtube.com/embed/YhpFg9Fippk?enablejsapi=1&rel=0&autoplay=1&loop=1&playlist=YhpFg9Fippk&mute=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;" allowfullscreen></iframe>
+    <!-- <iframe v-show="$vuetify.breakpoint.width > 960" width="100%" height="100%" src="https://www.youtube.com/embed/YhpFg9Fippk?enablejsapi=1&rel=0&autoplay=1&loop=1&playlist=YhpFg9Fippk&mute=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;" allowfullscreen></iframe> -->
   </div>
 </template>
 <script>
@@ -74,15 +73,16 @@ export default {
     left: 50%;
     transform: translate(-50%, -50%);
     display: block;
-    height: 0;
+    height: auto;
     width: 100%;
-    padding: 0;
-    padding-bottom: 56.25%;
   }
   &__video {
     display:block;
-    height:350px;
+    height:190px;
     position:relative;
+    @include respond(mobileSmallPort) {
+      height:350px;
+    }
 
     @include respond(tabletLarge) {
       height:30vw;
@@ -92,8 +92,11 @@ export default {
       position:absolute;
       width:100%;
       height:100%;
-      z-index:2;
+      //z-index:2;
       top:32px;
+      @include respond(mobileSmallPort) {
+        top:0;
+      }
 
       img {
         &.hidden {

@@ -66,18 +66,19 @@
           </v-toolbar>
           <v-card-text class="project-card__details">
             <div class="project-card__details--field">
-              <p v-show="!isEditing">{{selectedEvent.type}}</p>
-              <input class="project-card__details--input" v-show="isEditing" v-model="updatedProject.type" name="project_type" placeholder="Type" type="text" />
+              <p>{{selectedEvent.type}}</p>
+              <!-- <input class="project-card__details--input" v-show="isEditing" v-model="updatedProject.type" name="project_type" placeholder="Type" type="text" /> -->
             </div>
             <div class="project-card__details--field">
-              <p v-show="!isEditing">{{selectedEvent.details}}</p>
-              <input class="project-card__details--input" v-show="isEditing" v-model="updatedProject.details" name="details" placeholder="Details" type="text" />
+              <p v-show="!isEditing">{{selectedEvent.description}}</p>
+              <input class="project-card__details--input" v-show="isEditing" v-model="updatedProject.description" name="description" placeholder="Description" type="text" />
             </div>
           </v-card-text>
           <v-card-actions>
             <v-btn class="project-card__cancel-button" text color="#2a2a2a" @click="selectedOpen = false">
               Cancel
             </v-btn>
+            <v-btn class="project-card__submit-button" text color="#2a2a2a" @click="updateProject">Submit</v-btn>
           </v-card-actions>
         </v-card>
       </v-menu>
@@ -133,8 +134,11 @@
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
       isEditing: false,
       updatedProject: {
-        type: '',
-        details: ''
+        id: '',
+        description: '',
+        start: null,
+        end: null,
+        color:''
       }
     }),
     computed: {
@@ -156,7 +160,7 @@
           <p>${this.selectedEvent.type}</p>
         </div>
         <div class="project-card__details--field">
-          <p>${this.selectedEvent.details}</p>
+          <p>${this.selectedEvent.description}</p>
         </div>
       `
       }
@@ -167,6 +171,16 @@
     methods: {
       editing() {
         this.isEditing = !this.isEditing
+      },
+      async updateProject() {
+        this.updatedProject.id = this.selectedEvent.id;
+        this.updatedProject.start = this.selectedEvent.start;
+        this.updatedProject.end = this.selectedEvent.end;
+        //this.selectedEvent.push(this.updatedProject)
+        this.$store.dispatch('project/updateProject', this.updatedProject).then(() => {
+          this.selectedEvent.description = this.updatedProject.description;
+          this.$store.dispatch('project/fetchProjects')
+        })
       },
       viewDay({
         date
@@ -237,7 +251,8 @@
             start: start,
             end: end,
             timed: true,
-            details: this.projects[i].description,
+            description: this.projects[i].description,
+            id: this.projects[i].id
           })
         }
 

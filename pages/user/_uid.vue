@@ -1,7 +1,6 @@
 <template>
   <div class="user-area">
     <slices-block :slices="slices" />
-    <h1>Welcome, <span v-if="$store.state.auth.user != null">{{$store.state.auth.user.email}}</span></h1>
   </div>
   
 </template>

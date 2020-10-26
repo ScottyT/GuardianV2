@@ -3,7 +3,12 @@
 		<nuxt-link class="navigation__site-title" to="/">
 			<img :src="scrolledDown ? $store.state.header.alt_logo.url : $store.state.header.logo.url" :alt="$store.state.header.logo.alt" />
 		</nuxt-link>
-		<ul class="navigation__items">
+		<button type="button" class="navigation__toggle-button" @click="menuOpened = !menuOpened">
+			<span class="navigation__button-lines--1 navigation__button-lines"></span>
+			<span class="navigation__button-lines--2 navigation__button-lines"></span>
+			<span class="navigation__button-lines--3 navigation__button-lines"></span>
+		</button>
+		<ul :class="`navigation__items ${menuOpened ? 'open' : ''}`">
 			<li v-for="(menuLink, index) in $store.state.header.menu_links" :key="index" class="navigation__menu-item">
 				<prismic-link :field="menuLink.link">{{ $prismic.asText(menuLink.label) }}</prismic-link>
 			</li>
@@ -33,7 +38,8 @@ export default {
 			menuContent: [],
 			menuLinks: [],
 			hasClass: false,
-			dialog: false
+			dialog: false,
+			menuOpened: false
 		}
 	},
 	mounted() {
@@ -94,18 +100,17 @@ export default {
 .v-toolbar {
 	&__content {
 		padding: 4px 0px !important;
-		justify-content: space-between;
+		justify-content: space-around;
+		flex-wrap:wrap;
 
 		@include respond(mobileSmall) {
-			flex-direction: column;
-		}
-
-		@include respond(mobileSmallLand) {
 			flex-direction: row;
 		}
 
 		@include respond(mobileLarge) {
 			flex-direction: row;
+			flex-wrap:nowrap;
+			justify-content:space-between;
 			padding: 4px 40px !important;
 		}
 	}
@@ -143,9 +148,49 @@ export default {
 		justify-content: space-between;
 		flex-wrap: wrap;
 		display: flex;
+		position:relative;
+		z-index:-1;
 
 		@include respond(mobileLargeMax) {
 			background-color:rgba($color-white, .84);
+			transform:translateY(-168px);
+			opacity:0;
+			transition:all .3s ease-in;
+			&.open {
+				transition:all .3s ease-in;
+				opacity:1;
+				transform:translateY(0);
+			}
+		}
+	}
+
+	&__toggle-button {
+		width:50px;
+		height:40px;
+		border:1px solid $color-black;
+		display:flex;
+		flex-direction:column;
+		position:relative;
+		justify-content: space-around;
+		padding:5px 8px;
+		border-radius:5px;
+		@include respond(mobileLarge) {
+			display:none;
+		}
+	}
+	&__button-lines {
+		background-color:$color-black;
+		width:100%;
+		height:2px;
+	//	position:absolute;
+		&--1 {
+			//top:5px;
+		}
+		&--2 {
+			//top:15px;
+		}
+		&--3 {
+			//top:35px;
 		}
 	}
 
