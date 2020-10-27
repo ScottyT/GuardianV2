@@ -17,43 +17,80 @@
 					Leave us your name, email, and a brief description of the issue... the restoration you need is a message away.
 				</p>
 			</div>
-			<!-- <form class="form-wrapper__form form--contact" method="POST" @submit.prevent="submitForm">
-				<h2 v-if="this.successMessage">{{ successMessage }}</h2>
-				<p v-if="errors.length">
-					<strong>Please correct the follwing errors:</strong>
-				</p>
-				<ul>
-					<li v-for="error in errors" :key="error.id">{{ error }}</li>
-				</ul>
-				<label>Name</label>
-				<input class="form__input" v-model="name" name="name" type="text" value />
-				<label>Email</label>
-				<input class="form__input" v-model="email" name="email" type="email" value />
-				<label>Message</label>
-				<textarea class="form__input" v-model="message" name="message" type="text" value=""></textarea>
-				<v-btn type="submit">Submit</v-btn>
-			</form> -->
-		</div>		
+			<ValidationObserver v-slot="{ handleSubmit }">
+				<form class="form-wrapper__form form--contact form" method="POST" @submit.prevent="handleSubmit(submitForm)">
+					<!-- <h2 v-if="this.successMessage">{{ successMessage }}</h2> -->
+					<p v-if="errorsList.length">
+						<strong>Please correct the follwing errors:</strong>
+					</p>
+					<ul v-if="errorsList.length">
+						<li v-for="error in errors" :key="error.id">{{ error }}</li>
+					</ul>
+					<ValidationProvider v-slot="{errors}" name="Name" rules="required||alpha" class="form__rounded-input-wrapper">
+						<!-- <label class="form__label">Name</label> -->
+						<span class="form__icon">
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+							</svg>
+						</span>
+						<input class="form__rounded-input form__rounded-input--name" :class="errors.length > 0 ? `is-false` : 'is-true'" v-model="name" name="name" placeholder="name" type="text" value />
+						<span class="form__input--error">{{ errors[0] }}</span>
+						<!-- <span class="form__input--error">{{ errors[0] }}</span> -->
+					</ValidationProvider>
+					<ValidationProvider v-slot="{errors}" name="Email" rules="required" class="form__rounded-input-wrapper">
+						<span class="form__icon">
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+							</svg>
+						</span>
+						<input class="form__rounded-input form__rounded-input--email" :class="errors.length > 0 ? `is-false` : 'is-true'" v-model="email" name="email" placeholder="email" type="email" value />
+						<span class="form__input--error">{{ errors[0] }}</span>
+					</ValidationProvider>
+					<ValidationProvider v-slot="{errors}" name="message" rules="required" class="form__rounded-input-wrapper form__rounded-input-wrapper--textarea">
+						<span class="form__icon form__icon--textarea-icon">
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+							</svg>
+						</span>
+						<textarea class="form__rounded-input form__rounded-input--message" :class="errors.length > 0 ? `is-false` : 'is-true'" placeholder="message" v-model="message" name="message" type="text"></textarea>
+						<span class="form__input--error">{{ errors[0] }}</span>
+					</ValidationProvider>
+					<div class="button-bg">
+						<button type="submit" class="button button--submit">SUBMIT</button>
+					</div>
+				</form>
+			</ValidationObserver>
+			
+		</div>
 	</div>
 </template>
 <script>
 import anime from "animejs"
+import {
+    ValidationProvider,
+    ValidationObserver
+  } from 'vee-validate';
 export default {
 	name: "ContactUs",
 	props: ["slice"],
+	components: {
+		ValidationProvider,
+		ValidationObserver
+	},
 	data() {
 		return {
 			name: "",
 			email: "",
 			message: "",
 			successMessage: "",
-			errors: [],
+			errorsList: [],
 			broken: false,
-			clicked: false
+			clicked: false,
 		}
 	},
 	mounted() {
 		const buttonArea = document.querySelector('.form-wrapper__call-button .click-area');
+		const submitBtn = document.querySelector('.form--contact .button--submit');
 		buttonArea.addEventListener('mousedown', () => {
 			this.clicked = true
 		})
@@ -65,6 +102,13 @@ export default {
 		})
 		buttonArea.addEventListener('touchcancel', () => {
 			this.clicked = false
+		})
+
+		submitBtn.addEventListener('mousedown', () => {
+			submitBtn.classList.add('pushed')
+		})
+		submitBtn.addEventListener('mouseup', () => {
+			submitBtn.classList.remove('pushed')
 		})
 	},
 	methods: {
@@ -113,17 +157,17 @@ export default {
 						this.$router.push("/thankyou")
 					})
 					.catch((error) => {
-						this.errors = error
+						this.errorsList = error
 					})
 			}
-			this.errors = []
-			if (!this.name) this.errors.push("Name required")
-			if (!this.email) this.errors.push("Email required")
-			if (!this.message) this.errors.push("Message Required")
+			this.errorsList = []
+			if (!this.name) this.errorsList.push("Name required")
+			if (!this.email) this.errorsList.push("Email required")
+			if (!this.message) this.errorsList.push("Message Required")
 
-			if (this.errors) {
+			if (this.errorsList) {
 				shake.play()
-				errorVisual.play()
+				//errorVisual.play()
 			}
 		},
 	},
@@ -134,6 +178,7 @@ export default {
 	padding: 0 4vw;
 	position:relative;
 	border:10px solid $color-white;
+	background-size:cover;
 	background-image:url('https://images.prismic.io/guardianrestoration/69818d1d-e79a-496e-9a54-8ca3de0c10cc_Concrete+Wall+for+Our+Services+Guardian+3.3+MB.jpg?auto=compress,format');
 	&:before {
 		content:'';
@@ -152,15 +197,21 @@ export default {
 		background-repeat:no-repeat;
 		max-width:900px;
 		margin:auto;
-		height:900px;
+		//height:900px;
 		position:relative;
+		box-shadow:-3px 6px 10px 0 rgba(0, 0, 0, .42);
 	}
 	&__form-box-intro {
 		width:100%;
-		@include absCentered(50%, 50%);
+		//@include absCentered(20%, 50%);
 		text-align:center;
+		padding-top:77px;
+		padding-bottom:90px;
 		&--cta {
 			background:rgba($color-white, .7);
+			padding:20px 8vw;
+			box-shadow:0px 7px 2px 0px rgba(0, 0, 0, .24);
+			margin-top:15px;
 		}
 	}
 
@@ -220,10 +271,6 @@ export default {
 		padding: 15px;
 		flex-direction: column;
 		margin: auto;
-		border: 1px solid $color-black;
-		//background: $color-white;
-		// filter: drop-shadow(2px 3px 3px rgba(0, 0, 0, 0.5));
-		box-shadow: 0px 10px 5rem 2px rgba(68, 64, 64, 0.38);
 	}
 }
 </style>
