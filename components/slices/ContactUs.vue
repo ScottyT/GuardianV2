@@ -3,7 +3,6 @@
 		<h1 class="form-wrapper__heading red-text small text-center">OUR SHOWROOM IS YOUR RESTORED PROPERTY!</h1>
 		<div class="form-wrapper__emergency-box" @click.once="broken = !broken">
 			<img :class="broken ? 'hidden' : ''" src="https://images.prismic.io/guardianrestoration/fef8fd2f-273c-4935-9fb7-4ab62b4985e5_Emergency+Box_Unbroken.png?auto=compress,format" />
-			<!-- <img :class="broken || !clicked ? 'hidden' : ''" src="https://images.prismic.io/guardianrestoration/9290df64-a7d6-4b06-b023-29addd65d0b4_Emergency+Box_BROKEN.png?auto=compress,format" /> -->
 			<div :class="`form-wrapper__call-button ${broken ? '' : 'form-wrapper__call-button--hidden'}`">
 				<a href="tel:5555555555" class="click-area"></a>
 				<img :class="clicked ? '' : 'form-wrapper__call-button--hidden'" src="https://images.prismic.io/guardianrestoration/c97f5bc1-bacc-458f-a781-10282179e38f_Emergency+Box_BROKEN-ButtonPushDown.png?auto=compress,format" />
@@ -17,8 +16,8 @@
 					Leave us your name, email, and a brief description of the issue... the restoration you need is a message away.
 				</p>
 			</div>
-			<ValidationObserver v-slot="{ handleSubmit }">
-				<form class="form-wrapper__form form--contact form" method="POST" @submit.prevent="handleSubmit(submitForm)">
+			<ValidationObserver v-slot="{ handleSubmit, reset }">
+				<form class="form-wrapper__form form--contact form" method="POST" @submit.prevent="handleSubmit(submitForm)" @reset.prevent="reset">
 					<!-- <h2 v-if="this.successMessage">{{ successMessage }}</h2> -->
 					<p v-if="errorsList.length">
 						<strong>Please correct the follwing errors:</strong>
@@ -26,37 +25,37 @@
 					<ul v-if="errorsList.length">
 						<li v-for="error in errors" :key="error.id">{{ error }}</li>
 					</ul>
-					<ValidationProvider v-slot="{errors}" name="Name" rules="required||alpha" class="form__rounded-input-wrapper">
-						<!-- <label class="form__label">Name</label> -->
+					<ValidationProvider v-slot="{errors}" mode="eager" name="Name" rules="required|alpha" class="form__rounded-input-wrapper">
 						<span class="form__icon">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
 							</svg>
 						</span>
-						<input class="form__rounded-input form__rounded-input--name" :class="errors.length > 0 ? `is-false` : 'is-true'" v-model="name" name="name" placeholder="name" type="text" value />
+						<input class="form__rounded-input form__rounded-input--name" :class="errors.length > 0 ? `is-false` : ''" v-model="name" name="name" placeholder="name" type="text" value />
 						<span class="form__input--error">{{ errors[0] }}</span>
-						<!-- <span class="form__input--error">{{ errors[0] }}</span> -->
 					</ValidationProvider>
-					<ValidationProvider v-slot="{errors}" name="Email" rules="required" class="form__rounded-input-wrapper">
+					<ValidationProvider v-slot="{errors}" mode="eager" name="Email" rules="required" class="form__rounded-input-wrapper">
 						<span class="form__icon">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
 							</svg>
 						</span>
-						<input class="form__rounded-input form__rounded-input--email" :class="errors.length > 0 ? `is-false` : 'is-true'" v-model="email" name="email" placeholder="email" type="email" value />
+						<input class="form__rounded-input form__rounded-input--email" :class="errors.length > 0 ? `is-false` : ''" v-model="email" name="email" placeholder="email" type="email" value />
 						<span class="form__input--error">{{ errors[0] }}</span>
 					</ValidationProvider>
-					<ValidationProvider v-slot="{errors}" name="message" rules="required" class="form__rounded-input-wrapper form__rounded-input-wrapper--textarea">
+					<ValidationProvider v-slot="{errors}" mode="eager" name="Message" rules="required" class="form__rounded-input-wrapper form__rounded-input-wrapper--textarea">
 						<span class="form__icon form__icon--textarea-icon">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
 							</svg>
 						</span>
-						<textarea class="form__rounded-input form__rounded-input--message" :class="errors.length > 0 ? `is-false` : 'is-true'" placeholder="message" v-model="message" name="message" type="text"></textarea>
+						<textarea class="form__rounded-input form__rounded-input--message" :class="errors.length > 0 ? `is-false` : ''" placeholder="message" v-model="message" name="message" type="text"></textarea>
 						<span class="form__input--error">{{ errors[0] }}</span>
 					</ValidationProvider>
 					<div class="button-bg">
-						<button type="submit" class="button button--submit">SUBMIT</button>
+						<img :class="`wing wing--left ${submitted ? 'visible' : ''}`" src="https://images.prismic.io/guardianrestoration/3fa63f63-2b10-42a4-a5b1-1651a3c13fa9_Wing+Small+for+Guardian+home+2.png?auto=compress,format" />
+						<button type="submit" :class="`button button--submit ${submitting ? 'submitting' : ''}`">{{ submitting ? 'SUBMITTING' : 'SUBMIT'}}</button>
+						<img :class="`wing wing--right ${submitted ? 'visible' : ''}`" src="https://images.prismic.io/guardianrestoration/3fa63f63-2b10-42a4-a5b1-1651a3c13fa9_Wing+Small+for+Guardian+home+2.png?auto=compress,format" />
 					</div>
 				</form>
 			</ValidationObserver>
@@ -77,17 +76,17 @@ export default {
 		ValidationProvider,
 		ValidationObserver
 	},
-	data() {
-		return {
-			name: "",
-			email: "",
-			message: "",
-			successMessage: "",
-			errorsList: [],
-			broken: false,
-			clicked: false,
-		}
-	},
+	data: () =>  ({
+		name: "",
+		email: "",
+		message: "",
+		successMessage: "",
+		errorsList: [],
+		broken: false,
+		clicked: false,
+		submitting: false,
+		submitted:false
+	}),
 	mounted() {
 		const buttonArea = document.querySelector('.form-wrapper__call-button .click-area');
 		const submitBtn = document.querySelector('.form--contact .button--submit');
@@ -145,30 +144,39 @@ export default {
 				delay: 500,
 				autoplay: false,
 			})
+			this.submitted = true
+			this.submitting = true
 			if (this.name && this.email && this.message) {
 				await this.$axios
-					.$post("sendform", {
+					.$post("/sendform", {
 						name: this.name,
 						email: this.email,
 						message: this.message,
 					})
 					.then((res) => {
 						this.successMessage = res
-						this.$router.push("/thankyou")
+						this.submitting = false
+						this.name = ''
+						this.email = ''
+						this.message = ''
+						//this.$router.push("/thankyou")
 					})
 					.catch((error) => {
 						this.errorsList = error
 					})
-			}
-			this.errorsList = []
-			if (!this.name) this.errorsList.push("Name required")
-			if (!this.email) this.errorsList.push("Email required")
-			if (!this.message) this.errorsList.push("Message Required")
+			} else {
+				this.errorsList = []
+				console.log(this.errorsList)
+				if (!this.name) this.errorsList.push("Name required")
+				if (!this.email) this.errorsList.push("Email required")
+				if (!this.message) this.errorsList.push("Message Required")
 
-			if (this.errorsList) {
-				shake.play()
-				//errorVisual.play()
+				if (this.errorsList.length > 0) {
+					shake.play()
+					//errorVisual.play()
+				}
 			}
+			
 		},
 	},
 }

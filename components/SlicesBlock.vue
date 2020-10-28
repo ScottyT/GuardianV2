@@ -229,8 +229,14 @@
       font-weight:700;
       font-family:'Oswald', sans-serif;
       font-size:1.4em;
+      transition:all .3s ease-in;
       &.pushed {
+       // background-color:$primary;
+      }
+      &.submitting {
         background-color:$primary;
+        transition:all .3s ease-in;
+        color:$color-white;
       }
     }
 
@@ -277,6 +283,34 @@
         }
       }
     }
+  }
+
+  .wing {
+    position:absolute;
+    max-width:209px;
+    object-fit:contain;
+    opacity:0;
+    transition:all .8s cubic-bezier(0.33, 0.01, 0.13, 1.46);
+    z-index:-1;
+    &--right {
+      transform:rotateX(180deg);
+      right:0;
+      
+      &.visible {
+        right:-234px;
+        opacity:1;
+        z-index:1;
+      }
+    }
+    &--left {
+      left:0px;
+      &.visible {
+        opacity:1;
+        left:-232px;
+        z-index:1;
+      }
+    }
+    
   }
 
   p {
@@ -507,8 +541,9 @@
         background-color:$color-white;
         border-radius:10px;
         padding:10px;
-        max-width:200px;
         margin:auto;
+        position:relative;
+        transition:all .3s ease-in;
       }
     }
 
@@ -522,6 +557,13 @@
         border-radius:20px;
         background-color:$color-white;
         padding:10px;
+
+        & > div {
+          width:100%;
+          height:100%;
+          display:flex;
+          align-items:center;
+        }
 
         &--textarea {
           height:300px;
@@ -541,9 +583,6 @@
       width:100%;      
       transition: background-color 0.3s, color 0.3s ease-in-out, box-shadow .2s ease-out;
 
-      &.initial {
-        background-color:$color-white;
-      }
       &.is-true {
         background-color: #0AE569;
         color: #045929;
@@ -552,13 +591,12 @@
       &.is-false {
         background-color: #FFA4A2;
         color: #EB0600;
-      }
-
-      
+      }      
 
       &:focus {
-        //background-color:#8CFFFE;
+        background-color:#8CFFFE;
         border:2px solid #8CFFFE;
+        box-shadow:-1px 1px 5px 0px rgba($color-black, .5);
         color:#000;
       }
 

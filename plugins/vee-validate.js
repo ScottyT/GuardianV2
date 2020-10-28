@@ -4,7 +4,7 @@ import {
   email,
   numeric,
   regex,
-  alpha
+  alpha,
 } from 'vee-validate/dist/rules'
 
 extend('required', {
