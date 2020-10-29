@@ -6,16 +6,23 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
+	"regexp"
+	"strings"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
+var rxEmail = regexp.MustCompile(".+@.+\\..+")
+var rxName = regexp.MustCompile("[a-zA-Z]")
+
 type MyForm struct {
 	Name    string `json:"name"`
 	Email   string `json:"email"`
 	Message string `json:"message"`
+	Errors  map[string]string
 }
 type MyPayload struct {
 	MyForm MyForm `json:"data"`
@@ -34,6 +41,35 @@ var defaultResponse = &events.APIGatewayProxyResponse{StatusCode: 200, Body: "su
 //var apiKey = os.Getenv("SENDGRID_API_KEY")
 var apiKey = "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"
 
+func (msg *MyForm) Validate() bool {
+	msg.Errors = make(map[string]string)
+	matchEmail := rxEmail.Match([]byte(msg.Email))
+	if matchEmail == false {
+		msg.Errors["Email"] = "Please enter a valid email address"
+	}
+	matchName := rxName.MatchString(msg.Name)
+	if matchName == false {
+		msg.Errors["Name"] = "Name can only contain letters and spaces"
+	}
+	if strings.TrimSpace(msg.Name) == "" {
+		msg.Errors["Name"] = "Please enter a name"
+	}
+	if strings.TrimSpace(msg.Message) == "" {
+		msg.Errors["Message"] = "Please enter a message"
+	}
+	return len(msg.Errors) == 0
+}
+
+func (msg *MyForm) Deliver() []byte {
+	from := mail.NewEmail(msg.Name, msg.Email)
+	subject := "Contact Form Submission"
+	to := mail.NewEmail("Headquarters", "stuck04@gmail.com")
+	plainTextContent := fmt.Sprintf("Name: %s\nEmail: %s\nMessage: %s\n", msg.Name, msg.Email, msg.Message)
+	htmlContent := fmt.Sprintf("<p style='font-size:16px;'>Name: %s</p>\n<p style='font-size:16px;'>Email: %s</p>\n<p style='font-size:16px'>Message: %s</p>", msg.Name, msg.Email, msg.Message)
+	message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
+	return mail.GetRequestBody(message)
+}
+
 func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	// p := ProxyRequest{
 	// 	Headers:     request.Headers,
@@ -47,19 +83,24 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 	var dat MyForm
 
 	json.Unmarshal([]byte(request.Body), &dat)
+	if dat.Validate() == false {
+		fmt.Println(dat.Errors["Email"])
+		fmt.Println(dat.Email)
+		json.NewEncoder(w).Encode(dat)
+		return
+	}
 	// Send email
-	from := mail.NewEmail(dat.Name, dat.Email)
-	subject := "Contact Form Submission"
-	to := mail.NewEmail("Headquarters", "stuck04@gmail.com")
-	plainTextContent := fmt.Sprintf("Name: %s\nEmail: %s\nMessage: %s\n", dat.Name, dat.Email, dat.Message)
-	htmlContent := fmt.Sprintf("<p style='font-size:16px;'>Name: %s</p>\n<p style='font-size:16px;'>Email: %s</p>\n<p style='font-size:16px'>Message: %s</p>", dat.Name, dat.Email, dat.Message)
-	message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
-	client := sendgrid.NewSendClient(apiKey)
-	response, err := client.Send(message)
-	if err != nil {
-		log.Println(err)
+	request := sendgrid.GetRequest(os.Getenv(apiKey), "/v3/mail/send", "https://api.sendgrid.com")
+	request.Method = "POST"
+	var Body = dat.Deliver()
+	request.Body = Body
+	response, err := sendgrid.API(request)
+	fmt.Println(response)
+	fmt.Println(err)
+	if response.StatusCode != 200 {
+		http.Error(w, "Sorry, something went wrong", response.StatusCode)
 	} else {
-		log.Println(response.StatusCode)
+		fmt.Fprintf(w, "Thank you for contacting us! We will reach out to you shortly.")
 	}
 	return defaultResponse, nil
 
@@ -74,35 +115,46 @@ func formHandler(w http.ResponseWriter, r *http.Request) {
 	var dat MyForm
 	reqBody, _ := ioutil.ReadAll(r.Body)
 	json.Unmarshal([]byte(reqBody), &dat)
+	if dat.Validate() == false {
+		//fmt.Fprint(w, dat.Errors)
+		fmt.Println(dat.Errors["Email"])
+		fmt.Println(dat.Email)
+		json.NewEncoder(w).Encode(dat)
+		return
+	}
 
-	// Send email
-	from := mail.NewEmail(dat.Name, dat.Email)
-	subject := "Contact Form Submission"
-	to := mail.NewEmail("Headquarters", "stuck04@gmail.com")
-	plainTextContent := fmt.Sprintf("Name: %s\nEmail: %s\nMessage: %s\n", dat.Name, dat.Email, dat.Message)
-	htmlContent := fmt.Sprintf("<p style='font-size:16px;'>Name: %s</p>\n<p style='font-size:16px;'>Email: %s</p>\n<p style='font-size:16px'>Message: %s</p>", dat.Name, dat.Email, dat.Message)
-	message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
-	client := sendgrid.NewSendClient(apiKey)
-	response, err := client.Send(message)
-	if err != nil {
-		log.Println(err)
+	request := sendgrid.GetRequest(os.Getenv(apiKey), "/v3/mail/send", "https://api.sendgrid.com")
+	request.Method = "POST"
+	var Body = dat.Deliver()
+	request.Body = Body
+	response, err := sendgrid.API(request)
+	fmt.Println(response)
+	fmt.Println(err)
+	if response.StatusCode != 200 {
+		http.Error(w, "Sorry, something went wrong", response.StatusCode)
 	} else {
-		fmt.Println(response.StatusCode)
 		fmt.Fprintf(w, "Thank you for contacting us! We will reach out to you shortly.")
 	}
+
+	// Send email
+	// if response.StatusCode != 200 {
+	// 	fmt.Fprintln(w, "Something went wrong", http.StatusInternalServerError)
+	// }
+	// fmt.Fprintf(w, "Form submitted!")
+	// fmt.Printf("Type of form is %T", dat)
 }
 func main() {
-	// lambda.Start(func(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	// 	resp, err := handler(request)
-	// 	return resp, err
-	// })
-	fs := http.FileServer(http.Dir("./dist"))
+	lambda.Start(func(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+		resp, err := handler(request)
+		return resp, err
+	})
+	// fs := http.FileServer(http.Dir("./dist"))
 
-	http.Handle("/", fs)
-	http.HandleFunc("/sendform", formHandler)
-	fmt.Printf("Starting server at port 1000\n")
-	//	defer fmt.Println("Server ended")
-	log.Fatal(http.ListenAndServe(":1000", nil))
+	// http.Handle("/", fs)
+	// http.HandleFunc("/sendform", formHandler)
+	// fmt.Printf("Starting server at port 1000\n")
+	// //	defer fmt.Println("Server ended")
+	// log.Fatal(http.ListenAndServe(":1000", nil))
 
 	//log.Fatal(http.ListenAndServe(":1000", r))
 	// http.HandleFunc("/thankyou", altSubmission)

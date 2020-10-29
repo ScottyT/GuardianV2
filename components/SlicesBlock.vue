@@ -293,7 +293,7 @@
     transition:all .8s cubic-bezier(0.33, 0.01, 0.13, 1.46);
     z-index:-1;
     &--right {
-      transform:rotateX(180deg);
+      transform:rotateY(180deg);
       right:0;
       
       &.visible {
