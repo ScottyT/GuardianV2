@@ -182,7 +182,13 @@
   }
 
   h3 {
-    font-size: 2.027em;
+    font-size:1.2em;
+    @include respond(mobileLarge) {
+      font-size:1.5em;
+    }
+    @include respond(tabletLarge) {
+      font-size: 2.027em;
+    }
   }
 
   h4 {
@@ -225,11 +231,19 @@
 
     &--submit {
       background-color: #fdc2c2;
-      padding:10px 50px;
+      font-size:.9em;
       font-weight:700;
       font-family:'Oswald', sans-serif;
-      font-size:1.4em;
+      padding:5px 22px;
       transition:all .3s ease-in;
+      @include respond(mobileSmallPort) {
+        font-size:1.2em;
+        padding:5px 30px;
+      }
+      @include respond(tabletLarge) {
+        padding:10px 50px;
+        font-size:1.4em;
+      }
       &.pushed {
        // background-color:$primary;
       }
@@ -287,27 +301,46 @@
 
   .wing {
     position:absolute;
-    max-width:209px;
+    max-width:120px;
     object-fit:contain;
     opacity:0;
     transition:all .8s cubic-bezier(0.33, 0.01, 0.13, 1.46);
     z-index:-1;
+    top:0;
+    @include respond(mobileSmallPort) {
+      max-width:150px;
+    }
+    @include respond(mobileLarge) {
+      max-width:209px;
+    }
     &--right {
       transform:rotateY(180deg);
       right:0;
       
       &.visible {
-        right:-234px;
+        right:-115px;
         opacity:1;
         z-index:1;
+        @include respond(mobileSmallPort) {
+          right:-150px;
+        }
+        @include respond(mobileLarge) {
+          right:-234px;
+        }
       }
     }
     &--left {
       left:0px;
       &.visible {
         opacity:1;
-        left:-232px;
+        left:-115px;
         z-index:1;
+        @include respond(mobileSmallPort) {
+          left:-150px;
+        }
+        @include respond(mobileLarge) {
+          left:-232px;
+        }
       }
     }
     
@@ -551,12 +584,18 @@
         display:flex;
         width:100%;
         position:relative;
-        height:84px;
+        flex-direction:column;
+        height:74px;
         align-items:center;
         margin-bottom:30px;
         border-radius:20px;
         background-color:$color-white;
         padding:10px;
+        
+        @include respond(mobileLarge) {
+          height:84px;
+          flex-direction:row;
+        }
 
         & > div {
           width:100%;
@@ -571,6 +610,9 @@
         }
         .form__input--error {
           padding-left:10px;
+          @include respond(mobileLargeMax) {
+            font-size:.9em;
+          }
         }
       }
 
@@ -608,19 +650,28 @@
         color:black;
         font-weight:700;
         font-family:'Oswald', sans-serif;
-        font-size:1.2em;
+        font-size:1em;
+        @include respond(mobileLarge) {
+          font-size:1.2em;
+        }
       }
       &:-ms-input-placeholder {
         color:black;
         font-weight:700;
         font-family:'Oswald', sans-serif;
-        font-size:1.2em;
+        font-size:1em;
+        @include respond(mobileLarge) {
+          font-size:1.2em;
+        }
       }
       &::-ms-input-placehodler {
         color:black;
         font-weight:700;
         font-family:'Oswald', sans-serif;
-        font-size:1.2em;
+        font-size:1em;
+        @include respond(mobileLarge) {
+          font-size:1.2em;
+        }
       }
     }
     &__icon {
@@ -628,6 +679,9 @@
       height:37px;
       position:absolute;
       left:18px;
+      @include respond(mobileLargeMax) {
+        top:12px;
+      }
 
       &--textarea-icon {
         top:20px;

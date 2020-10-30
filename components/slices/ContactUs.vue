@@ -21,14 +21,14 @@
       </div>
       <ValidationObserver ref="form" v-slot="{ handleSubmit }">
         <form class="form-wrapper__form form--contact form" method="POST" @submit.prevent="handleSubmit(submitForm)">
-          <h2 v-if="successMessage">{{ successMessage }}</h2>
+          <h3 v-if="successMessage">{{ successMessage }}</h3>
           <p v-if="errorsList.length">
             <strong>Please correct the follwing errors:</strong>
           </p>
           <ul v-if="errorsList.length">
             <li v-for="error in errors" :key="error.id">{{ error }}</li>
           </ul>
-          <ValidationProvider v-slot="{errors}" mode="eager" vid="name" name="Name" class="form__rounded-input-wrapper">
+          <ValidationProvider v-slot="{errors}" mode="eager" rules="required" vid="name" name="Name" class="form__rounded-input-wrapper">
             <span class="form__icon">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -37,7 +37,7 @@
             </span>
             <input class="form__rounded-input form__rounded-input--name" :class="errors.length > 0 ? `is-false` : ''"
               v-model="name" name="name" placeholder="name" type="text" value />
-            <span class="form__input--error">{{ errors[0] }}</span>
+            <span class="form__input--error" v-if="errors.length > 0">{{ errors[0] }}</span>
           </ValidationProvider>
           <ValidationProvider v-slot="{errors}" mode="eager" vid="email" name="Email"
             class="form__rounded-input-wrapper">
@@ -49,7 +49,7 @@
             </span>
             <input class="form__rounded-input form__rounded-input--email" :class="errors.length > 0 ? `is-false` : ''"
               v-model="email" name="email" placeholder="email" value />
-            <span class="form__input--error">{{ errors[0] }}</span>
+            <span class="form__input--error" v-if="errors.length > 0">{{ errors[0] }}</span>
           </ValidationProvider>
           <ValidationProvider v-slot="{errors}" mode="eager" vid="message" name="Message"
             class="form__rounded-input-wrapper form__rounded-input-wrapper--textarea">
@@ -62,7 +62,7 @@
             <textarea class="form__rounded-input form__rounded-input--message"
               :class="errors.length > 0 ? `is-false` : ''" placeholder="message" v-model="message" name="message"
               type="text"></textarea>
-            <span class="form__input--error">{{ errors[0] }}</span>
+            <span class="form__input--error" v-if="errors.length > 0">{{ errors[0] }}</span>
           </ValidationProvider>
           <div class="button-bg">
             <img :class="`wing wing--left ${submitted ? 'visible' : ''}`"
@@ -194,6 +194,9 @@
             this.successMessage = res
             this.submitting = false
             this.submitted = true
+            this.name = ""
+            this.email = ""
+            this.message = ""
             //this.$router.push("/thankyou")
           })
           .catch((error) => {
@@ -209,7 +212,7 @@
 </script>
 <style lang="scss">
   .form-wrapper {
-    padding: 0 4vw 40px;
+    padding: 0 3vw 40px;
     position: relative;
     border: 10px solid $color-white;
     background-size: cover;
@@ -258,11 +261,11 @@
       margin: auto;
       position: relative;
       margin-bottom: 40px;
+      display: flex;
+      justify-content: center;
 
       @include respond(mobileLarge) {
-        height: 100vh;
-        display: flex;
-        justify-content: center;
+        height: 100vh;        
       }
 
       &>img {
@@ -318,6 +321,9 @@
       padding: 15px;
       flex-direction: column;
       margin: auto;
+      @include respond(mobileLargeMax) {
+        padding:15px 4px;
+      }
     }
   }
 </style>

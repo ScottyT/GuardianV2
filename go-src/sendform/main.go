@@ -4,19 +4,19 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"regexp"
 	"strings"
 
 	"github.com/aws/aws-lambda-go/events"
-	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
-var rxEmail = regexp.MustCompile(".+@.+\\..+")
-var rxName = regexp.MustCompile("[a-zA-Z]")
+var rxEmail = regexp.MustCompile(`^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$`)
+var rxName = regexp.MustCompile(`^[a-zA-Z\s]*$`)
 
 type MyForm struct {
 	Name    string `json:"name"`
@@ -36,19 +36,22 @@ type ProxyRequest struct {
 	QueryParams map[string]string `json:"queryParams"`
 }
 
-const apiKey = "SENDGRID_API_KEY"
+//const apiKey = "SENDGRID_API_KEY"
 
-//var apiKey = "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"
+var apiKey = "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"
 
 func (msg *MyForm) Validate() bool {
 	msg.Errors = make(map[string]string)
-	matchEmail := rxEmail.Match([]byte(msg.Email))
+	matchEmail := rxEmail.MatchString(msg.Email)
 	if matchEmail == false {
 		msg.Errors["Email"] = "Please enter a valid email address"
 	}
 	matchName := rxName.MatchString(msg.Name)
 	if matchName == false {
 		msg.Errors["Name"] = "Name can only contain letters and spaces"
+	}
+	if len(msg.Name) >= 20 {
+		msg.Errors["Name"] = "Name must be shorter than 20 characters"
 	}
 	if strings.TrimSpace(msg.Name) == "" {
 		msg.Errors["Name"] = "Please enter a name"
@@ -60,6 +63,7 @@ func (msg *MyForm) Validate() bool {
 }
 
 func (msg *MyForm) Deliver() []byte {
+	fmt.Println(msg.Name)
 	from := mail.NewEmail(msg.Name, msg.Email)
 	subject := "Contact Form Submission"
 	to := mail.NewEmail("Headquarters", "stuck04@gmail.com")
@@ -120,46 +124,31 @@ func formHandler(w http.ResponseWriter, r *http.Request) {
 	reqBody, _ := ioutil.ReadAll(r.Body)
 	json.Unmarshal([]byte(reqBody), &dat)
 	if dat.Validate() == false {
-		//fmt.Fprint(w, dat.Errors)
-		fmt.Println(dat.Errors["Email"])
-		fmt.Println(dat.Email)
 		json.NewEncoder(w).Encode(dat)
 		return
 	}
 
-	request := sendgrid.GetRequest(os.Getenv(apiKey), "/v3/mail/send", "https://api.sendgrid.com")
+	request := sendgrid.GetRequest(apiKey, "/v3/mail/send", "https://api.sendgrid.com")
 	request.Method = "POST"
 	var Body = dat.Deliver()
 	request.Body = Body
-	response, err := sendgrid.API(request)
-	fmt.Println(response)
-	fmt.Println(err)
-	if response.StatusCode != 200 {
+	response, _ := sendgrid.API(request)
+	if response.StatusCode != 200 && response.StatusCode != 202 {
 		http.Error(w, "Sorry, something went wrong", response.StatusCode)
 	} else {
 		fmt.Fprintf(w, "Thank you for contacting us! We will reach out to you shortly.")
 	}
-
-	// Send email
-	// if response.StatusCode != 200 {
-	// 	fmt.Fprintln(w, "Something went wrong", http.StatusInternalServerError)
-	// }
-	// fmt.Fprintf(w, "Form submitted!")
-	// fmt.Printf("Type of form is %T", dat)
 }
 func main() {
-	lambda.Start(func(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-		resp, err := handler(request)
-		return resp, err
-	})
-	// fs := http.FileServer(http.Dir("./dist"))
+	// lambda.Start(func(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+	// 	resp, err := handler(request)
+	// 	return resp, err
+	// })
+	fs := http.FileServer(http.Dir("./dist"))
 
-	// http.Handle("/", fs)
-	// http.HandleFunc("/sendform", formHandler)
-	// fmt.Printf("Starting server at port 1000\n")
-	// //	defer fmt.Println("Server ended")
-	// log.Fatal(http.ListenAndServe(":1000", nil))
-
-	//log.Fatal(http.ListenAndServe(":1000", r))
-	// http.HandleFunc("/thankyou", altSubmission)
+	http.Handle("/", fs)
+	http.HandleFunc("/sendform", formHandler)
+	fmt.Printf("Starting server at port 1000\n")
+	defer fmt.Println("Server ended")
+	log.Fatal(http.ListenAndServe(":1000", nil))
 }
