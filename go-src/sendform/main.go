@@ -96,20 +96,18 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 	r.Body = Body
 	response, _ := sendgrid.API(r)
 	fmt.Println(response)
-	if response.StatusCode != 200 || response.StatusCode != 202 {
+	if response.StatusCode != 200 && response.StatusCode != 202 {
 		//http.Error(w, "Sorry, something went wrong", response.StatusCode)
 		return &events.APIGatewayProxyResponse{
 			StatusCode: response.StatusCode,
 			Body:       "Sorry, something went wrong on our end!",
 		}, nil
-	} else {
-		//fmt.Fprintf(w, "Thank you for contacting us! We will reach out to you shortly.")
-		return &events.APIGatewayProxyResponse{
-			StatusCode: 202,
-			Body:       "Thank you for contacting us! We will reach out to you shortly",
-		}, nil
 	}
-
+	//fmt.Fprintf(w, "Thank you for contacting us! We will reach out to you shortly.")
+	return &events.APIGatewayProxyResponse{
+		StatusCode: 202,
+		Body:       "Thank you for contacting us! We will reach out to you shortly",
+	}, nil
 }
 
 // Use for local testing

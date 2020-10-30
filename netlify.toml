@@ -4,4 +4,4 @@
   functions = "functions"
 [build.environment]
   GO_IMPORT_PATH = "github.com/ScottyT/GuardianV2"
-  GO_VERSION = "1.14.6"
+  GO_VERSION = "1.15.3"
