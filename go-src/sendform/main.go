@@ -4,13 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 	"regexp"
 	"strings"
 
 	"github.com/aws/aws-lambda-go/events"
+	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
@@ -36,9 +36,9 @@ type ProxyRequest struct {
 	QueryParams map[string]string `json:"queryParams"`
 }
 
-//const apiKey = "SENDGRID_API_KEY"
+const apiKey = "SENDGRID_API_KEY"
 
-var apiKey = "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"
+//var apiKey = "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"
 
 func (msg *MyForm) Validate() bool {
 	msg.Errors = make(map[string]string)
@@ -140,15 +140,15 @@ func formHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 func main() {
-	// lambda.Start(func(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	// 	resp, err := handler(request)
-	// 	return resp, err
-	// })
-	fs := http.FileServer(http.Dir("./dist"))
+	lambda.Start(func(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+		resp, err := handler(request)
+		return resp, err
+	})
+	// fs := http.FileServer(http.Dir("./dist"))
 
-	http.Handle("/", fs)
-	http.HandleFunc("/sendform", formHandler)
-	fmt.Printf("Starting server at port 1000\n")
-	defer fmt.Println("Server ended")
-	log.Fatal(http.ListenAndServe(":1000", nil))
+	// http.Handle("/", fs)
+	// http.HandleFunc("/sendform", formHandler)
+	// fmt.Printf("Starting server at port 1000\n")
+	// defer fmt.Println("Server ended")
+	// log.Fatal(http.ListenAndServe(":1000", nil))
 }
