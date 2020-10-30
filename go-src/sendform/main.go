@@ -4,13 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 	"regexp"
 	"strings"
 
 	"github.com/aws/aws-lambda-go/events"
+	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
@@ -36,10 +36,9 @@ type ProxyRequest struct {
 	QueryParams map[string]string `json:"queryParams"`
 }
 
-var defaultResponse = &events.APIGatewayProxyResponse{StatusCode: 200, Body: "success!"}
+const apiKey = "SENDGRID_API_KEY"
 
-//var apiKey = os.Getenv("SENDGRID_API_KEY")
-var apiKey = "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"
+//var apiKey = "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"
 
 func (msg *MyForm) Validate() bool {
 	msg.Errors = make(map[string]string)
@@ -84,25 +83,32 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 
 	json.Unmarshal([]byte(request.Body), &dat)
 	if dat.Validate() == false {
-		fmt.Println(dat.Errors["Email"])
-		fmt.Println(dat.Email)
-		json.NewEncoder(w).Encode(dat)
-		return
+		bodyStr, _ := json.Marshal(dat)
+		return &events.APIGatewayProxyResponse{
+			StatusCode: 200,
+			Body:       string(bodyStr),
+		}, nil
 	}
 	// Send email
-	request := sendgrid.GetRequest(os.Getenv(apiKey), "/v3/mail/send", "https://api.sendgrid.com")
-	request.Method = "POST"
+	r := sendgrid.GetRequest(os.Getenv(apiKey), "/v3/mail/send", "https://api.sendgrid.com")
+	r.Method = "POST"
 	var Body = dat.Deliver()
-	request.Body = Body
-	response, err := sendgrid.API(request)
+	r.Body = Body
+	response, _ := sendgrid.API(r)
 	fmt.Println(response)
-	fmt.Println(err)
-	if response.StatusCode != 200 {
-		http.Error(w, "Sorry, something went wrong", response.StatusCode)
+	if response.StatusCode != 200 || response.StatusCode != 202 {
+		//http.Error(w, "Sorry, something went wrong", response.StatusCode)
+		return &events.APIGatewayProxyResponse{
+			StatusCode: response.StatusCode,
+			Body:       "Sorry, something went wrong on our end!",
+		}, nil
 	} else {
-		fmt.Fprintf(w, "Thank you for contacting us! We will reach out to you shortly.")
+		//fmt.Fprintf(w, "Thank you for contacting us! We will reach out to you shortly.")
+		return &events.APIGatewayProxyResponse{
+			StatusCode: 202,
+			Body:       "Thank you for contacting us! We will reach out to you shortly",
+		}, nil
 	}
-	return defaultResponse, nil
 
 }
 
