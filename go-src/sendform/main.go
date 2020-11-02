@@ -38,8 +38,6 @@ type ProxyRequest struct {
 
 const apiKey = "SENDGRID_API_KEY"
 
-//var apiKey = "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"
-
 func (msg *MyForm) Validate() bool {
 	msg.Errors = make(map[string]string)
 	matchEmail := rxEmail.MatchString(msg.Email)
@@ -50,8 +48,8 @@ func (msg *MyForm) Validate() bool {
 	if matchName == false {
 		msg.Errors["Name"] = "Name can only contain letters and spaces"
 	}
-	if len(msg.Name) >= 20 {
-		msg.Errors["Name"] = "Name must be shorter than 20 characters"
+	if len(msg.Name) >= 30 {
+		msg.Errors["Name"] = "Name must be shorter than 30 characters"
 	}
 	if strings.TrimSpace(msg.Name) == "" {
 		msg.Errors["Name"] = "Please enter a name"
@@ -66,7 +64,7 @@ func (msg *MyForm) Deliver() []byte {
 	fmt.Println(msg.Name)
 	from := mail.NewEmail(msg.Name, msg.Email)
 	subject := "Contact Form Submission"
-	to := mail.NewEmail("Headquarters", "stuck04@gmail.com")
+	to := mail.NewEmail("Headquarters", "scott@damage.click")
 	plainTextContent := fmt.Sprintf("Name: %s\nEmail: %s\nMessage: %s\n", msg.Name, msg.Email, msg.Message)
 	htmlContent := fmt.Sprintf("<p style='font-size:16px;'>Name: %s</p>\n<p style='font-size:16px;'>Email: %s</p>\n<p style='font-size:16px'>Message: %s</p>", msg.Name, msg.Email, msg.Message)
 	message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
@@ -101,13 +99,11 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 	response, _ := sendgrid.API(r)
 	fmt.Println(response)
 	if response.StatusCode != 200 && response.StatusCode != 202 {
-		//http.Error(w, "Sorry, something went wrong", response.StatusCode)
 		return &events.APIGatewayProxyResponse{
 			StatusCode: response.StatusCode,
 			Body:       "Sorry, something went wrong on our end!",
 		}, nil
 	}
-	//fmt.Fprintf(w, "Thank you for contacting us! We will reach out to you shortly.")
 	return &events.APIGatewayProxyResponse{
 		StatusCode: 202,
 		Body:       "Thank you for contacting us! We will reach out to you shortly",

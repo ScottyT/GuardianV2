@@ -422,7 +422,7 @@
       background-image: url('https://images.prismic.io/guardianrestoration/9d94a63c-fe7f-461b-bc1f-c5b446dccd79_Triangles+BG+for+Guardian+home.png?auto=compress,format');
       background-repeat: repeat-y;
 			background-size:cover;
-			background-position-x:51px;
+			background-position-x:3px;
 			@include respond(mobileLarge) {
 				background-size: contain;
 			}

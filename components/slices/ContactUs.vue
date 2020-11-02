@@ -64,10 +64,10 @@
               type="text"></textarea>
             <span class="form__input--error" v-if="errors.length > 0">{{ errors[0] }}</span>
           </ValidationProvider>
-          <div class="button-bg">
+          <div :class="`button-bg`">
             <img :class="`wing wing--left ${submitted ? 'visible' : ''}`"
               src="https://images.prismic.io/guardianrestoration/3fa63f63-2b10-42a4-a5b1-1651a3c13fa9_Wing+Small+for+Guardian+home+2.png?auto=compress,format" />
-            <button :disabled="submitted" type="submit"
+            <button type="submit"
               :class="`button button--submit ${submitting ? 'submitting' : ''}`">{{ buttonText }}</button>
             <img :class="`wing wing--right ${submitted ? 'visible' : ''}`"
               src="https://images.prismic.io/guardianrestoration/3fa63f63-2b10-42a4-a5b1-1651a3c13fa9_Wing+Small+for+Guardian+home+2.png?auto=compress,format" />

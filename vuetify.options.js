@@ -11,11 +11,10 @@ export default {
       light: {
         primary: {
           base: "#a13d2e",
-          anchor: "#000"
         },
+        anchor: "#fff",
         secondary: {
-          base: "#777777",
-          //text: "#777777"
+          base: "#777777"
         }
       },
       dark: {

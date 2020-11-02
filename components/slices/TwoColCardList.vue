@@ -274,7 +274,7 @@ export default {
 			.card-item {
 				&__text {
 					@include respond(mobileLarge) {
-						justify-content: flex-start;
+						justify-content: flex-end;
 					}
 				}
 				&:nth-of-type(1) {
