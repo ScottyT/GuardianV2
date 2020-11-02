@@ -2,7 +2,6 @@
   <div class="user-area">
     <slices-block :slices="slices" />
   </div>
-  
 </template>
 <script>
 import { auth } from '~/plugins/firebase.js'
@@ -14,7 +13,7 @@ export default {
   },
   async asyncData({ $prismic, params, error }) {
     const userPages = (await $prismic.api.getByUID("user", params.uid)).data;
-
+    console.log(userPages)
     if (userPages) {
       return {
         slices: userPages.body

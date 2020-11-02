@@ -9,7 +9,8 @@ import VueAxios from 'vue-axios';
 
 export const state = () => ({
   projects: [],
-  error: ''
+  error: '',
+  favorites:[]
 });
 export const mutations = {
   setProjects: (state, payload) => {
@@ -17,6 +18,9 @@ export const mutations = {
   },
   setError(state, error) {
     state.error = error
+  },
+  setFavs: (state, payload) => {
+  state.favorites = payload
   }
 };
 export const actions = {
@@ -61,6 +65,11 @@ export const actions = {
       console.log(items);
       commit('setError', items)
     })
+  },
+  async favoritesAdded({ commit }, event) {
+    const favList = []
+    favList.push(event)
+    commit('setFavs', favList)
   }
 }
 export const getters = {

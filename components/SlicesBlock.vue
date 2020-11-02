@@ -91,6 +91,15 @@
   }
 </script>
 <style lang="scss">
+  .ohnohoney {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 0;
+    width: 0;
+    z-index: -1;
+  }
   .v-list-item__title {
     font-size: 1em !important;
   }

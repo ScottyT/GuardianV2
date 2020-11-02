@@ -72,6 +72,28 @@
             <img :class="`wing wing--right ${submitted ? 'visible' : ''}`"
               src="https://images.prismic.io/guardianrestoration/3fa63f63-2b10-42a4-a5b1-1651a3c13fa9_Wing+Small+for+Guardian+home+2.png?auto=compress,format" />
           </div>
+
+          <!-- H o n e y p o t -->
+          <label class="ohnohoney" for="name"></label>
+          <input
+            class="ohnohoney"
+            autocomplete="off"
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Your name here"
+          />
+          <label class="ohnohoney" for="email"></label>
+          <input
+            class="ohnohoney"
+            autocomplete="off"
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Your e-mail here"
+          />
+          <label class="ohnohoney" for="message"></label>
+          <textarea class="ohnohoney" type="text" id="message" name="message"></textarea>
         </form>
       </ValidationObserver>
     </div>
