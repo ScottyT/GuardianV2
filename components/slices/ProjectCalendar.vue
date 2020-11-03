@@ -52,13 +52,13 @@
       <v-menu v-model="selectedOpen" :close-on-content-click="false" :activator="selectedElement" offset-x>
         <v-card color="grey lighten-4" min-width="350px" flat class="project-card">
           <v-toolbar :color="selectedEvent.color" dark>
-            <v-btn icon @click="editing" v-show="$store.state.auth.user.role == 'admin'">
+            <v-btn icon @click="editing" v-show="user.role == 'admin'">
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
             <!-- <v-toolbar-title v-html="`<span class='project-card__title'>${selectedEvent.name}</span>`"></v-toolbar-title> -->
             <v-toolbar-title>
               <span class="project-card__title">
-                <NuxtLink :to="selectedEvent.id">{{selectedEvent.name}}</NuxtLink>
+                <NuxtLink :to="`/dashboard/projects/${selectedEvent.id}`">{{selectedEvent.name}}</NuxtLink>
               </span>
             </v-toolbar-title>
             <v-spacer></v-spacer>
@@ -79,10 +79,10 @@
               <input class="project-card__details--input" v-show="isEditing" v-model="updatedProject.description" name="description" placeholder="Description" type="text" />
             </div>
             <div class="project-card__details--field project-card__details--time-field">
-              <label>Start time:</label>
-              <p>{{selectedEvent.startTime}}</p>
-              <label>End time:</label>
-              <p>{{selectedEvent.endTime}}</p>
+              <label>Start:</label>
+              <p>{{selectedEvent.startTime}} {{selectedEvent.startDate}}</p>
+              <label>End:</label>
+              <p>{{selectedEvent.endTime}} {{selectedEvent.endDate}}</p>
             </div>
           </v-card-text>
           <v-card-actions>
@@ -102,7 +102,7 @@
   } from 'vuex'
   export default {
     name: "ProjectCalendar",
-    props: ['slice'],
+    props: ['slice', 'user'],
     data: (vm) => ({
       focus: '',
       type: 'month',
@@ -266,8 +266,10 @@
             type: this.projects[i].type,
             start: start,
             startTime: start.toLocaleTimeString('en-US'),
+            startDate: (start.getMonth() + 1) + "/" + (start.getUTCDate()) + "/" + (start.getUTCFullYear()),
             end: end,
             endTime: end.toLocaleTimeString('en-US'),
+            endDate: (end.getMonth() + 1) + "/" + (end.getUTCDate()) + "/" + (end.getUTCFullYear()),
             timed: true,
             description: this.projects[i].description,
             id: this.projects[i].id
