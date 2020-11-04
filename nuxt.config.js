@@ -124,7 +124,7 @@ export default {
    */
   build: {
     transpile: ["vee-validate/dist/rules", "vue-youtube-embed"],
-    extractCSS: false,
+    extractCSS: true,
     optimization: {
       minimize: true,
       splitChunks: {

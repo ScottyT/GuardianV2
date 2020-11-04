@@ -1,18 +1,42 @@
 <template>
   <v-app dark>
     <app-navigation />
-    <main class="v-content__wrap page" :class="this.$route.name == undefined ? 'error' : ''">
+    <main class="v-content__wrap dashboard-area">
+      <v-navigation-drawer height="100%">
+        <v-list>
+          <v-list-item v-for="(item, i) in items" :key="i" :to="item.to" nuxt exact>
+            <v-list-item-content>
+              <v-list-item-title v-text="item.title" />
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-navigation-drawer>
       <nuxt />
     </main>
     <footer-nav />
     <login-modal />
   </v-app>
-</template>
 
+</template>
 <script>
   export default {
     data() {
-      return {}
+      return {
+        clipped: false,
+        items: [{
+            title: 'Home',
+            to: '/dashboard'
+          },
+          {
+            title: 'Projects Calendar',
+            to: '/dashboard/projects'
+          },
+          {
+            title: 'Project Create',
+            to: '/dashboard/project-form'
+          }
+        ]
+      }
     },
     head() {
       const capitalizedName = []
@@ -34,21 +58,28 @@
       }
     },
     async middleware({
-      store,
-      $prismic
+      store, $prismic, redirect
     }) {
+      if (store.state.auth.user == null) {
+        return redirect('/')
+      }
       await store.dispatch("fetchMenu", $prismic)
       await store.dispatch("project/fetchProjects", null, {
         root: true
       })
     },
-    methods: {
-      // ...mapActions(['hideAuthModal'])
-    }
   }
 </script>
 <style lang="scss">
-  html {
+.dashboard-area {
+  display:grid;
+  grid-template-columns:300px 1fr;
+  max-width:1600px;
+  margin:0 auto;
+  padding:100px 30px 0 30px;
+  width:100%;
+}
+html {
     @include respond(mobileSmall) {
       font-size: 56.5% !important;
     }
@@ -142,24 +173,4 @@
   ul {
     list-style: none;
   }
-
-  input {
-    &:focus {
-      outline: none !important;
-    }
-  }
-
-  textarea {
-    &:focus {
-      outline: none !important;
-    }
-  }
-
-  button {
-    outline: none !important;
-  }
-
-  .error {
-    padding-top: 100px;
-	}
 </style>

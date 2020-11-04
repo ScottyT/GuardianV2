@@ -92,6 +92,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
       ...mapActions(["login", "hideAuthModal"]),
       signin() {
         this.loggingIn = true
+        //this.$axios.$post('create-user', )
         this.$store.dispatch('auth/login', {
           email: this.email,
           password: this.password

@@ -7,11 +7,6 @@
 </template>
 <script>
 export default {
-  middleware({ store, redirect }) {
-    if (store.state.auth.user == null) {
-      return redirect('/')
-    }
-  },
   async asyncData({ $http, params, error, store }) {
     const id = params.uid
     //const project = await store.dispatch("project/fetchProject", id)

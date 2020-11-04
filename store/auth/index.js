@@ -65,34 +65,24 @@ export const actions = {
         console.log(error)
       })
       const userUID = auth.currentUser.uid;
-      console.log(userUID)
-      axios.post('post', {
-        email: account.email,
-        id: userUID
-      }).then((res) => {
-        res.data
+      
+      const userRef = fireDb.collection('users').doc(userUID)
+      console.log(userRef)
+      await userRef.get().then((doc) => {
+        if (doc.exists) {
+          data = doc.data()
+        }
       }).catch((error) => {
-        console.log(error)
+        fireDb.collection('users').doc(userUID).set({
+          email: account.email,
+          id: userUID,
+          role: "user"
+        }).then(() => {
+          console.log("success")
+        }).catch(() => {
+          console.log("no user added")
+        })
       })
-      //const userRef = fireDb.collection('users').doc(userUID)
-      // await userRef.get().then((doc) => {
-      //   if (doc.exists) {
-      //     data = doc.data()
-      //   } else {
-      //     console.log("New user: ", userUID)
-      //     fireDb.collection('users').doc(userUID).set({
-      //       email: account.email,
-      //       id: userUID,
-      //       role: "user"
-      //     }).then(() => {
-      //       console.log("success")
-      //     }).catch(() => {
-      //       console.log("no user added")
-      //     })
-      //   }
-      // }).catch((error) => {
-      //   console.log(error)
-      // })
       // const token = await auth.currentUser.getIdToken();
       // Cookie.set('user_token', token, {
       //   expires: 1
