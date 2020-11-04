@@ -1,6 +1,5 @@
 <template>
   <div class="projects-list-wrapper">
-    <nuxt-link to="/user/project-timeline">Project timeline</nuxt-link> 
     <project-form v-if="role == 'admin'" />
     <div class="projects-list">
       <div class="projects-list__project" v-for="(item, i) in $store.state.project.projects" :key="i">

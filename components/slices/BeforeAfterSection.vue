@@ -42,11 +42,6 @@
       const afterLayer = imageWrapper.querySelector('.before-after-block__image--after')
       const scroller = document.querySelector('.scroller-wrapper');
       var delta = 0
-      // image.addEventListener('mousemove', (e) => {
-      //   console.log(e.clientX)
-      //   delta = (e.clientX - image.offsetWidth / 2)
-      //   beforeLayer.style.width = delta + 'px'
-      // })
 
       let active = false;
       scroller.addEventListener('mousedown', function () {
@@ -57,7 +52,6 @@
         active = false;
         scroller.classList.remove('scrolling')
       });
-      console.log("hello from before and after component")
       document.body.addEventListener('mouseleave', function () {
         active = false;
         scroller.classList.remove('scrolling')
@@ -66,8 +60,7 @@
       document.body.addEventListener('mousemove', function (e) {
         if (!active) return;
         let x = e.pageX;
-        x -=
-          imageWrapper.getBoundingClientRect().left;
+        x -= imageWrapper.getBoundingClientRect().left;
         scrollIt(x)
       });
 
@@ -88,8 +81,7 @@
       document.body.addEventListener('touchmove', function (e) {
         if (!active) return;
         let x = e.touches[0].pageX;
-        x -=
-          imageWrapper.getBoundingClientRect().left;
+        x -= imageWrapper.getBoundingClientRect().left;
         scrollIt(x)
       });
       document.body.addEventListener('touchcancel', function () {

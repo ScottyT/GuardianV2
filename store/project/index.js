@@ -10,7 +10,8 @@ import VueAxios from 'vue-axios';
 export const state = () => ({
   projects: [],
   error: '',
-  favorites:[]
+  favorites: [],
+  data: null
 });
 export const mutations = {
   setProjects: (state, payload) => {
@@ -21,6 +22,9 @@ export const mutations = {
   },
   setFavs: (state, payload) => {
   state.favorites = payload
+  },
+  setProject: (state, payload) => {
+    state.data = payload
   }
 };
 export const actions = {
@@ -60,6 +64,21 @@ export const actions = {
         console.log("project updated successfully")
       })
   },
+  async fetchProject({ commit }, id) {
+    var project = {}
+    await fireDb.collection("projects").where("id", "==", id).get()
+      .then((qs) => {
+        qs.forEach((doc) => {
+          project = doc.data()
+        })
+        commit('setProject', project)
+      })
+      .catch((e) => {
+        commit('setError', e)
+      })
+    
+    
+  },
   setMessage({ commit }) {
     axios.get('/test').then(res => res.data).then(items => {
       console.log(items);
@@ -76,4 +95,7 @@ export const getters = {
   user(state, getters, rootState, rootGetters) {
     return rootGetters['auth/getUser']
   },
+  getProject: (state) => {
+    return state.data
+  }
 }

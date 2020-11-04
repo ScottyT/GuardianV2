@@ -17,8 +17,7 @@
 				<a class="logout-button" @click="signOut" role="button" v-else>Logout</a>				
 			</li>
 			<li class="navigation__menu-item--user">
-				<NuxtLink to="/user/projects">{{$store.state.auth && $store.state.auth.user ? $store.state.auth.user.email : null}}</NuxtLink>
-				<!-- <a href="/user/projects">{{$store.state.auth && $store.state.auth.user ? $store.state.auth.user.email : null}}</a> -->
+				<a href="/dashboard/projects">{{$store.state.auth && $store.state.auth.user ? $store.state.auth.user.email : null}}</a>
 			</li>
 		</ul>
 	</v-app-bar>
@@ -258,7 +257,7 @@ export default {
 			display:flex;
 
 			a {
-				color:$primary;
+				color:$primary!important;
 			}
 		}
 	}
