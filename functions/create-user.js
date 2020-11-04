@@ -2,7 +2,7 @@ const admin = require('firebase-admin')
 const fs = require('fs');
 const path = require('path');
 
-const serviceAccount = require('./gr-serviceAccounts.js');
+const serviceAccount = require('./gr-serviceAccounts.json');
 var adminApp;
 const adminConfig = {
   credential: admin.credential.cert(serviceAccount),
