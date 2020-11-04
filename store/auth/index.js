@@ -2,6 +2,7 @@ import { auth } from '@/plugins/firebase';
 import { fireDb } from '@/plugins/firebase';
 import { persistance } from '@/plugins/firebase';
 import Cookie from 'js-cookie';
+import axios from 'axios';
 export const state = () => ({
   user: null,
   error: null,
@@ -64,18 +65,34 @@ export const actions = {
         console.log(error)
       })
       const userUID = auth.currentUser.uid;
-
-      const userRef = fireDb.collection('users').doc(userUID)
-      await userRef.get().then((doc) => {
-        if (doc.exists) {
-          data = doc.data()
-        } else {
-          fireDb.collection('users').doc(userUID).set({
-            email: account.email,
-            id: userUID
-          })
-        }
+      console.log(userUID)
+      axios.post('post', {
+        email: account.email,
+        id: userUID
+      }).then((res) => {
+        res.data
+      }).catch((error) => {
+        console.log(error)
       })
+      //const userRef = fireDb.collection('users').doc(userUID)
+      // await userRef.get().then((doc) => {
+      //   if (doc.exists) {
+      //     data = doc.data()
+      //   } else {
+      //     console.log("New user: ", userUID)
+      //     fireDb.collection('users').doc(userUID).set({
+      //       email: account.email,
+      //       id: userUID,
+      //       role: "user"
+      //     }).then(() => {
+      //       console.log("success")
+      //     }).catch(() => {
+      //       console.log("no user added")
+      //     })
+      //   }
+      // }).catch((error) => {
+      //   console.log(error)
+      // })
       // const token = await auth.currentUser.getIdToken();
       // Cookie.set('user_token', token, {
       //   expires: 1
