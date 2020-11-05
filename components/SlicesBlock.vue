@@ -606,6 +606,11 @@
           flex-direction:row;
         }
 
+        &--searchbox {
+          flex-direction:column;
+          display:block;
+        }
+
         & > div {
           width:100%;
           height:100%;

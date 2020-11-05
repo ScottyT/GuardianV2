@@ -1,7 +1,11 @@
+import {
+  fireDb
+} from '@/plugins/firebase';
 export const state = () => ({
   header: {},
   footer: {},
-  error: ''
+  error: '',
+  users:[]
 })
 
 export const mutations = {
@@ -13,6 +17,9 @@ export const mutations = {
   },
   setError(state, error) {
     state.error = error
+  },
+  setUsers: (state, payload) => {
+    state.users = payload
   }
 }
 
@@ -30,6 +37,19 @@ export const actions = {
       commit('setError', error)
     }
   },
+  async fetchUsers({ commit }) {
+    try {
+      let users = []
+      await fireDb.collection('users').get().then((qs) => {
+        qs.forEach((doc) => {
+          users.push(doc.data())
+        })
+      })
+      commit('setUsers', users)
+    } catch (e) {
+      commit('setError', e)
+    }
+  }
   // nuxtServerInit: (process.server && !process.static) ? async function ({ commit }, { req }) {
   //   if (!req.headers.cookie) return;
   //   const cookieparser = await import('cookie')

@@ -1,6 +1,7 @@
 <template>
+
   <div class="user-area">
-    <project-calendar :user="data" />
+      <project-calendar :user="data" />
   </div>
 </template>
 <script>
@@ -13,3 +14,14 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.slide-right {
+  opacity:0;
+  transform:translateX(200px);
+  transition: all .2s ease-in;
+}
+.slide-left {
+  opacity:1;
+  transform:translateX(-200px)
+}
+</style>
