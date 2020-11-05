@@ -5,11 +5,7 @@
 </template>
 <script>
 export default {
-  middleware({ store, redirect }) {
-    if (store.state.auth.user == null) {
-      return redirect('/')
-    }
-  },
+  layout: 'dashboard',
   async asyncData({ params, store }) {
     const user = await store.getters['auth/getUser']
     console.log(store.getters["auth/getUser"])

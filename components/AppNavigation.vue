@@ -1,5 +1,5 @@
 <template>
-	<v-app-bar :height="navbarHeight" hide-on-scroll elevate-on-scroll class="navigation" :fixed="this.$route.name !== 'thankyou'" color="rgba(255, 255, 255, .79)">
+	<v-app-bar :clipped-left="true" :height="navbarHeight" hide-on-scroll elevate-on-scroll class="navigation" :fixed="this.$route.name !== 'thankyou'" color="rgba(255, 255, 255, .79)">
 		<nuxt-link class="navigation__site-title" to="/">
 			<img :src="scrolledDown ? $store.state.header.alt_logo.url : $store.state.header.logo.url" :alt="$store.state.header.logo.alt" />
 		</nuxt-link>
