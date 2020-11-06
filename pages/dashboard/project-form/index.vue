@@ -1,32 +1,21 @@
 <template>
-
   <div class="user-area">
     <h1>Create Project Here</h1>
     <ValidationObserver ref="create" v-slot="{ handleSubmit }">
-      <form class="form form--project" method="POST" @submit.prevent="handleSubmit()">
+      <form class="form form--project project-create-form" method="POST" @submit.prevent="handleSubmit()">
         <ValidationProvider v-slot="{errors}" vid="name" name="Name" class="form__rounded-input-wrapper">
           <input class="form__rounded-input" placeholder="Project name" v-model="name" type="text" name="name" />
           <span class="form__input--error" v-if="errors.length > 0">{{ errors[0] }}</span>
         </ValidationProvider>
         <span class="form__rounded-input-wrapper form__rounded-input-wrapper--searchbox">
-          <input type="text" v-model="search" class="form__rounded-input" placeholder="Search for client..." />
-          <ul v-if="!hidden" class="project-form__suggested-terms">
-            <li v-for="(item, i) in filteredClients" :key="i">{{ item.email }}</li>
-          </ul>
-
-        <!-- <select v-model="selected" class="form__rounded-input">
-            <option disabled value="">Selected a client</option>
-            <option v-for="(client, i) in $store.state.users" :key="i">
-              {{client.email}}
-            </option>
-          </select> -->
+          <autocomplete cssClass="form__rounded-input" placeholderText="Search for clients..." :items="clients" @set_result="selectedClient" />
         </span>
         <ValidationProvider v-slot="{errors}" vid="type" name="Type" class="form__rounded-input-wrapper">
-          <input type="text" v-model="type" placeholder="Project type" class="form__rounded-input" name="type" />
+          <!-- <input type="text" v-model="type" placeholder="Project type" class="form__rounded-input" name="type" /> -->
+          <autocomplete cssClass="form__rounded-input" placeholderText="Search for category..." :items="['Roofing', 'Gutters','Siding','Flooring','Drywall','Painting']" @set_result="selectedCat" />
           <span class="form__input--error" v-if="errors.length > 0">{{ errors[0] }}</span>
         </ValidationProvider>
-        <button type="submit"
-          :class="`button button--submit ${submitting ? 'submitting' : ''}`">{{ buttonText }}</button>
+        <button type="submit" :class="`button button--submit ${submitting ? 'submitting' : ''}`">{{ buttonText }}</button>
       </form>
     </ValidationObserver>
   </div>
@@ -45,9 +34,8 @@
     data: () => ({
       submitting: false,
       name: '',
-      selected: '',
+      client: '',
       type: '',
-      search: '',
       hidden: true
     }),
     watch: {
@@ -72,19 +60,17 @@
         }
       },
       clients() {
-        return this.$store.state.users
-      },
-      filteredClients() {
-        let searchText = this.search
-        searchText.trim().toLowerCase();
-        return this.clients.filter(user => {
-          return user.email.toLowerCase().includes(searchText) && searchText != ''
+        return this.$store.state.users.map((user) => {
+          return user.email
         })
-      }
+      },
     },
     methods: {
-      handler: function(evt) {
-        this.$emit("change", evt)
+      selectedClient(value) {
+        this.client = value
+      },
+      selectedCat(value) {
+        this.type = value
       }
     }
   }
@@ -92,12 +78,7 @@
 <style lang="scss">
   .project-form {
     &__suggested-terms {
-      z-index:4;
-      position:relative;
-      width:500px;
-      background-color:$color-white;
-      padding:15px;
-      border:1px solid $color-black;
+      
 
       &.hidden {
         display:none;

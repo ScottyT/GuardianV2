@@ -614,7 +614,7 @@
         & > div {
           width:100%;
           height:100%;
-          display:flex;
+         // display:flex;
           align-items:center;
         }
 
