@@ -200,6 +200,7 @@
             name: this.name,
             email: this.email,
             message: this.message,
+            formtype: 'Contact'
           })
           .then((res) => {
             if (res.Errors) {

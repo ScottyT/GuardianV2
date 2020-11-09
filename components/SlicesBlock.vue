@@ -706,6 +706,16 @@
       font-weight: 700;
 
     }
+    .vue-daterange-picker {
+      select {
+        -webkit-appearance: auto!important;
+      }
+    }
+    .calendars {
+      display:flex;
+      flex-wrap:wrap;
+      flex:1 1 auto;
+    }
   }
 
   //generic classes

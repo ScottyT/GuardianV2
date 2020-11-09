@@ -4,13 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"regexp"
 	"strings"
 
 	"github.com/aws/aws-lambda-go/events"
-	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
@@ -19,11 +19,26 @@ var rxEmail = regexp.MustCompile(`^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$`)
 var rxName = regexp.MustCompile(`^[a-zA-Z\s]*$`)
 
 type MyForm struct {
-	Name    string `json:"name"`
-	Email   string `json:"email"`
-	Message string `json:"message"`
-	Errors  map[string]string
+	Name        string                 `json:"name"`
+	Email       string                 `json:"email"`
+	Message     string                 `json:"message"`
+	Project     string                 `json:"project"`
+	Client      string                 `json:"client"`
+	Type        string                 `json:"type"`
+	DateRange   map[string]interface{} `json:"dateRange`
+	Description string                 `json:"description"`
+	FormType    string                 `json:"formtype"`
+	Errors      map[string]string
 }
+
+// type ProjectForm struct {
+// 	Project     string                 `json:"project"`
+// 	Client      string                 `json:"client"`
+// 	Type        string                 `json:"type"`
+// 	DateRange   map[string]interface{} `json:"dateRange`
+// 	Description string                 `json:"description"`
+// 	Errors      map[string]string
+// }
 type MyPayload struct {
 	MyForm MyForm `json:"data"`
 }
@@ -40,25 +55,57 @@ const apiKey = "SENDGRID_API_KEY"
 
 func (msg *MyForm) Validate() bool {
 	msg.Errors = make(map[string]string)
-	matchEmail := rxEmail.MatchString(msg.Email)
-	if matchEmail == false {
-		msg.Errors["Email"] = "Please enter a valid email address"
+	formType := msg.FormType
+	switch {
+	case formType == "ProjectCreate":
+		if strings.TrimSpace(msg.Project) == "" {
+			msg.Errors["Project"] = "Please give the project a name"
+		}
+		if strings.TrimSpace(msg.Client) == "" {
+			msg.Errors["Client"] = "Please specify a client"
+		}
+		if strings.TrimSpace(msg.Type) == "" {
+			msg.Errors["Type"] = "Please enter a category"
+		}
+		return len(msg.Errors) == 0
+	case formType == "Contact":
+		matchEmail := rxEmail.MatchString(msg.Email)
+		if matchEmail == false {
+			msg.Errors["Email"] = "Please enter a valid email address"
+		}
+		matchName := rxName.MatchString(msg.Name)
+		if matchName == false {
+			msg.Errors["Name"] = "Name can only contain letters and spaces"
+		}
+		if len(msg.Name) >= 30 {
+			msg.Errors["Name"] = "Name must be shorter than 30 characters"
+		}
+		if strings.TrimSpace(msg.Name) == "" {
+			msg.Errors["Name"] = "Please enter a name"
+		}
+		if strings.TrimSpace(msg.Message) == "" {
+			msg.Errors["Message"] = "Please enter a message"
+		}
+		return len(msg.Errors) == 0
 	}
-	matchName := rxName.MatchString(msg.Name)
-	if matchName == false {
-		msg.Errors["Name"] = "Name can only contain letters and spaces"
-	}
-	if len(msg.Name) >= 30 {
-		msg.Errors["Name"] = "Name must be shorter than 30 characters"
-	}
-	if strings.TrimSpace(msg.Name) == "" {
-		msg.Errors["Name"] = "Please enter a name"
-	}
-	if strings.TrimSpace(msg.Message) == "" {
-		msg.Errors["Message"] = "Please enter a message"
-	}
-	return len(msg.Errors) == 0
+	return false
 }
+
+// func (p *ProjectForm) Validate() bool {
+// 	p.Errors = make(map[string]string)
+// 	if strings.TrimSpace(p.Project) == "" {
+// 		p.Errors["Project"] = "Please give the project a name"
+// 	}
+// 	if strings.TrimSpace(p.Client) == "" {
+// 		p.Errors["Client"] = "Please specify a client"
+// 	}
+// 	if strings.TrimSpace(p.Type) == "" {
+// 		p.Errors["Type"] = "Please enter a category"
+// 	}
+// 	fmt.Printf("Type of date range: %T", p.DateRange)
+// 	fmt.Println("Type ProjectForm")
+// 	return len(p.Errors) == 0
+// }
 
 func (msg *MyForm) Deliver() []byte {
 	fmt.Println(msg.Name)
@@ -135,16 +182,28 @@ func formHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Thank you for contacting us! We will reach out to you shortly.")
 	}
 }
-func main() {
-	lambda.Start(func(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-		resp, err := handler(request)
-		return resp, err
-	})
-	// fs := http.FileServer(http.Dir("./dist"))
 
-	// http.Handle("/", fs)
-	// http.HandleFunc("/sendform", formHandler)
-	// fmt.Printf("Starting server at port 1000\n")
-	// defer fmt.Println("Server ended")
-	// log.Fatal(http.ListenAndServe(":1000", nil))
+// use for project form submission
+func projectHandler(w http.ResponseWriter, r *http.Request) {
+	var dat MyForm
+	reqBody, _ := ioutil.ReadAll(r.Body)
+	json.Unmarshal([]byte(reqBody), &dat)
+	if dat.Validate() == false {
+		json.NewEncoder(w).Encode(dat)
+		return
+	}
+}
+func main() {
+	// lambda.Start(func(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+	// 	resp, err := handler(request)
+	// 	return resp, err
+	// })
+	fs := http.FileServer(http.Dir("./dist"))
+
+	http.Handle("/", fs)
+	http.HandleFunc("/sendform", formHandler)
+	http.HandleFunc("/create", projectHandler)
+	fmt.Printf("Starting server at port 1000\n")
+	defer fmt.Println("Server ended")
+	log.Fatal(http.ListenAndServe(":1000", nil))
 }

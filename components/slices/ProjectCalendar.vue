@@ -97,12 +97,14 @@
   </div>
 </template>
 <script>
+import { createNamespacedHelpers } from "vuex";
+const { mapState } = createNamespacedHelpers("projects");
   import {
     mapGetters
   } from 'vuex'
   export default {
     name: "ProjectCalendar",
-    props: ['slice', 'user'],
+    props: ['listprojects', 'user'],
     data: (vm) => ({
       focus: '',
       type: 'month',
@@ -154,6 +156,9 @@
       favorites:[]
     }),
     computed: {
+      ...mapState({
+        projects: (state) => state.projects
+      }),
       //...mapGetters(['project/projects']),
       projects() {
         var projectsArr = this.$store.state.project.projects

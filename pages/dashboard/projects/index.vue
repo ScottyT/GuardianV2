@@ -1,7 +1,7 @@
 <template>
 
   <div class="user-area">
-      <project-calendar :user="data" />
+      <project-calendar :listprojects="projects" :user="data" />
   </div>
 </template>
 <script>
@@ -9,8 +9,13 @@ export default {
   layout: 'dashboard',
   async asyncData({ params, store }) {
     const user = await store.getters['auth/getUser']
+    const projects = await store.getters['project/getProjects']
     console.log(store.getters["auth/getUser"])
-    return {data: user}
+    console.log(projects)
+    return {
+      data: user,
+      projects: projects
+    }
   }
 }
 </script>

@@ -97,5 +97,8 @@ export const getters = {
   },
   getProject: (state) => {
     return state.data
+  },
+  getProjects: (state) => {
+    return state.projects
   }
 }

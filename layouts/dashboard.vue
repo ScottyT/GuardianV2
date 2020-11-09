@@ -124,7 +124,7 @@
     border-right:1px solid rgba(128, 128, 128, .29);
 
     a {
-      color:$color-black;
+      color:$color-black!important;
     }
   }
   &__menu-links {
