@@ -1,5 +1,6 @@
 <template>
   <div class="project-calendar">
+    <span>{{listprojects}}</span>
     <v-sheet height="64">
       <v-toolbar flat>
         <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday">
@@ -156,9 +157,9 @@ const { mapState } = createNamespacedHelpers("projects");
       favorites:[]
     }),
     computed: {
-      ...mapState({
-        projects: (state) => state.projects
-      }),
+      // ...mapState({
+      //   projects: (state) => state.projects
+      // }),
       //...mapGetters(['project/projects']),
       projects() {
         var projectsArr = this.$store.state.project.projects

@@ -8,7 +8,7 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 
 export const state = () => ({
-  projects: [],
+  projects: null,
   error: '',
   favorites: [],
   data: null

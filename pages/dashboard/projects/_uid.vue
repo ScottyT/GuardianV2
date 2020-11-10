@@ -7,6 +7,7 @@
 </template>
 <script>
 export default {
+  layout: 'dashboard',
   async asyncData({ $http, params, error, store }) {
     const id = params.uid
     //const project = await store.dispatch("project/fetchProject", id)
