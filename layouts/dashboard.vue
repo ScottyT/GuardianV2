@@ -2,16 +2,25 @@
   <v-app dark>
     <app-navigation />
     <main class="v-content__wrap dashboard-area">
-      <v-navigation-drawer height="100%">
+      <aside class="sidebar-nav">
+        <div class="sidebar-nav__list" role="list">
+          <nuxt-link v-for="(item, i) in items" :key="i" :to="item.to" exact class="sidebar-nav__menu-links">
+            <span class="sidebar-nav__menu-links--title">{{item.title}}</span>
+          </nuxt-link>
+        </div>
+      </aside>
+      <!-- <v-navigation-drawer height="100%">
         <v-list>
-          <v-list-item v-for="(item, i) in items" :key="i" :to="item.to" nuxt exact>
+          <v-list-item v-for="(item, i) in items" :key="i" :to="item.to" nuxt exact class="dashboard-area__menu-links">
             <v-list-item-content>
               <v-list-item-title v-text="item.title" />
             </v-list-item-content>
           </v-list-item>
         </v-list>
-      </v-navigation-drawer>
+      </v-navigation-drawer> -->
+      <transition name="slide-left">
       <nuxt />
+      </transition>
     </main>
     <footer-nav />
     <login-modal />
@@ -63,6 +72,7 @@
       if (store.state.auth.user == null) {
         return redirect('/')
       }
+      await store.dispatch("fetchUsers")
       await store.dispatch("fetchMenu", $prismic)
       await store.dispatch("project/fetchProjects", null, {
         root: true
@@ -71,6 +81,19 @@
   }
 </script>
 <style lang="scss">
+.user-area-enter-active, .user-area-leave-active {
+  transition:opacity .5s;
+}
+.user-area-enter, .user-area-leave-active {
+  opacity:0;
+}
+.slide-left-enter-active, .slide-left-leave-active {
+  transition:all .5s;
+}
+.slide-left-enter, .slide-left-leave-to {
+  opacity:0;
+  transform:translateX(400px);
+}
 .dashboard-area {
   display:grid;
   grid-template-columns:300px 1fr;
@@ -78,6 +101,60 @@
   margin:0 auto;
   padding:100px 30px 0 30px;
   width:100%;
+  &__menu-links {
+    height:10px;
+    &:hover {
+      &:before {
+        background-color:$primary;
+        opacity:.1!important;
+      }
+    }
+  }
+}
+.user-area {
+  transition:all .5s;
+}
+.sidebar-nav {
+  display:flex;
+  flex-direction:column;
+  width:256px;
+  &__list {
+    height:100%;
+    padding:8px 0;
+    border-right:1px solid rgba(128, 128, 128, .29);
+
+    a {
+      color:$color-black!important;
+    }
+  }
+  &__menu-links {
+    display:block;
+    min-height:48px;
+    padding:10px 16px;
+    position:relative;
+    width:100%;
+    text-decoration: none;
+    
+    &:before {
+      content:'';
+      background-color:$primary-dark;
+      opacity:0;
+      bottom:0;
+      left:0;
+      position:absolute;
+      right:0;
+      top:0;
+      transition:all .4s cubic-bezier(0.51, 0.03, 0.5, 1);
+    }
+    &:hover:before {
+      opacity:.1;
+      transition:all .4s cubic-bezier(0.51, 0.03, 0.5, 1);
+    }
+    &.nuxt-link-active:before {
+      background-color:$color-grey;
+      opacity:.2;
+    }
+  }
 }
 html {
     @include respond(mobileSmall) {

@@ -606,10 +606,15 @@
           flex-direction:row;
         }
 
+        &--searchbox {
+          flex-direction:column;
+          display:block;
+        }
+
         & > div {
           width:100%;
           height:100%;
-          display:flex;
+         // display:flex;
           align-items:center;
         }
 
@@ -700,6 +705,16 @@
     &__label {
       font-weight: 700;
 
+    }
+    .vue-daterange-picker {
+      select {
+        -webkit-appearance: auto!important;
+      }
+    }
+    .calendars {
+      display:flex;
+      flex-wrap:wrap;
+      flex:1 1 auto;
     }
   }
 

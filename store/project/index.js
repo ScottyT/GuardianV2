@@ -8,7 +8,7 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 
 export const state = () => ({
-  projects: [],
+  projects: null,
   error: '',
   favorites: [],
   data: null
@@ -97,5 +97,8 @@ export const getters = {
   },
   getProject: (state) => {
     return state.data
+  },
+  getProjects: (state) => {
+    return state.projects
   }
 }
