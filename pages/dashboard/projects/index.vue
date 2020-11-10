@@ -1,7 +1,7 @@
 <template>
 
   <div class="user-area">
-      <project-calendar :listprojects="projects" :user="data" />
+    <project-calendar :listprojects="projects" :user="data" />
   </div>
 </template>
 <script>

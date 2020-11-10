@@ -1,6 +1,8 @@
 <template>
   <div class="user-area">
-    <span>{{clients}}</span>
+    <span>{{message}}</span>
+ 
+    <div>Errors: {{errorsList}}</div>
     <h1>Create Project Here</h1>
     <ValidationObserver ref="create" v-slot="{ handleSubmit }">
       <form class="form form--project project-create-form" method="POST" @submit.prevent="handleSubmit(create)">
@@ -36,6 +38,7 @@
     ValidationProvider,
     ValidationObserver
   } from 'vee-validate';
+  import { fireDb } from '~/plugins/firebase.js'
   import DateRangePicker from 'vue2-daterange-picker'
   import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
   export default {
@@ -47,6 +50,7 @@
     },
     data: () => ({
       submitting: false,
+      submitted: false,
       name: '',
       client: '',
       type: '',
@@ -55,7 +59,9 @@
         startDate: null,
         endDate: null
       },
-      hidden: true
+      errorsList: null,
+      hidden: true,
+      message: ''
     }),
     watch: {
       search(value) {
@@ -92,6 +98,8 @@
         this.type = value
       },
       async create() {
+        this.errorsList = null
+        this.submitting = true
         await this.$axios.$post("/create", {
           project: this.name,
           client: this.client,
@@ -101,14 +109,43 @@
           formtype: 'ProjectCreate'
         }).then((res) => {
           if (res.Errors) {
+            this.errorsList = res.Errors
             this.$refs.create.setErrors({
-              project: res.Errors.ProjectName
+              project: res.Errors.ProjectName,
+              client: res.Errors.Client,
+              type: res.Errors.Type
             })
+            this.submitting = false
+            this.submitted = false
+            return;
           }
+          console.log("outside firedb")
+          
+          this.message = res
+          this.submitting = false
+          this.submitted = true
         })
         .catch((err) => {
-          console.log(err)
+          this.message = err.message
         })
+
+        if (Object.keys(this.errorsList).length === 0 && this.errorsList.constructor === Object) {
+          fireDb.collection("projects").add({
+            client: this.client,
+            description: this.description,
+            name: this.name,
+            type: this.type,
+            start: this.dateRange.startDate,
+            end: this.dateRange.endDate
+          }).then((docRef) => {
+            console.log("Inside fire db:", docRef.id)
+            this.message = res.message
+            this.submitting = false
+            this.submitted = true
+          }).catch((error) => {
+            console.error(error)
+          })
+        }
       }
     }
   }

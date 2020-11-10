@@ -83,12 +83,13 @@ export default {
 			await Cookie.remove('vuex');
 			//this.$router.push('/signedout')
 			this.$store.commit('auth/setUser', null)
-			window.location.reload()
+			if (this.$route.name == "dashboard-projects-uid") {
+				location.href = "/"
+			} else {
+				window.location.reload()
+			}
 		}
-	},
-	created() {
-		//this.isScrolling()
-	},
+	}
 }
 </script>
 <style lang="scss">

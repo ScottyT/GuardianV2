@@ -51,7 +51,7 @@ type ProxyRequest struct {
 	QueryParams map[string]string `json:"queryParams"`
 }
 
-const apiKey = "SENDGRID_API_KEY"
+const apiKey = "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"
 
 func (msg *MyForm) Validate() bool {
 	msg.Errors = make(map[string]string)
@@ -90,22 +90,6 @@ func (msg *MyForm) Validate() bool {
 	}
 	return false
 }
-
-// func (p *ProjectForm) Validate() bool {
-// 	p.Errors = make(map[string]string)
-// 	if strings.TrimSpace(p.Project) == "" {
-// 		p.Errors["Project"] = "Please give the project a name"
-// 	}
-// 	if strings.TrimSpace(p.Client) == "" {
-// 		p.Errors["Client"] = "Please specify a client"
-// 	}
-// 	if strings.TrimSpace(p.Type) == "" {
-// 		p.Errors["Type"] = "Please enter a category"
-// 	}
-// 	fmt.Printf("Type of date range: %T", p.DateRange)
-// 	fmt.Println("Type ProjectForm")
-// 	return len(p.Errors) == 0
-// }
 
 func (msg *MyForm) Deliver() []byte {
 	fmt.Println(msg.Name)
@@ -183,6 +167,13 @@ func formHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// from := mail.NewEmail(msg.Name, msg.Email)
+// 	subject := "Contact Form Submission"
+// 	to := mail.NewEmail("Headquarters", "scott@damage.click")
+// 	plainTextContent := fmt.Sprintf("Name: %s\nEmail: %s\nMessage: %s\n", msg.Name, msg.Email, msg.Message)
+// 	htmlContent := fmt.Sprintf("<p style='font-size:16px;'>Name: %s</p>\n<p style='font-size:16px;'>Email: %s</p>\n<p style='font-size:16px'>Message: %s</p>", msg.Name, msg.Email, msg.Message)
+// 	message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
+// 	return mail.GetRequestBody(message)
 // use for project form submission
 func projectHandler(w http.ResponseWriter, r *http.Request) {
 	var dat MyForm
@@ -191,6 +182,22 @@ func projectHandler(w http.ResponseWriter, r *http.Request) {
 	if dat.Validate() == false {
 		json.NewEncoder(w).Encode(dat)
 		return
+	}
+
+	from := mail.NewEmail("No-reply", "no-reply@guardian.com")
+	subject := "New project submission"
+	to := mail.NewEmail("Headquarters", "stuck04@gmail.com")
+	plainTextContent := fmt.Sprintf("Project name: %s\nClient: %s\nDate: %s\nDescription: %s\n", dat.Project, dat.Client, dat.DateRange, dat.Description)
+	htmlContent := fmt.Sprintf("<p style='font-size:16px;'>Project name: %s</p>\n<p style='font-size:16px;'>Client: %s</p>\n<p style='font-size:16px'>Date: %s</p>\n<p style='font-size:16px'>Description: %s</p>", dat.Project, dat.Client, dat.DateRange, dat.Description)
+	message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
+	client := sendgrid.NewSendClient(apiKey)
+	response, err := client.Send(message)
+	if err != nil {
+		fmt.Println(w, "Sorry something went wrong")
+	} else {
+		//fmt.Fprintf(w, "Thank you for submitting a project.", dat)
+		json.NewEncoder(w).Encode(dat)
+		fmt.Println(response)
 	}
 }
 func main() {

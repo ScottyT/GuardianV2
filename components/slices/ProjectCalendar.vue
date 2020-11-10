@@ -90,7 +90,7 @@
             <v-btn class="project-card__cancel-button" text color="#2a2a2a" @click="selectedOpen = false">
               Cancel
             </v-btn>
-            <v-btn class="project-card__submit-button" text color="#2a2a2a" @click="updateProject">Submit</v-btn>
+            <v-btn class="project-card__submit-button" text color="#2a2a2a" @click="updateProject" v-show="isEditing">Submit</v-btn>
           </v-card-actions>
         </v-card>
       </v-menu>

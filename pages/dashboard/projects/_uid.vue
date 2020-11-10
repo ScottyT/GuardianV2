@@ -11,11 +11,18 @@ export default {
   async asyncData({ $http, params, error, store }) {
     const id = params.uid
     //const project = await store.dispatch("project/fetchProject", id)
+    const user = await store.getters['auth/getUser']
     const project = await store.getters["project/getProject"]
     //console.log(project)
     return { 
       id: id,
-      data: project
+      data: project,
+      user: user
+    }
+  },
+  async middleware({ store, redirect }) {
+    if (store.state.auth.user == null) {
+      return redirect('/')
     }
   },
   computed: {

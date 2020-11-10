@@ -366,7 +366,7 @@
     text-decoration: none;
 
     &.color-red {
-      color: $primary-dark;
+      color: $primary-dark!important;
     }
 
     &.button {
