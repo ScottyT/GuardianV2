@@ -59,11 +59,6 @@
         startDate: null,
         endDate: null
       },
-      // errorsList: {
-      //   Project: '',
-      //   Client:'',
-      //   Type: ''
-      // },
       errorsList: {},
       hidden: true,
       message: '',
@@ -159,7 +154,6 @@
             this.description = ""
             return;
           }
-          console.log("outside firedb")
           
           this.message = res
           this.submitting = false
@@ -193,10 +187,7 @@
           })
         }
       }
-    },
-    // created() {
-    //   this.$refs.picker
-    // }
+    }
   }
 </script>
 <style lang="scss">
