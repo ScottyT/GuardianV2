@@ -124,9 +124,9 @@
         this.type = value
       },
       async create() {
-        this.errorsList = null
+        this.errorsList = {}
         this.submitting = true
-        await this.$axios.$post("/create", {
+        await this.$axios.$post("/sendform", {
           project: this.name,
           client: this.client,
           dateRange: this.dateRange,
