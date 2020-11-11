@@ -142,16 +142,7 @@
               type: res.Errors.Type,
               date: res.Errors.DateRange
             })
-            this.submitting = false
-            this.submitted = false
-            this.project = ""
-            this.client = ""
-            this.type =""
-            this.dateRange = {
-              startDate: null,
-              endDate: null
-            }
-            this.description = ""
+            
             return;
           }
           
@@ -182,6 +173,14 @@
             this.message = "Project was added successfully!"
             this.submitting = false
             this.submitted = true
+            this.project = ""
+            this.client = ""
+            this.type =""
+            this.dateRange = {
+              startDate: null,
+              endDate: null
+            }
+            this.description = ""
           }).catch((error) => {
             console.error(error)
           })
