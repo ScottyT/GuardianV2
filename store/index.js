@@ -50,26 +50,26 @@ export const actions = {
       commit('setError', e)
     }
   },
-  nuxtServerInit: (process.server && !process.static) ? async function ({ commit, dispatch }, { req }) {
-    if (!req.headers.cookie) return;
-    const cookieparser = await import('cookie')
-    const parsed = cookieparser.parse(req.headers.cookie);
-    if (!parsed) {
-      return;
-    }
-    const idToken = parsed['user_token']
-    const JWTDecode = (await import('jwt-decode')).default;
-    var decodedUser = null;
-    try {
-      decodedUser = JWTDecode(idToken)
-    } catch { }
-    if (decodedUser == null) {
-      return;
-    }
-    console.log(decodedUser)
-    commit('auth/setUser', {
-      email: decodedUser.email
-    })
-    dispatch('project/fetchProjects', null, { root: true })
-  } : () => { console.log('other way') },
+  // nuxtServerInit: (process.server && !process.static) ? async function ({ commit, dispatch }, { req }) {
+  //   if (!req.headers.cookie) return;
+  //   const cookieparser = await import('cookie')
+  //   const parsed = cookieparser.parse(req.headers.cookie);
+  //   if (!parsed) {
+  //     return;
+  //   }
+  //   const idToken = parsed['user_token']
+  //   const JWTDecode = (await import('jwt-decode')).default;
+  //   var decodedUser = null;
+  //   try {
+  //     decodedUser = JWTDecode(idToken)
+  //   } catch { }
+  //   if (decodedUser == null) {
+  //     return;
+  //   }
+  //   console.log(decodedUser)
+  //   commit('auth/setUser', {
+  //     email: decodedUser.email
+  //   })
+  //   dispatch('project/fetchProjects', null, { root: true })
+  // } : () => { console.log('other way') },
 }

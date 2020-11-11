@@ -1,5 +1,5 @@
 export default function(ctx) {
-  // if (ctx.route.fullPath == '/dashboard' || ctx.route.fullPath == '/dashboard/') {
+  // if (ctx.route.name == 'dashboard-projects-uid') {
   //   ctx.redirect(301, '/dashboard/projects')
   // }
 }

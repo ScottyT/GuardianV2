@@ -28,7 +28,7 @@
           <ul v-if="errorsList.length">
             <li v-for="error in errors" :key="error.id">{{ error }}</li>
           </ul>
-          <ValidationProvider v-slot="{errors}" mode="eager" vid="name" name="Name" class="form__rounded-input-wrapper">
+          <ValidationProvider v-slot="{errors}" mode="eager" vid="name" rules="required" name="Name" class="form__rounded-input-wrapper">
             <span class="form__icon">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

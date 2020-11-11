@@ -31,11 +31,11 @@ export const actions = {
   async fetchProjects({ commit, getters }) {
     const list = []
     let userData = getters['user'] ? getters['user'] : null;
-    try {  
+    try {
       if (userData.role == 'admin') {
         await fireDb.collection('projects').get().then((qs) => {
           qs.forEach((doc) => {
-            list.push(doc.data())       
+            list.push(doc.data())  
           })
           commit('setProjects', list)
         })
