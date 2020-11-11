@@ -1,7 +1,7 @@
 <template>
 
   <div class="user-area">
-    <project-calendar :listprojects="projects" :user="data" />
+    <project-calendar :user="data" />
   </div>
 </template>
 <script>
@@ -17,14 +17,14 @@ export default {
     console.log(store.getters["project/getProjects"])
     return {
       data: user,
-     // projects: projects
+      projects: projects
     }
   },
-  computed: {
-    ...mapState({
-      projects: (state) => state.projects
-    })
-  }
+  // computed: {
+  //   ...mapState({
+  //     projects: (state) => state.projects
+  //   })
+  // }
 }
 </script>
 <style lang="scss">

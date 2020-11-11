@@ -1,6 +1,5 @@
 <template>
   <div class="project-calendar">
-    <span>{{listprojects}}</span>
     <v-sheet height="64">
       <v-toolbar flat>
         <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday">
@@ -105,7 +104,7 @@ const { mapState } = createNamespacedHelpers("projects");
   } from 'vuex'
   export default {
     name: "ProjectCalendar",
-    props: ['listprojects', 'user'],
+    props: ['user'],
     data: (vm) => ({
       focus: '',
       type: 'month',
@@ -160,18 +159,6 @@ const { mapState } = createNamespacedHelpers("projects");
       // ...mapState({
       //   projects: (state) => state.projects
       // }),
-      //...mapGetters(['project/projects']),
-      projects() {
-        var projectsArr = this.$store.state.project.projects
-        for (var x = 0; x < projectsArr.length; x++) {
-          for (var y = 0; y < this.colors.length; y++) {
-            if (projectsArr[x].type == this.colors[y].value) {
-              projectsArr[x].color = this.colors[y].key
-            }
-          }
-        }
-        return projectsArr
-      },
       detailsHtml()  {
         return `
         <div class="project-card__details--field">
@@ -266,10 +253,10 @@ const { mapState } = createNamespacedHelpers("projects");
           const end = new Date(endTimestamp * 1000)
 
           events.push({
-            name: this.projects[i].name,
-            color: this.projects[i].color,
-            client: this.projects[i].client,
-            type: this.projects[i].type,
+            name: this.$store.state.project.projects[i].name,
+            color: this.$store.state.project.projects[i].color,
+            client: this.$store.state.project.projects[i].client,
+            type: this.$store.state.project.projects[i].type,
             start: start,
             startTime: start.toLocaleTimeString('en-US'),
             startDate: (start.getMonth() + 1) + "/" + (start.getUTCDate()) + "/" + (start.getUTCFullYear()),
@@ -277,8 +264,8 @@ const { mapState } = createNamespacedHelpers("projects");
             endTime: end.toLocaleTimeString('en-US'),
             endDate: (end.getMonth() + 1) + "/" + (end.getUTCDate()) + "/" + (end.getUTCFullYear()),
             timed: true,
-            description: this.projects[i].description,
-            id: this.projects[i].id
+            description: this.$store.state.project.projects[i].description,
+            id: this.$store.state.project.projects[i].id
           })
         }
 

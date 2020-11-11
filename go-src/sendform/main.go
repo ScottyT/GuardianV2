@@ -4,13 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 	"regexp"
 	"strings"
 
 	"github.com/aws/aws-lambda-go/events"
+	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
@@ -51,7 +51,7 @@ type ProxyRequest struct {
 	QueryParams map[string]string `json:"queryParams"`
 }
 
-const apiKey = "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"
+const apiKey = "SENDGRID_API_KEY"
 
 func (msg *MyForm) Validate() bool {
 	msg.Errors = make(map[string]string)
@@ -66,6 +66,9 @@ func (msg *MyForm) Validate() bool {
 		}
 		if strings.TrimSpace(msg.Type) == "" {
 			msg.Errors["Type"] = "Please enter a category"
+		}
+		if msg.DateRange["endDate"] == nil && msg.DateRange["startDate"] == nil {
+			msg.Errors["DateRange"] = "Please select the start and end dates"
 		}
 		return len(msg.Errors) == 0
 	case formType == "Contact":
@@ -92,14 +95,27 @@ func (msg *MyForm) Validate() bool {
 }
 
 func (msg *MyForm) Deliver() []byte {
-	fmt.Println(msg.Name)
-	from := mail.NewEmail(msg.Name, msg.Email)
-	subject := "Contact Form Submission"
-	to := mail.NewEmail("Headquarters", "scott@damage.click")
-	plainTextContent := fmt.Sprintf("Name: %s\nEmail: %s\nMessage: %s\n", msg.Name, msg.Email, msg.Message)
-	htmlContent := fmt.Sprintf("<p style='font-size:16px;'>Name: %s</p>\n<p style='font-size:16px;'>Email: %s</p>\n<p style='font-size:16px'>Message: %s</p>", msg.Name, msg.Email, msg.Message)
-	message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
-	return mail.GetRequestBody(message)
+	formType := msg.FormType
+	switch {
+	case formType == "Contact":
+		from := mail.NewEmail(msg.Name, msg.Email)
+		subject := "Contact Form Submission"
+		to := mail.NewEmail("Headquarters", "scott@damage.click")
+		plainTextContent := fmt.Sprintf("Name: %s\nEmail: %s\nMessage: %s\n", msg.Name, msg.Email, msg.Message)
+		htmlContent := fmt.Sprintf("<p style='font-size:16px;'>Name: %s</p>\n<p style='font-size:16px;'>Email: %s</p>\n<p style='font-size:16px'>Message: %s</p>", msg.Name, msg.Email, msg.Message)
+		message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
+		return mail.GetRequestBody(message)
+
+	case formType == "ProjectCreate":
+		from := mail.NewEmail("No-reply", "no-reply@guardian.com")
+		subject := "New project submission"
+		to := mail.NewEmail("Headquarters", "scott@damage.click")
+		plainTextContent := fmt.Sprintf("Project name: %s\nClient: %s\nDate: %s\nDescription: %s\n", msg.Project, msg.Client, msg.DateRange, msg.Description)
+		htmlContent := fmt.Sprintf("<p style='font-size:16px;'>Project name: %s</p>\n<p style='font-size:16px;'>Client: %s</p>\n<p style='font-size:16px'>Date: %s</p>\n<p style='font-size:16px'>Description: %s</p>", msg.Project, msg.Client, msg.DateRange, msg.Description)
+		message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
+		return mail.GetRequestBody(message)
+	}
+	return nil
 }
 
 func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
@@ -167,50 +183,40 @@ func formHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// from := mail.NewEmail(msg.Name, msg.Email)
-// 	subject := "Contact Form Submission"
-// 	to := mail.NewEmail("Headquarters", "scott@damage.click")
-// 	plainTextContent := fmt.Sprintf("Name: %s\nEmail: %s\nMessage: %s\n", msg.Name, msg.Email, msg.Message)
-// 	htmlContent := fmt.Sprintf("<p style='font-size:16px;'>Name: %s</p>\n<p style='font-size:16px;'>Email: %s</p>\n<p style='font-size:16px'>Message: %s</p>", msg.Name, msg.Email, msg.Message)
-// 	message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
-// 	return mail.GetRequestBody(message)
 // use for project form submission
 func projectHandler(w http.ResponseWriter, r *http.Request) {
 	var dat MyForm
 	reqBody, _ := ioutil.ReadAll(r.Body)
 	json.Unmarshal([]byte(reqBody), &dat)
+	fmt.Println(reqBody)
 	if dat.Validate() == false {
 		json.NewEncoder(w).Encode(dat)
 		return
 	}
 
-	from := mail.NewEmail("No-reply", "no-reply@guardian.com")
-	subject := "New project submission"
-	to := mail.NewEmail("Headquarters", "stuck04@gmail.com")
-	plainTextContent := fmt.Sprintf("Project name: %s\nClient: %s\nDate: %s\nDescription: %s\n", dat.Project, dat.Client, dat.DateRange, dat.Description)
-	htmlContent := fmt.Sprintf("<p style='font-size:16px;'>Project name: %s</p>\n<p style='font-size:16px;'>Client: %s</p>\n<p style='font-size:16px'>Date: %s</p>\n<p style='font-size:16px'>Description: %s</p>", dat.Project, dat.Client, dat.DateRange, dat.Description)
-	message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
-	client := sendgrid.NewSendClient(apiKey)
-	response, err := client.Send(message)
-	if err != nil {
-		fmt.Println(w, "Sorry something went wrong")
+	request := sendgrid.GetRequest(apiKey, "/v3/mail/send", "https://api.sendgrid.com")
+	request.Method = "POST"
+	var Body = dat.Deliver()
+	request.Body = Body
+	response, _ := sendgrid.API(request)
+	if response.StatusCode != 200 && response.StatusCode != 202 {
+		http.Error(w, "Sorry, something went wrong", response.StatusCode)
 	} else {
 		//fmt.Fprintf(w, "Thank you for submitting a project.", dat)
 		json.NewEncoder(w).Encode(dat)
-		fmt.Println(response)
 	}
 }
 func main() {
-	// lambda.Start(func(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	// 	resp, err := handler(request)
-	// 	return resp, err
-	// })
-	fs := http.FileServer(http.Dir("./dist"))
+	lambda.Start(func(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+		resp, err := handler(request)
+		return resp, err
+	})
+	// fs := http.FileServer(http.Dir("./dist"))
 
-	http.Handle("/", fs)
-	http.HandleFunc("/sendform", formHandler)
-	http.HandleFunc("/create", projectHandler)
-	fmt.Printf("Starting server at port 1000\n")
-	defer fmt.Println("Server ended")
-	log.Fatal(http.ListenAndServe(":1000", nil))
+	// http.Handle("/", fs)
+	// http.HandleFunc("/sendform", formHandler)
+	// http.HandleFunc("/create", projectHandler)
+	// fmt.Printf("Starting server at port 1000\n")
+	// defer fmt.Println("Server ended")
+	// log.Fatal(http.ListenAndServe(":1000", nil))
 }

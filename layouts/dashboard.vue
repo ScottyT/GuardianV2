@@ -4,8 +4,14 @@
     <main class="v-content__wrap dashboard-area">
       <aside class="sidebar-nav">
         <div class="sidebar-nav__list" role="list">
-          <nuxt-link v-for="(item, i) in items" :key="i" :to="item.to" exact class="sidebar-nav__menu-links">
+          <nuxt-link v-for="(item, i) in items.filter(e => e.admin == false)" :key="i" :to="item.to" exact class="sidebar-nav__menu-links">
             <span class="sidebar-nav__menu-links--title">{{item.title}}</span>
+          </nuxt-link>
+          <!-- <nuxt-link v-for="(item, d) in items.filter(e => e.admin == true)" :key="d" :to="item.to" exact class="sidebar-nav__menu-links">
+            <span class="sidebar-nav__menu-links--title">{{item.title}}</span>
+          </nuxt-link> -->
+          <nuxt-link to="/dashboard/project-form" class="sidebar-nav__menu-links">
+            <span class="sidebar-nav__menu-links--title">Project Create</span>
           </nuxt-link>
         </div>
       </aside>
@@ -34,15 +40,18 @@
         clipped: false,
         items: [{
             title: 'Home',
-            to: '/dashboard'
+            to: '/dashboard',
+            admin: false
           },
           {
             title: 'Projects Calendar',
-            to: '/dashboard/projects'
+            to: '/dashboard/projects',
+            admin: false
           },
           {
             title: 'Project Create',
-            to: '/dashboard/project-form'
+            to: '/dashboard/project-form',
+            admin: true
           }
         ]
       }
@@ -93,6 +102,9 @@
 .slide-left-enter, .slide-left-leave-to {
   opacity:0;
   transform:translateX(400px);
+}
+.form-control {
+  border:0!important;
 }
 .dashboard-area {
   display:grid;
