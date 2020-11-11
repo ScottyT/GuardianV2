@@ -31,14 +31,6 @@ type MyForm struct {
 	Errors      map[string]string
 }
 
-// type ProjectForm struct {
-// 	Project     string                 `json:"project"`
-// 	Client      string                 `json:"client"`
-// 	Type        string                 `json:"type"`
-// 	DateRange   map[string]interface{} `json:"dateRange`
-// 	Description string                 `json:"description"`
-// 	Errors      map[string]string
-// }
 type MyPayload struct {
 	MyForm MyForm `json:"data"`
 }
@@ -202,7 +194,6 @@ func projectHandler(w http.ResponseWriter, r *http.Request) {
 	if response.StatusCode != 200 && response.StatusCode != 202 {
 		http.Error(w, "Sorry, something went wrong", response.StatusCode)
 	} else {
-		//fmt.Fprintf(w, "Thank you for submitting a project.", dat)
 		json.NewEncoder(w).Encode(dat)
 	}
 }

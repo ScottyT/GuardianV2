@@ -119,31 +119,6 @@ const { mapState } = createNamespacedHelpers("projects");
       selectedOpen: false,
       events: [],
       //colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange'],//in order of Roofing, Gutters, Siding, Flooring, Drywall, Painting,
-      colors: [{
-          key: 'blue',
-          value: 'Roofing'
-        },
-        {
-          key: 'indigo',
-          value: 'Gutters'
-        },
-        {
-          key: 'deep-purple',
-          value: 'Siding'
-        },
-        {
-          key: 'cyan',
-          value: 'Flooring'
-        },
-        {
-          key: 'green',
-          value: 'Drywall'
-        },
-        {
-          key: 'orange',
-          value: 'Painting'
-        }
-      ],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
       isEditing: false,
       updatedProject: {
