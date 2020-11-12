@@ -9,12 +9,12 @@
           <span class="form__input--error">{{ errorsList ? errorsList.Project : null }}</span>
         </ValidationProvider>
         <ValidationProvider v-slot="{errors}" mode="eager" vid="client" name="Client" class="form__rounded-input-wrapper form__rounded-input-wrapper--searchbox">
-          <autocomplete cssClass="form__rounded-input" placeholderText="Search for clients..." :items="clients" @set_result="selectedClient" />
+          <autocomplete cssClass="form__rounded-input" :search="client" placeholderText="Search for clients..." :items="clients" @set_result="selectedClient" />
           <span class="form__input--error">{{ errors[0] }}</span>
         </ValidationProvider>
         <ValidationProvider v-slot="{errors}" vid="type" mode="eager" name="Type" class="form__rounded-input-wrapper">
           <!-- <input type="text" v-model="type" placeholder="Project type" class="form__rounded-input" name="type" /> -->
-          <autocomplete cssClass="form__rounded-input" placeholderText="Search for category..." :items="['Roofing', 'Gutters','Siding','Flooring','Drywall','Painting']" @set_result="selectedCat" />
+          <autocomplete cssClass="form__rounded-input" :search="type" placeholderText="Search for category..." :items="items" @set_result="selectedCat" />
           <span class="form__input--error">{{ errors[0] }}</span>
         </ValidationProvider>
         <ValidationProvider v-slot="{errors}" vid="date" class="form__rounded-input-wrapper">
@@ -59,6 +59,7 @@
         startDate: null,
         endDate: null
       },
+      items: ['Roofing', 'Gutters','Siding','Flooring','Drywall','Painting'],
       errorsList: {},
       hidden: true,
       message: '',
@@ -142,7 +143,7 @@
               type: res.Errors.Type,
               date: res.Errors.DateRange
             })
-            
+            this.submitting = false
             return;
           }
           
@@ -170,12 +171,11 @@
             start: this.dateRange.startDate,
             end: this.dateRange.endDate
           }).then((docRef) => {
-            this.message = "Project was added successfully!"
             this.submitting = false
             this.submitted = true
-            this.project = ""
+            this.name = ""
             this.client = ""
-            this.type =""
+            this.type = ""
             this.dateRange = {
               startDate: null,
               endDate: null

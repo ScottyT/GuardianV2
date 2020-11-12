@@ -35,14 +35,6 @@ type MyPayload struct {
 	MyForm MyForm `json:"data"`
 }
 
-//proxy
-type ProxyRequest struct {
-	Headers     map[string]string `json:"headers"`
-	Method      string            `json:"method"`
-	Body        string            `json:"body"`
-	QueryParams map[string]string `json:"queryParams"`
-}
-
 const apiKey = "SENDGRID_API_KEY"
 
 func (msg *MyForm) Validate() bool {
@@ -92,7 +84,7 @@ func (msg *MyForm) Deliver() []byte {
 	case formType == "Contact":
 		from := mail.NewEmail(msg.Name, msg.Email)
 		subject := "Contact Form Submission"
-		to := mail.NewEmail("Headquarters", "scott@damage.click")
+		to := mail.NewEmail("Scott Tucker", "scott@damage.click")
 		plainTextContent := fmt.Sprintf("Name: %s\nEmail: %s\nMessage: %s\n", msg.Name, msg.Email, msg.Message)
 		htmlContent := fmt.Sprintf("<p style='font-size:16px;'>Name: %s</p>\n<p style='font-size:16px;'>Email: %s</p>\n<p style='font-size:16px'>Message: %s</p>", msg.Name, msg.Email, msg.Message)
 		message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
@@ -101,7 +93,7 @@ func (msg *MyForm) Deliver() []byte {
 	case formType == "ProjectCreate":
 		from := mail.NewEmail("No-reply", "no-reply@guardian.com")
 		subject := "New project submission"
-		to := mail.NewEmail("Headquarters", "scott@damage.click")
+		to := mail.NewEmail("Headquarters", "stuck04@gmail.com")
 		plainTextContent := fmt.Sprintf("Project name: %s\nClient: %s\nDate: %s\nDescription: %s\n", msg.Project, msg.Client, msg.DateRange, msg.Description)
 		htmlContent := fmt.Sprintf("<p style='font-size:16px;'>Project name: %s</p>\n<p style='font-size:16px;'>Client: %s</p>\n<p style='font-size:16px'>Date: %s</p>\n<p style='font-size:16px'>Description: %s</p>", msg.Project, msg.Client, msg.DateRange, msg.Description)
 		message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
@@ -111,15 +103,6 @@ func (msg *MyForm) Deliver() []byte {
 }
 
 func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	// p := ProxyRequest{
-	// 	Headers:     request.Headers,
-	// 	Method:      request.HTTPMethod,
-	// 	Body:        request.Body,
-	// 	QueryParams: request.QueryStringParameters,
-	// }
-
-	// dat := make(map[string]string)
-	// json.Unmarshal([]byte(request.Body), &dat)
 	var dat MyForm
 
 	json.Unmarshal([]byte(request.Body), &dat)
@@ -136,16 +119,25 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 	var Body = dat.Deliver()
 	r.Body = Body
 	response, _ := sendgrid.API(r)
-	fmt.Println(response)
+	var message string
+	var status int
 	if response.StatusCode != 200 && response.StatusCode != 202 {
 		return &events.APIGatewayProxyResponse{
 			StatusCode: response.StatusCode,
 			Body:       "Sorry, something went wrong on our end!",
 		}, nil
 	}
+	switch {
+	case dat.FormType == "Contact":
+		message = "Thank you for contacting us! We will reach out to you shortly"
+		status = 202
+	case dat.FormType == "ProjectCreate":
+		message = "Project was added successfully!"
+		status = 202
+	}
 	return &events.APIGatewayProxyResponse{
-		StatusCode: 202,
-		Body:       "Thank you for contacting us! We will reach out to you shortly",
+		StatusCode: status,
+		Body:       message,
 	}, nil
 }
 
@@ -194,7 +186,7 @@ func projectHandler(w http.ResponseWriter, r *http.Request) {
 	if response.StatusCode != 200 && response.StatusCode != 202 {
 		http.Error(w, "Sorry, something went wrong", response.StatusCode)
 	} else {
-		json.NewEncoder(w).Encode(dat)
+		fmt.Fprintf(w, "Project was added successfully!")
 	}
 }
 func main() {

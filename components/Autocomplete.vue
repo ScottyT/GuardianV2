@@ -1,6 +1,6 @@
 <template>
   <div class="autocomplete" v-click-outside="onClickOutside">
-    <input type="text" @input="onChange" v-model="search" :class="cssClass" @keydown.enter="setResult(results[arrowCounter])" :placeholder="placeholderText" @keydown.down.prevent="onArrowDown" @keydown.up.prevent="onArrowUp" />
+    <input type="text" @input="onChange" v-model="search" :class="cssClass" @keydown.tab="setResult(results[arrowCounter])" :placeholder="placeholderText" @keydown.down.prevent="onArrowDown" @keydown.up.prevent="onArrowUp" />
     <ul ref="scrollContainer" v-show="isOpen" class="autocomplete__results">
       <li class="loading" v-if="isLoading">Loading results...</li>
       <li ref="options" v-else @click="setResult(result)" class="autocomplete__result" :class="{ 'is-active' : i === arrowCounter }" v-for="(result, i) in results" :key="i">
@@ -30,11 +30,14 @@ export default {
       type: Boolean,
       required:false,
       default:false
+    },
+    search: {
+      type: String,
+      required: false
     }
   },
   data() {
     return {
-      search: '',
       results: [],
       isOpen: false,
       isLoading: false,
