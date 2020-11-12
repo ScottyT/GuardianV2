@@ -35,7 +35,17 @@ export const actions = {
       if (userData.role == 'admin') {
         await fireDb.collection('projects').get().then((qs) => {
           qs.forEach((doc) => {
-            list.push(doc.data())  
+            const data = {
+              client: doc.data().client,
+              color: doc.data().color,
+              description: doc.data().description,
+              end: doc.data().end,
+              name: doc.data().name,
+              start: doc.data().start,
+              type: doc.data().type,
+              id: doc.id
+            }
+            list.push(data)
           })
           commit('setProjects', list)
         })
@@ -66,18 +76,17 @@ export const actions = {
   },
   async fetchProject({ commit }, id) {
     var project = {}
-    await fireDb.collection("projects").where("id", "==", id).get()
-      .then((qs) => {
-        qs.forEach((doc) => {
-          project = doc.data()
-        })
-        commit('setProject', project)
+    await fireDb.collection("projects").doc(id).get()
+      .then((doc) => {
+        if (doc.exists) {
+          commit('setProject', doc.data())
+        } else {
+          commit('setError', 'No such document exists!')
+        }
       })
       .catch((e) => {
         commit('setError', e)
-      })
-    
-    
+      })    
   },
   setMessage({ commit }) {
     axios.get('/test').then(res => res.data).then(items => {
@@ -85,11 +94,29 @@ export const actions = {
       commit('setError', items)
     })
   },
-  async favoritesAdded({ commit }, event) {
+  async favoritesAdded({ commit, getters }, event) {
+    console.log(event)
     const favList = []
+    let userData = getters['user'] ? getters['user'] : null;
+    var userid = userData.id
+    console.log(userData)
     favList.push(event)
-    commit('setFavs', favList)
-  }
+    try {
+      await fireDb.collection("users").doc(userid).set({
+        favorites: favList
+      }, { merge: true })
+      .then(() => {          
+        commit('setFavs', favList)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    } catch (e) {
+      const error = 'Something wrong happened'
+      commit('setError', error)
+    }
+  },
+  
 }
 export const getters = {
   user(state, getters, rootState, rootGetters) {

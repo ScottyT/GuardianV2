@@ -52,6 +52,11 @@
             title: 'Project Create',
             to: '/dashboard/project-form',
             admin: true
+          },
+          {
+            title: 'Favorites',
+            to: '/dashboard/favorites',
+            admin: false
           }
         ]
       }
@@ -82,6 +87,7 @@
         return redirect('/')
       }
       await store.dispatch("fetchUsers")
+      await store.dispatch("fetchUserFavs", store.state.auth.user)
       await store.dispatch("fetchMenu", $prismic)
       await store.dispatch("project/fetchProjects", null, {
         root: true

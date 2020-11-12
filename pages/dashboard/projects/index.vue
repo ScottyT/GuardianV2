@@ -10,11 +10,14 @@ import { createNamespacedHelpers } from "vuex";
 const { mapState } = createNamespacedHelpers("project");
 export default {
   layout: 'dashboard',
+  head() {
+    return {
+      title: 'Project Calendar'
+    }
+  },
   async asyncData({ params, store }) {
     const user = await store.getters['auth/getUser']
     const projects = await store.getters['project/getProjects']
-    console.log(store.getters["auth/getUser"])
-    console.log(store.getters["project/getProjects"])
     return {
       data: user,
       projects: projects

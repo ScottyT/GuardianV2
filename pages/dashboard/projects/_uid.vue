@@ -10,20 +10,22 @@ export default {
   layout: 'dashboard',
   async asyncData({ $http, params, error, store }) {
     const id = params.uid
-    //const project = await store.dispatch("project/fetchProject", id)
+  
     const user = await store.getters['auth/getUser']
     const project = await store.getters["project/getProject"]
     //console.log(project)
-    return { 
+    return {
       id: id,
       data: project,
       user: user
     }
   },
-  async middleware({ store, redirect }) {
+  async middleware({ params, store, redirect }) {
+    
     if (store.state.auth.user == null) {
       return redirect('/')
     }
+    await store.dispatch("project/fetchProject", params.uid)
   },
   computed: {
     item() {

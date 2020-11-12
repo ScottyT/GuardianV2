@@ -5,7 +5,8 @@ export const state = () => ({
   header: {},
   footer: {},
   error: '',
-  users:[]
+  users: [],
+  userFavs: []
 })
 
 export const mutations = {
@@ -50,6 +51,22 @@ export const actions = {
       commit('setError', e)
     }
   },
+  async fetchUserFavs({
+    commit
+  }, data) {
+    var userid = data.id;
+    try {
+      await fireDb.collection("users").doc(userid).get()
+        .then((doc) => {
+          commit('userFavs', doc.data().favorites)
+        })
+        .catch((error) => {
+          commit('setError', error)
+        })
+    } catch (e) {
+      commit('setError', e)
+    }
+  }
   // nuxtServerInit: (process.server && !process.static) ? async function ({ commit, dispatch }, { req }) {
   //   if (!req.headers.cookie) return;
   //   const cookieparser = await import('cookie')

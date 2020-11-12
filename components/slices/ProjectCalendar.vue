@@ -131,9 +131,9 @@ const { mapState } = createNamespacedHelpers("projects");
       favorites:[]
     }),
     computed: {
-      // ...mapState({
-      //   projects: (state) => state.projects
-      // }),
+      ...mapState({
+        projects: (state) => state.projects
+      }),
       detailsHtml()  {
         return `
         <div class="project-card__details--field">

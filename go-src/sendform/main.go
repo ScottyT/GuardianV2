@@ -4,13 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"regexp"
 	"strings"
 
 	"github.com/aws/aws-lambda-go/events"
-	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
@@ -190,16 +190,16 @@ func projectHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 func main() {
-	lambda.Start(func(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-		resp, err := handler(request)
-		return resp, err
-	})
-	// fs := http.FileServer(http.Dir("./dist"))
+	// lambda.Start(func(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+	// 	resp, err := handler(request)
+	// 	return resp, err
+	// })
+	fs := http.FileServer(http.Dir("./dist"))
 
-	// http.Handle("/", fs)
-	// http.HandleFunc("/sendform", formHandler)
-	// http.HandleFunc("/create", projectHandler)
-	// fmt.Printf("Starting server at port 1000\n")
-	// defer fmt.Println("Server ended")
-	// log.Fatal(http.ListenAndServe(":1000", nil))
+	http.Handle("/", fs)
+	http.HandleFunc("/sendform", formHandler)
+	http.HandleFunc("/create", projectHandler)
+	fmt.Printf("Starting server at port 1000\n")
+	defer fmt.Println("Server ended")
+	log.Fatal(http.ListenAndServe(":1000", nil))
 }
