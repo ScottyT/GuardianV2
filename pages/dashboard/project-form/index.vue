@@ -156,7 +156,7 @@
         
         for (var x = 0; x < this.colors.length; x++) {
           if (this.type == this.colors[x].value) {
-            this.color = this.colors[x].type
+            this.color = this.colors[x].key
           }
         }
 
