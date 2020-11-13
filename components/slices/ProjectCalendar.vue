@@ -63,7 +63,7 @@
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn icon @click="addToFavorites">
-              <v-icon>mdi-heart</v-icon>
+              <v-icon>{{ selectedEvent.liked ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
             </v-btn>
             <v-btn icon>
               <v-icon>mdi-dots-vertical</v-icon>
@@ -98,7 +98,7 @@
 </template>
 <script>
 import { createNamespacedHelpers } from "vuex";
-const { mapState } = createNamespacedHelpers("projects");
+const { mapState } = createNamespacedHelpers("project");
   import {
     mapGetters
   } from 'vuex'
@@ -128,11 +128,13 @@ const { mapState } = createNamespacedHelpers("projects");
         end: null,
         color:''
       },
-      favorites:[]
+      fav: false
     }),
     computed: {
       ...mapState({
-        projects: (state) => state.projects
+        projects: (state) => state.projects,
+        favorites: (state) => state.favorites,
+        //liked: (state) => state.heartBtn.liked
       }),
       detailsHtml()  {
         return `
@@ -145,6 +147,11 @@ const { mapState } = createNamespacedHelpers("projects");
       `
       }
     },
+    // watch: {
+    //   liked(newVal) {
+    //     newVal ? 'mdi-heart' : 'mdi-heart-outline'
+    //   }
+    // },
     mounted() {
       this.$refs.calendar.checkChange()
     },
@@ -153,7 +160,9 @@ const { mapState } = createNamespacedHelpers("projects");
         this.isEditing = !this.isEditing
       },
       addToFavorites() {
+        this.fav = !this.fav
         this.$store.dispatch('project/favoritesAdded', this.selectedEvent);
+        //this.$store.dispatch('project/showLikedHeart', this.fav)
         //favorites.push(selectedEvent)
       },
       async updateProject() {
@@ -214,8 +223,8 @@ const { mapState } = createNamespacedHelpers("projects");
         const min = new Date(`${start.date}T00:00:00`)
         const max = new Date(`${end.date}T23:59:59`)
         const days = (max.getTime() - min.getTime()) / 86400000
+        console.log(events)
         const eventCount = this.$store.state.project.projects ? this.$store.state.project.projects.length : null
-
         for (let i = 0; i < eventCount; i++) {
           // const allDay = this.rnd(0, 3) === 0
           // const firstTimestamp = this.rnd(min.getTime(), max.getTime())
@@ -226,7 +235,8 @@ const { mapState } = createNamespacedHelpers("projects");
           const endTimestamp = this.$store.state.project.projects[i].end.seconds
           const start = new Date(startTimestamp * 1000)
           const end = new Date(endTimestamp * 1000)
-
+          
+          
           events.push({
             name: this.$store.state.project.projects[i].name,
             color: this.$store.state.project.projects[i].color,
@@ -240,11 +250,21 @@ const { mapState } = createNamespacedHelpers("projects");
             endDate: (end.getMonth() + 1) + "/" + (end.getUTCDate()) + "/" + (end.getUTCFullYear()),
             timed: true,
             description: this.$store.state.project.projects[i].description,
-            id: this.$store.state.project.projects[i].id
+            id: this.$store.state.project.projects[i].id,
+            liked: false
           })
         }
 
         this.events = events
+        for (var x = 0; x < this.events.length; x++) {
+          for (let j = 0; j < this.favorites.length; j++) {
+            if (this.projects[x].name == this.favorites[j].name) {
+              console.log("Liked:", this.projects[x].name)
+              this.events[x].liked = true
+              //events[i].liked = true
+            }
+          }
+        }
       },
       rnd(a, b) {
         return Math.floor((b - a + 1) * Math.random()) + a

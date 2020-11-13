@@ -6,12 +6,11 @@
   </div>
 </template>
 <script>
-
 export default {
   layout: 'dashboard',
   async asyncData({ store, params }) {
     const user = await store.getters['auth/getUser']
-    const projects = await store.getters["project/getProjects"]
+    const projects = await store.state.userFavs
     return {
       data: projects
     }

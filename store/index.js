@@ -21,6 +21,9 @@ export const mutations = {
   },
   setUsers: (state, payload) => {
     state.users = payload
+  },
+  setUserFavs: (state, payload) => {
+    state.userFavs = payload
   }
 }
 
@@ -55,10 +58,11 @@ export const actions = {
     commit
   }, data) {
     var userid = data.id;
+    console.log(userid)
     try {
       await fireDb.collection("users").doc(userid).get()
         .then((doc) => {
-          commit('userFavs', doc.data().favorites)
+          commit('project/setFavs', doc.data().favorites)
         })
         .catch((error) => {
           commit('setError', error)

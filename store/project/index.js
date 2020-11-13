@@ -4,6 +4,7 @@ import {
 import {
   fireDb
 } from '@/plugins/firebase';
+import { fieldValue } from '@/plugins/firebase';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 
@@ -11,6 +12,9 @@ export const state = () => ({
   projects: null,
   error: '',
   favorites: [],
+  heartBtn: {
+    liked: false
+  },
   data: null
 });
 export const mutations = {
@@ -25,6 +29,9 @@ export const mutations = {
   },
   setProject: (state, payload) => {
     state.data = payload
+  },
+  updateLikeBtn: (state, payload) => {
+    state.heartBtn.liked = payload.liked
   }
 };
 export const actions = {
@@ -47,6 +54,16 @@ export const actions = {
             }
             list.push(data)
           })
+          list.sort(function (a, b) {
+            if (a.name > b.name) {
+              return -1;
+            }
+            if (b.name > a.name) {
+              return 1;
+            }
+            return 0;
+          });
+          console.log(list)
           commit('setProjects', list)
         })
         
@@ -94,18 +111,27 @@ export const actions = {
       commit('setError', items)
     })
   },
-  async favoritesAdded({ commit, getters }, event) {
-    console.log(event)
+  async favoritesAdded({ commit, getters }, project) {
+    console.log(project)
     const favList = []
     let userData = getters['user'] ? getters['user'] : null;
     var userid = userData.id
     console.log(userData)
-    favList.push(event)
+    favList.push(project)
     try {
-      await fireDb.collection("users").doc(userid).set({
-        favorites: favList
-      }, { merge: true })
-      .then(() => {          
+      await fireDb.collection("users").doc(userid).update({
+        favorites: fieldValue.arrayUnion(project)
+      })
+      .then(() => {
+        favList.sort(function (a, b) {
+          if (a.name > b.name) {
+            return -1;
+          }
+          if (b.name > a.name) {
+            return 1;
+          }
+          return 0;
+        })  
         commit('setFavs', favList)
       })
       .catch((error) => {
@@ -113,10 +139,13 @@ export const actions = {
       })
     } catch (e) {
       const error = 'Something wrong happened'
-      commit('setError', error)
+      commit('setError', e)
     }
   },
-  
+  showLikedHeart({ commit }, btnState) {
+    
+    commit("updateLikedBtn", { liked: btnState });
+  }
 }
 export const getters = {
   user(state, getters, rootState, rootGetters) {

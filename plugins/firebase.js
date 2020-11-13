@@ -18,3 +18,4 @@ app = firebase.apps.length ? firebase.app() : firebase.initializeApp(firebaseCon
 export const auth = firebase.auth();
 export const persistance = firebase.auth.Auth;
 export const fireDb = firebase.firestore();
+export const fieldValue = firebase.firestore.FieldValue;
