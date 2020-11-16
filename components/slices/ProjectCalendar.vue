@@ -161,7 +161,15 @@ const { mapState } = createNamespacedHelpers("project");
       },
       addToFavorites() {
         this.fav = !this.fav
-        this.$store.dispatch('project/favoritesAdded', this.selectedEvent);
+        this.selectedEvent.liked = !this.selectedEvent.liked
+        var selectedFav = this.selectedEvent ? this.selectedEvent.liked : null
+        
+        if (selectedFav != null || selectedFav) {
+          console.log("hit")
+          this.$store.dispatch("project/removeFav", this.selectedEvent);
+        } else {
+          this.$store.dispatch('project/favoritesAdded', this.selectedEvent);
+        }
         //this.$store.dispatch('project/showLikedHeart', this.fav)
         //favorites.push(selectedEvent)
       },

@@ -267,8 +267,13 @@
       width: 100%;
       //@include absCentered(20%, 50%);
       text-align: center;
-      padding-top: 77px;
-      padding-bottom: 90px;
+      padding-top:55px;
+      padding-bottom:65px;
+
+      @include respond(mobileLarge) {
+        padding-top: 77px;
+        padding-bottom: 90px;
+      }
 
       &--cta {
         background: rgba($color-white, .7);

@@ -146,7 +146,11 @@
     }
 
     &.extra-large {
-      font-size: 2.5em;
+      font-size:1.5em;
+
+      @include respond(mobileSmallPort) {
+        font-size: 2.5em;
+      }
 
       @include respond(mobileLarge) {
         font-size: 3.5em;

@@ -125,7 +125,7 @@
   }
 
   .services-featured {
-    height: 604px;
+    height:auto;
     width: 100%;
     max-width: 1600px;
     margin: 0 auto 14px;
@@ -188,13 +188,15 @@
         display: block;
       }
 
-      @include respond(mobileLargeMax) {
-        &:hover {
-          .target--mobile {
-            height: 200px;
-            transition: all .3s ease-in;
+      &:hover {
+        .target--mobile {
+          height:250px;
+          transition: all .3s ease-in;
+          @include respond(mobileSmall) {
+            height:200px;
           }
-
+        }
+        @include respond(mobileLargeMax) {
           .services-featured__text {
             display: block;
           }
@@ -202,7 +204,6 @@
           .services-featured__col-bg {
             opacity: .8;
           }
-
         }
       }
 

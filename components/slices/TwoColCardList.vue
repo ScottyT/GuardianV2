@@ -132,7 +132,7 @@ export default {
 	max-width: 150rem;
 	margin: auto;
 	&__two-col {
-		padding: 0 2vw;
+		padding: 0 4vw;
 		position:relative;
 		z-index:2;
 		@include respond(mobileLarge) {
@@ -171,8 +171,19 @@ export default {
 		display: flex;
 		align-items: flex-end;
 		z-index: 3 !important;
+		position:relative;
 		@include respond(mobileLarge) {
 			height: 300px;
+		}
+		&:after {
+			content:'';
+			position:absolute;
+			top:0;
+			left:0;
+			width:100%;
+			height:100%;
+			box-shadow:inset 0 -93px 15px rgba(0, 0, 0, .54);
+			z-index:-1;
 		}
 	}
 	&__text {
@@ -315,6 +326,11 @@ export default {
 		border:5px solid $color-white;
 		&__card {
 			overflow:hidden;
+		}
+		&__background {
+			&:after {
+				content:none;
+			}
 		}
 		&__big-description {
 			background-color:rgb(224 215 213 / 45%);

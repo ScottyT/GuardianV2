@@ -76,7 +76,8 @@ export const actions = {
         fireDb.collection('users').doc(userUID).set({
           email: account.email,
           id: userUID,
-          role: "user"
+          role: "user",
+          favorites: []
         }).then(() => {
           console.log("success")
         }).catch(() => {

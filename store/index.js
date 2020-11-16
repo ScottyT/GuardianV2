@@ -5,8 +5,7 @@ export const state = () => ({
   header: {},
   footer: {},
   error: '',
-  users: [],
-  userFavs: []
+  users: []
 })
 
 export const mutations = {
@@ -21,9 +20,6 @@ export const mutations = {
   },
   setUsers: (state, payload) => {
     state.users = payload
-  },
-  setUserFavs: (state, payload) => {
-    state.userFavs = payload
   }
 }
 

@@ -185,10 +185,10 @@ export default {
 		place-content: center;
 		row-gap:20px;
 		grid-template-columns:auto;
-		padding:6px 20px;
+		padding:6px 20px 40px 20px;
 		
 		@include respond(mobileLarge) {
-			
+			padding:6px 20px;
 		}
 		@include respond(tabletLarge) {
 			width: 50%;

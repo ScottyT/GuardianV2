@@ -150,6 +150,9 @@
       width: 50px;
       height: 150px;
       background-color: $primary;
+      @include respond(mobileLargeMax) {
+        height:100px;
+      }
     }
   }
 

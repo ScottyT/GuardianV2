@@ -1,7 +1,7 @@
 <template>
   <div class="user-area">
     <div v-for="(item, i) in data" :key="i">
-      {{item}}
+      {{item.name}}
     </div>
   </div>
 </template>
@@ -9,8 +9,8 @@
 export default {
   layout: 'dashboard',
   async asyncData({ store, params }) {
-    const user = await store.getters['auth/getUser']
-    const projects = await store.state.userFavs
+    //const user = await store.getters['auth/getUser']
+    const projects = await store.state.project.favorites
     return {
       data: projects
     }

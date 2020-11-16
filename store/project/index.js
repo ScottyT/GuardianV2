@@ -25,7 +25,7 @@ export const mutations = {
     state.error = error
   },
   setFavs: (state, payload) => {
-  state.favorites = payload
+    state.favorites = payload
   },
   setProject: (state, payload) => {
     state.data = payload
@@ -139,6 +139,24 @@ export const actions = {
       })
     } catch (e) {
       const error = 'Something wrong happened'
+      commit('setError', e)
+    }
+  },
+  async removeFav({ commit, getters, state }, project) {
+    let userData = getters['user'] ? getters['user'] : null;
+    var userid = userData.id
+    var favRef = fireDb.collection("users").doc(userid)
+    
+    let updatedFavList = state.favorites.filter(el => el.id !== project.id)
+    console.log(updatedFavList)
+    try {    
+      await favRef.update({
+        favorites: updatedFavList
+      }).then(() => {
+        
+        commit("setFavs", updatedFavList)
+      })
+    } catch (e) {
       commit('setError', e)
     }
   },
