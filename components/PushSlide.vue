@@ -88,6 +88,10 @@ export default {
     grid-template-columns:1fr 1fr;
     grid-template-rows:92px 1fr;
 
+    @include respond(mobileSmallPort) {
+      padding:20px 40px 20px 31px;
+    }
+
     .block-img {
       max-width:200px;
       img {

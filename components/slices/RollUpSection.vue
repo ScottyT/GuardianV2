@@ -192,7 +192,7 @@
         .target--mobile {
           height:250px;
           transition: all .3s ease-in;
-          @include respond(mobileSmall) {
+          @include respond(mobileSmallPort) {
             height:200px;
           }
         }
