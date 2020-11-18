@@ -2,6 +2,7 @@
   <transition name="fadeIn">
     <div class="login-modal modal-backdrop" v-if="$store.state.auth.authModal.visibility">
       <div class="login-form-box">
+        <p>{{errorMessage}}</p>
         <div class="login-form-box__header">
           <h4>{{ !forgotPassword ? 'Login' : 'Password Reset' }}</h4>
           <div class="login-form-box__close" @click="closeModal">
@@ -13,16 +14,16 @@
           <ValidationObserver v-slot="{ handleSubmit }" tag="form" slim>
             <form ref="loginForm" class="form" method="post" @submit.prevent="handleSubmit(signin)">
               <div class="form__form-group">
-                <ValidationProvider v-slot="{ errors }" name="email" rules="required|email"
+                <ValidationProvider v-slot="{ errors }" name="Email" rules="required|email"
                   class="form__input--input-group">
                   <label for="email" class="form__label">Email</label>
                   <input type="text" class="form__input" name="email" id="email" v-model="email" />
                   <br />
                   <span class="form__input--error">{{errors[0]}}</span>
                 </ValidationProvider>
-                <ValidationProvider v-slot="{errors}" name="pass" rules="required" class="form__input--input-group">
+                <ValidationProvider v-slot="{errors}" name="Password" rules="required" class="form__input--input-group">
                   <label for="pass" class="form__label">Password</label>
-                  <input type="password" class="form__input" id="pass" name="pass" v-model="password" />
+                  <input type="password" class="form__input" id="password" name="password" v-model="password" />
                   <br />
                   <span class="form__input--error">{{errors[0]}}</span>
                 </ValidationProvider>
@@ -74,11 +75,13 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
         passwordResetEmail: '',
         emailSentMessage: '',
         loggingIn: false,
-        sendingEmail: false
+        sendingEmail: false,
+        errorMessage: ''
       }
     },
     computed: {
       ...mapGetters(['getError']),
+      ...mapGetters(['getUser']),
       error: {
         get: function() {
           return this.getError
@@ -92,7 +95,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
       ...mapActions(["login", "hideAuthModal"]),
       signin() {
         this.loggingIn = true
-        //this.$axios.$post('create-user', )
+        
         this.$store.dispatch('auth/login', {
           email: this.email,
           password: this.password

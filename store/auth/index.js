@@ -28,7 +28,7 @@ export const mutations = {
 }
 
 export const actions = {
-  async login({ commit, dispatch }, account) {
+  async login({ commit, getters }, account) {
     try {   
       let id = [];
       let data = '';
@@ -53,7 +53,7 @@ export const actions = {
       // }
       
       //commit('setUser', data)
-      await auth.setPersistence(persistance.Persistence.LOCAL).then(() => {
+      await auth.setPersistence(persistance.Persistence.SESSION).then(() => {
         return auth.signInWithEmailAndPassword(account.email, account.password).then(() => {
           
           //dispatch('hideAuthModal')
@@ -84,10 +84,7 @@ export const actions = {
           console.log("no user added")
         })
       })
-      // const token = await auth.currentUser.getIdToken();
-      // Cookie.set('user_token', token, {
-      //   expires: 1
-      // });
+ 
       commit('setUser', {
         email: account.email,
         id: userUID,

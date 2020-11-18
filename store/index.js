@@ -1,11 +1,15 @@
 import {
   fireDb
 } from '@/plugins/firebase';
+import { auth } from '@/plugins/firebase';
+import axios from 'axios';
+import VueAxios from 'vue-axios';
 export const state = () => ({
   header: {},
   footer: {},
   error: '',
-  users: []
+  users: [],
+  user: ''
 })
 
 export const mutations = {
@@ -20,7 +24,10 @@ export const mutations = {
   },
   setUsers: (state, payload) => {
     state.users = payload
-  }
+  },
+  userId: (state, payload) => {
+    state.user = payload
+  }  
 }
 
 export const actions = {
@@ -54,7 +61,6 @@ export const actions = {
     commit
   }, data) {
     var userid = data.id;
-    console.log(userid)
     try {
       await fireDb.collection("users").doc(userid).get()
         .then((doc) => {
@@ -66,7 +72,20 @@ export const actions = {
     } catch (e) {
       commit('setError', e)
     }
-  }
+  },
+  // async nuxtServerInit({ dispatch, commit }, { res, req }) {
+  //   if (res && res.locals && res.locals.user) {
+  //     console.log(res)
+  //   }
+  //   if (auth.currentUser != null) {
+  //     var user = auth.currentUser.uid
+  //     commit("userId", user)
+  //     console.log(user)
+
+  //   }
+  //   console.log("hello")
+  //   //console.log("Request: ", req.session)
+  // }
   // nuxtServerInit: (process.server && !process.static) ? async function ({ commit, dispatch }, { req }) {
   //   if (!req.headers.cookie) return;
   //   const cookieparser = await import('cookie')
@@ -89,4 +108,9 @@ export const actions = {
   //   })
   //   dispatch('project/fetchProjects', null, { root: true })
   // } : () => { console.log('other way') },
+}
+export const getters = {
+  user(state, getters, rootState, rootGetters) {
+    return rootGetters['auth/getUser']
+  }
 }

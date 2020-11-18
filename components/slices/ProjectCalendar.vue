@@ -181,6 +181,7 @@ const { mapState } = createNamespacedHelpers("project");
         this.$store.dispatch('project/updateProject', this.updatedProject).then(() => {
           this.selectedEvent.description = this.updatedProject.description;
           this.$store.dispatch('project/fetchProjects')
+          this.isEditing = false
         })
       },
       viewDay({

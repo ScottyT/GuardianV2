@@ -174,5 +174,8 @@ export const getters = {
   },
   getProjects: (state) => {
     return state.projects
+  },
+  getFavorites: (state) => {
+    return state.favorites
   }
 }

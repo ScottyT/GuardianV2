@@ -34,6 +34,7 @@
 
 </template>
 <script>
+import { mapState } from 'vuex';
   export default {
     data() {
       return {
@@ -61,6 +62,9 @@
         ]
       }
     },
+    mounted() {
+      this.$store.dispatch('getUsers')
+    },
     head() {
       const capitalizedName = []
       if (Object.entries(this.$route.params).length > 0) {
@@ -80,6 +84,9 @@
         title: capitalizedName.join(" "),
       }
     },
+    computed: mapState([
+      'testing'
+    ]),
     async middleware({
       store, $prismic, redirect
     }) {
@@ -131,6 +138,11 @@
 }
 .user-area {
   transition:all .5s;
+
+  &__favorites {
+    display:flex;
+    flex-direction:column;
+  }
 }
 .sidebar-nav {
   display:flex;

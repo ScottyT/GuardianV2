@@ -11,8 +11,25 @@ const adminConfig = {
 adminApp = admin.apps.length ? admin.app() : admin.initializeApp(adminConfig);
 
 const db = admin.firestore();
+const auth = admin.auth();
 
 exports.handler = async (event, context) => {
+  const { id } = JSON.parse(event.body)
+  console.log(id)
+  const ref = db.collection("signed-in-users");
+  var signedIn = ""
+
+  await ref.doc(id).get().then((doc) => {
+    if (doc.exists) {
+      signedIn = "true"
+    } else {
+      console.log("false")
+      ref.doc(id).set({
+        id: id
+      })
+      signedIn = "false"
+    }
+  })
   // const { email, id } = JSON.parse(event.body)
   // var data = '';
   // var success = '';
@@ -34,8 +51,6 @@ exports.handler = async (event, context) => {
   // })
   return {
     statusCode: 200,
-    body: JSON.stringify({
-      message: "created user"
-    })
+    body: signedIn
   }
 }

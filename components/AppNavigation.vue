@@ -68,11 +68,11 @@ export default {
 			}
 		},
 	},
-	watch: {
-    visibility(newVal) {
-      newVal ? console.log('true') : console.log('false')
-    }
-  },
+	// watch: {
+  //   visibility(newVal) {
+  //     newVal ? console.log('true') : console.log('false')
+  //   }
+  // },
 	methods: {
 		...mapActions(['hideAuthModal']),
 		isScrolling: $debounce(function() {
