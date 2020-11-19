@@ -62,9 +62,6 @@ import { mapState } from 'vuex';
         ]
       }
     },
-    mounted() {
-      this.$store.dispatch('getUsers')
-    },
     head() {
       const capitalizedName = []
       if (Object.entries(this.$route.params).length > 0) {

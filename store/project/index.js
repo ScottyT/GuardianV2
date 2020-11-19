@@ -105,12 +105,6 @@ export const actions = {
         commit('setError', e)
       })    
   },
-  setMessage({ commit }) {
-    axios.get('/test').then(res => res.data).then(items => {
-      console.log(items);
-      commit('setError', items)
-    })
-  },
   async favoritesAdded({ commit, getters }, project) {
     console.log(project)
     const favList = []

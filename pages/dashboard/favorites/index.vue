@@ -63,6 +63,7 @@ export default {
   methods: {
     sortList(option) {
       console.log(option)
+      this.selectedOption = option
     }
   }
 }
@@ -73,22 +74,32 @@ export default {
   &__sort-box {
     border:2px solid $color-black; 
     display:block;
-    height:100%;
+    height:0;
+    transition: height .3s ease-in;
     &.open {
+      height:217px;
+      transition: height .3s ease-in;
       .filters-area__sort--options {
         opacity:1;
         visibility: visible;
+        cursor:pointer;
       }
     }
   }
   &__sort {
-    width:130px;
+    width:185px;
     &--trigger {
       padding:5px;
+      border-bottom:1px solid $color-black;
+      cursor:pointer;
     }
 
     &--options {
       opacity:0;
+      display:flex;
+      flex-direction:column;
+      padding:0 5px;
+      transition:all .3s ease-in;
       &.open {
         opacity:1;
         visibility:visible;
