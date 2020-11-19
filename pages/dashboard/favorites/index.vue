@@ -61,9 +61,20 @@ export default {
     })
   },
   methods: {
-    sortList(option) {
+    async sortList(option) {
       console.log(option)
       this.selectedOption = option
+      this.$axios.setHeader('Content-Type', 'application/x-www-form-urlencoded', [
+  'post'
+])
+      await this.$axios.$post("/sorting", {
+        option: option.value,
+        project: this.favorites
+      }).then((res) => {
+        console.log(res.data)
+      }).catch((err) => {
+        console.log(err)
+      })
     }
   }
 }

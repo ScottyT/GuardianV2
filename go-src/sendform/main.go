@@ -189,13 +189,9 @@ func projectHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Project was added successfully!")
 	}
 }
-func main() {
-	// lambda.Start(func(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	// 	resp, err := handler(request)
-	// 	return resp, err
-	// })
-	fs := http.FileServer(http.Dir("./dist"))
 
+func main() {
+	fs := http.FileServer(http.Dir("./dist"))
 	http.Handle("/", fs)
 	http.HandleFunc("/sendform", formHandler)
 	http.HandleFunc("/create", projectHandler)
