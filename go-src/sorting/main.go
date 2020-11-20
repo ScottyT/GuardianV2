@@ -38,15 +38,36 @@ func sorting(w http.ResponseWriter, r *http.Request) {
 
 	// fmt.Println(proj)
 }
+func TestHandler(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Hello, Web!\n"))
+}
+
 func main() {
 	// lambda.Start(func(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	// 	resp, err := handler(request)
 	// 	return resp, err
 	// })
-	fs := http.FileServer(http.Dir("./dist"))
+	/* fs := http.FileServer(http.Dir("./dist"))
 	http.Handle("/", fs)
 	http.HandleFunc("/sorting", sorting)
-	fmt.Printf("Starting server at port 1000\n")
+	fmt.Printf("Starting server at port 8080\n")
 	defer fmt.Println("Server ended")
-	log.Fatal(http.ListenAndServe(":1000", nil))
+	log.Fatal(http.ListenAndServe(":8080", nil)) */
+	/* addr := os.Getenv("ADDR")
+	if len(addr) == 0 {
+		addr = ":8080"
+	}
+	mux := http.NewServeMux()
+	mux.HandleFunc("/hello", TestHandler) */
+	helloHandler := func(w http.ResponseWriter, req *http.Request) {
+		fmt.Println("Hello world")
+	}
+	http.HandleFunc("/hello", helloHandler)
+	log.Fatal(http.ListenAndServe(":8080", nil))
+	/* fs := http.FileServer(http.Dir("../../dist"))
+	http.Handle("/", fs) */
+
+	/* log.Printf("server is listening at %s...", addr)
+	log.Fatal(http.ListenAndServe(addr, mux)) */
+
 }
