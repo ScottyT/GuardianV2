@@ -17,8 +17,8 @@
       </div>
     </div>
     <div class="favorite-projects">
-      <div v-for="(item, i) in favorites" :key="i">
-        {{item.name}}
+      <div v-for="(item, i) in favs" :key="i">
+        {{item.name}} - {{item.type}}
       </div>
     </div>
   </div>
@@ -32,7 +32,7 @@ export default {
     //const user = await store.getters['auth/getUser']
     const projects = await store.state.project.favorites
     return {
-      data: projects
+      favs: projects
     }
   },
   head() {
@@ -52,7 +52,8 @@ export default {
         value: 'nameAsc',
         text: 'Name, A-Z'
       },
-      selectActive: false
+      selectActive: false,
+      filteredFavs: []
     }
   },
   computed: {
@@ -64,14 +65,14 @@ export default {
     async sortList(option) {
       console.log(option)
       this.selectedOption = option
-      this.$axios.setHeader('Content-Type', 'application/x-www-form-urlencoded', [
-  'post'
-])
+      
       await this.$axios.$post("/sorting", {
         option: option.value,
         project: this.favorites
       }).then((res) => {
-        console.log(res.data)
+        console.log(res)
+        this.favs = res.project
+        this.filteredFavs = res.project
       }).catch((err) => {
         console.log(err)
       })
@@ -87,6 +88,9 @@ export default {
     display:block;
     height:0;
     transition: height .3s ease-in;
+    background-color:$color-white;
+    z-index:2;
+    position:relative;
     &.open {
       height:217px;
       transition: height .3s ease-in;
@@ -110,7 +114,7 @@ export default {
       display:flex;
       flex-direction:column;
       padding:0 5px;
-      transition:all .3s ease-in;
+      transition:all .2s ease-in;
       &.open {
         opacity:1;
         visibility:visible;
