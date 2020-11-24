@@ -16,8 +16,9 @@
         </div>
       </div>
     </div>
+    <span>{{$store.state.project.favorites}}</span>
     <div class="favorite-projects">
-      <div v-for="(item, i) in favs" :key="i">
+      <div v-for="(item, i) in favorites" :key="i">
         {{item.name}} - {{item.type}}
       </div>
     </div>
@@ -40,6 +41,10 @@ export default {
       title: 'Favorites'
     }
   },
+  async middleware({ store }) {
+    const user = store.state.auth.user
+    await store.dispatch("fetchUserFavs", user)
+  },
   data() {
     return {
       selectOptions: [
@@ -53,30 +58,43 @@ export default {
         text: 'Name, A-Z'
       },
       selectActive: false,
-      filteredFavs: []
+      filteredFavs: [],
+      projectFavs: []
     }
   },
   computed: {
     ...mapState({
       favorites: (state) => state.favorites
-    })
+    }),
+    // projectFavs() {
+    //   return this.favorites.splice(0, this.favorites.length, )
+    // }
   },
   methods: {
+    async getFavs() {
+      await this.$store.dispatch("fetchUserFavs")
+    },
     async sortList(option) {
       console.log(option)
       this.selectedOption = option
+      
       
       await this.$axios.$post("/sorting", {
         option: option.value,
         project: this.favorites
       }).then((res) => {
         console.log(res)
-        this.favs = res.project
+        this.favorites.splice(0, this.favorites.length, res.project)
+        //this.favorites = res.project
         this.filteredFavs = res.project
       }).catch((err) => {
         console.log(err)
       })
     }
+  },
+  created() {
+    //this.getFavs()
+   // this.projectFavs = 
   }
 }
 </script>

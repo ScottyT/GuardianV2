@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -49,10 +50,13 @@ func sorting(w http.ResponseWriter, r *http.Request) {
 		return p1.Name < p2.Name
 	}
 	namedesc := func(p1, p2 *Project) bool {
-		return p1.Name > p2.Name
+		return nameasc(p2, p1)
 	}
-	cat := func(p1, p2 *Project) bool {
+	catasc := func(p1, p2 *Project) bool {
 		return p1.Type < p2.Type
+	}
+	catdesc := func(p1, p2 *Project) bool {
+		return catasc(p2, p1)
 	}
 
 	switch {
@@ -61,9 +65,9 @@ func sorting(w http.ResponseWriter, r *http.Request) {
 	case data.Option == "nameDesc":
 		By(namedesc).Sort(data.Favorites)
 	case data.Option == "typeAsc":
-		By(cat).Sort(data.Favorites)
+		By(catasc).Sort(data.Favorites)
 	case data.Option == "typeDesc":
-		By(cat).Sort(data.Favorites)
+		By(catdesc).Sort(data.Favorites)
 	}
 	json.NewEncoder(w).Encode(data)
 }
@@ -81,10 +85,6 @@ func main() {
 	fmt.Printf("Starting server at port 8080\n")
 	defer fmt.Println("Server ended")
 	log.Fatal(http.ListenAndServe(":8080", nil)) */
-	/* addr := os.Getenv("ADDR")
-	if len(addr) == 0 {
-		addr = ":8080"
-	} */
 	mux := http.NewServeMux()
 	mux.Handle("/", fs)
 	mux.HandleFunc("/hello", TestHandler)
@@ -95,7 +95,8 @@ func main() {
 	// http.HandleFunc("/hello", helloHandler)
 	// log.Fatal(http.ListenAndServe(":8080", nil))
 
-	//log.Printf("server is listening at %s...", addr)
+	log.Println("server is listening at :8081")
+	defer fmt.Println("Server ended")
 	log.Fatal(http.ListenAndServe(":8081", mux))
 
 }

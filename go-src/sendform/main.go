@@ -195,7 +195,7 @@ func main() {
 	http.Handle("/", fs)
 	http.HandleFunc("/sendform", formHandler)
 	http.HandleFunc("/create", projectHandler)
-	fmt.Printf("Starting server at port 1000\n")
+	fmt.Printf("Starting server at port 8081\n")
 	defer fmt.Println("Server ended")
-	log.Fatal(http.ListenAndServe(":1000", nil))
+	log.Fatal(http.ListenAndServe(":8081", nil))
 }

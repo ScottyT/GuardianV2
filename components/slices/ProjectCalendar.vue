@@ -52,7 +52,7 @@
       <v-menu v-model="selectedOpen" :close-on-content-click="false" :activator="selectedElement" offset-x>
         <v-card color="grey lighten-4" min-width="350px" flat class="project-card">
           <v-toolbar :color="selectedEvent.color" dark>
-            <v-btn icon @click="editing" v-show="user.role == 'admin'">
+            <v-btn icon @click="editing" v-show="$store.state.auth.user.role == 'admin'">
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
             <!-- <v-toolbar-title v-html="`<span class='project-card__title'>${selectedEvent.name}</span>`"></v-toolbar-title> -->
