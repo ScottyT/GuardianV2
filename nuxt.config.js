@@ -93,7 +93,7 @@ export default {
     '@nuxtjs/prismic',
     ['@nuxtjs/axios', {
       //baseURL: '/.netlify/functions/'
-      baseURL: 'http://localhost:8080'
+      baseURL: 'http://localhost:8081'
     }]
   ],
   router: {
