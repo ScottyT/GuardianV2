@@ -15,10 +15,18 @@
           </div>
         </div>
       </div>
+      <div class="filters-area__filter">
+        <label>Filter By:</label>
+        <div class="filters-area__filter-box">
+          <div class="filters-area__filter-box--group" v-for="fav in filterOptions" :key="fav.value">
+            <label :for="fav.value">{{fav.text}}</label>
+            <input type="checkbox" :id="fav.value" v-model="selectedOptions" class="filters-area__filter-box--checkbox" :value="fav.text" />
+          </div>
+        </div>
+      </div>
     </div>
-    <span>{{$store.state.project.favorites}}</span>
     <div class="favorite-projects">
-      <div v-for="(item, i) in favorites" :key="i">
+      <div v-for="(item, i) in sortedFavs" :key="i">
         {{item.name}} - {{item.type}}
       </div>
     </div>
@@ -30,7 +38,6 @@ const { mapState } = createNamespacedHelpers("project");
 export default {
   layout: 'dashboard',
   async asyncData({ store, params }) {
-    //const user = await store.getters['auth/getUser']
     const projects = await store.state.project.favorites
     return {
       favs: projects
@@ -57,18 +64,33 @@ export default {
         value: 'nameAsc',
         text: 'Name, A-Z'
       },
+      filterOptions: [
+        { value: 'roofing', text: 'Roofing' },
+        { value: 'gutters', text: 'Gutters' },
+        { value: 'siding', text: 'Gutters' },
+        { value: 'flooring', text: 'Flooring' },
+        { value: 'drywall', text: 'Drywall' },
+        { value: 'painting', text: 'Painting' }
+      ],
+      selectedOptions:[],
       selectActive: false,
       filteredFavs: [],
-      projectFavs: []
+      projectFavs: [],
+      sorted: false
     }
   },
   computed: {
     ...mapState({
       favorites: (state) => state.favorites
     }),
-    // projectFavs() {
-    //   return this.favorites.splice(0, this.favorites.length, )
-    // }
+    sortedFavs() {
+      switch (this.sorted) {
+        case false:
+          return this.favorites
+        case true:
+          return this.filteredFavs
+      }
+    }
   },
   methods: {
     async getFavs() {
@@ -84,9 +106,11 @@ export default {
         project: this.favorites
       }).then((res) => {
         console.log(res)
-        this.favorites.splice(0, this.favorites.length, res.project)
-        //this.favorites = res.project
+        this.sorted = true
+       // this.favorites = []
+        //this.$store.dispatch("project/sortedFavs", res.projects, { root: true })
         this.filteredFavs = res.project
+        this.favorites = newArr
       }).catch((err) => {
         console.log(err)
       })
@@ -101,6 +125,10 @@ export default {
 <style lang="scss">
 .filters-area {
   padding-bottom:40px;
+  display:grid;
+  grid-template-rows:100px;
+  grid-template-columns:auto 1fr;
+  column-gap:30px;
   &__sort-box {
     border:2px solid $color-black; 
     display:block;
@@ -138,6 +166,18 @@ export default {
         visibility:visible;
       }
     }
+  }
+  &__filter {
+    max-width:600px;
+    width:100%;
+  }
+  &__filter-box {
+    height:50px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-top:1px solid $color-black;
+    border-bottom:1px solid $color-black;
   }
 }
 </style>
