@@ -67,7 +67,7 @@ export default {
       filterOptions: [
         { value: 'roofing', text: 'Roofing' },
         { value: 'gutters', text: 'Gutters' },
-        { value: 'siding', text: 'Gutters' },
+        { value: 'siding', text: 'Siding' },
         { value: 'flooring', text: 'Flooring' },
         { value: 'drywall', text: 'Drywall' },
         { value: 'painting', text: 'Painting' }
