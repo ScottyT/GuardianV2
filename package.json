@@ -26,7 +26,7 @@
     "js-cookie": "^2.2.1",
     "jwt-decode": "^3.1.2",
     "lodash.debounce": "^4.0.8",
-    "nuxt": "^2.14.7",
+    "nuxt": "^3.4.3",
     "prismic-javascript": "^3.0.1",
     "prismic-vue": "^2.0.0",
     "vee-validate": "^3.4.5",
